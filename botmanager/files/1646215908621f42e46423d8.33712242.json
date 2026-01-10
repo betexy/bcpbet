@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "BetBot Special",
+  "version": "0.0.1",
+  "description": "",
+  "app": {
+    "launch": {
+      "local_path": "main.html"
+    }
+  },
+  "background": {
+    "scripts": [
+      "settings.js",
+      "libs/jquery-3.3.1.min.js",
+      "js/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "css": [ "libs/main.css" ],
+      "js": [ "libs/jquery-1.11.2.min.js", "js/eventPage.js" ],
+      "matches": [ "*://*/*" ]
+    }
+  ],
+  "icons": {
+    "128": "icon.png"
+  },
+  "permissions": [
+    "<all_urls>",
+    "http://*/*",
+    "https://*/*",
+    "tabs",
+    "activeTab",
+    "storage"
+  ]
+}

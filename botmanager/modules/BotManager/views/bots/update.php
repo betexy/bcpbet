@@ -1,0 +1,22 @@
+<?php
+
+use yii\helpers\Html;
+
+/* @var $this yii\web\View */
+/* @var $model app\modules\BotManager\models\Bots */
+
+$this->title = $model->readableName;
+$this->params['breadcrumbs'][] = ['label' => 'Bot manager', 'url' => ['/BotManager']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('BotManager', 'Bots'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->readableName, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = Yii::t('BotManager', 'Update');
+?>
+<div class="bots-update">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+
+    <?= $this->render('_form', [
+        'model' => $model
+    ]) ?>
+
+</div>

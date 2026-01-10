@@ -1,0 +1,26 @@
+div.full-url{
+    position: fixed;
+    top: 0px;
+    left: 150px;
+    height: 25px;
+    min-width: 150px;
+    max-width: 400px;
+    width: auto;
+    border-bottom-right-radius: 2px;
+    border-bottm-left-radius: 2px;
+    z-index: 30000000000;
+
+    text-align: left;
+    font-size: 18px;
+    font-family: 'Lucida Grande', Arial, Sans;
+    color: black;
+    
+    background-color: #EEEEEE;
+    border: solid 1px;
+    border-color: #AAAAAA;
+}
+
+#full-url-input {
+    font-size: 18px;
+    font-family: 'Lucida Grande', Arial, Sans;
+}

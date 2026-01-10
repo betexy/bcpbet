@@ -28,3 +28,7 @@ Thumbs.db
 # Environment files
 .env
 .env.local
+
+# Large files
+botmanager/backup*.tar.gz
+botmanager/files/*.

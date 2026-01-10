@@ -1,0 +1,10 @@
+[globals]
+bot_name=#BOT_NAME#
+server_url=#SERVER_URL#
+reports_interval=#REPORTS_INTERVAL#
+bot_path=#BOT_PATH#
+max=#MAX#
+multiloginapp_login=#MULTILOG#
+multiloginapp_password=#MULTIPASS#
+http_login=#HTTP_LOG#
+http_password=#HTTP_PASS#

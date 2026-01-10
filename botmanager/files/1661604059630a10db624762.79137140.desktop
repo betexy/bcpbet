@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Multilogin
+Comment=
+Exec=/opt/Multilogin/multilogin
+Icon=internet-web-browser
+Path=/opt/Multilogin/
+Terminal=false
+StartupNotify=false

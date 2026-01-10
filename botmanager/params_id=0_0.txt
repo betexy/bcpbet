@@ -1,0 +1,17 @@
+array (
+  'bk' => 'MOSTBET',
+  'login' => 'daniel_pig@outlook.com',
+  'password' => 'Summia267@',
+  'phone' => '',
+  'uid' => '31ee30dd-8dad-4e22-aa84-994aaaf3cadf',
+  'ws_url' => 'ws://localhost:9293',
+  'email' => '',
+  'email_password' => '',
+  'urls' => 'https://82w065asmb.com/live',
+  'browser' => '',
+  'profile' => 'most676',
+  'restart' => true,
+  'second_name' => '',
+  'experimental' => false,
+  'comment' => '[cas]375;5',
+)

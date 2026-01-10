@@ -1,0 +1,546 @@
+prepareSettings:
+app\modules\BotManager\models\Bots::__set_state(array(
+   'thisIsTemp' => true,
+   'tempParams' => 
+  array (
+    'login' => '503097181',
+    'password' => 'Asasas099',
+    'url' => '',
+    'urls' => 'https://1xbet.com/ru/live/',
+    'email' => '',
+    'email_password' => '',
+    'second_name' => '',
+  ),
+   'use_chrome' => false,
+   'restart' => true,
+   'experimental' => true,
+   'buyer' => NULL,
+   'stake_fork' => NULL,
+   'bm_bk_select' => 
+  array (
+    0 => 9,
+  ),
+   '_attributes' => 
+  array (
+    'multilogin_profile_name' => '636f669f0cd24d1bd7d26ea4',
+    'logic_name' => 'logic',
+    'websocket_uid' => '69a493d0-648f-4d7d-9508-d068b4ff2a7a',
+    'websocket_url' => 'ws://localhost:9091',
+    'extension_id' => 7,
+  ),
+   '_oldAttributes' => NULL,
+   '_related' => 
+  array (
+    'extension' => 
+    app\modules\BotManager\models\FileGroups::__set_state(array(
+       '_attributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_oldAttributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_related' => 
+      array (
+      ),
+       '_relationsDependencies' => 
+      array (
+      ),
+       '_errors' => NULL,
+       '_validators' => NULL,
+       '_scenario' => 'default',
+       '_events' => 
+      array (
+      ),
+       '_eventWildcards' => 
+      array (
+      ),
+       '_behaviors' => 
+      array (
+      ),
+    )),
+  ),
+   '_relationsDependencies' => 
+  array (
+    'extension_id' => 
+    array (
+      'extension' => 'extension',
+    ),
+  ),
+   '_errors' => NULL,
+   '_validators' => NULL,
+   '_scenario' => 'default',
+   '_events' => 
+  array (
+  ),
+   '_eventWildcards' => 
+  array (
+  ),
+   '_behaviors' => 
+  array (
+  ),
+))
+prepareSettings:
+app\modules\BotManager\models\Bots::__set_state(array(
+   'thisIsTemp' => true,
+   'tempParams' => 
+  array (
+    'login' => 'moldawan12',
+    'password' => 'Fepefe80*',
+    'url' => '',
+    'urls' => 'https://betcity.by/en/live',
+    'email' => '',
+    'email_password' => '',
+    'second_name' => '',
+  ),
+   'use_chrome' => false,
+   'restart' => true,
+   'experimental' => true,
+   'buyer' => NULL,
+   'stake_fork' => NULL,
+   'bm_bk_select' => 
+  array (
+    0 => 137,
+  ),
+   '_attributes' => 
+  array (
+    'multilogin_profile_name' => '636fad4534fd7cebb49ed077',
+    'logic_name' => 'logic',
+    'websocket_uid' => '08851f9e-9cf9-410c-9860-c21675ad63e3',
+    'websocket_url' => 'ws://localhost:9091',
+    'extension_id' => 7,
+  ),
+   '_oldAttributes' => NULL,
+   '_related' => 
+  array (
+    'extension' => 
+    app\modules\BotManager\models\FileGroups::__set_state(array(
+       '_attributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_oldAttributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_related' => 
+      array (
+      ),
+       '_relationsDependencies' => 
+      array (
+      ),
+       '_errors' => NULL,
+       '_validators' => NULL,
+       '_scenario' => 'default',
+       '_events' => 
+      array (
+      ),
+       '_eventWildcards' => 
+      array (
+      ),
+       '_behaviors' => 
+      array (
+      ),
+    )),
+  ),
+   '_relationsDependencies' => 
+  array (
+    'extension_id' => 
+    array (
+      'extension' => 'extension',
+    ),
+  ),
+   '_errors' => NULL,
+   '_validators' => NULL,
+   '_scenario' => 'default',
+   '_events' => 
+  array (
+  ),
+   '_eventWildcards' => 
+  array (
+  ),
+   '_behaviors' => 
+  array (
+  ),
+))
+prepareSettings:
+app\modules\BotManager\models\Bots::__set_state(array(
+   'thisIsTemp' => true,
+   'tempParams' => 
+  array (
+    'login' => '79137924780',
+    'password' => '274856Olya',
+    'url' => '',
+    'urls' => 'https://www.pari.ru/live/',
+    'email' => '',
+    'email_password' => '',
+    'second_name' => '',
+  ),
+   'use_chrome' => false,
+   'restart' => true,
+   'experimental' => true,
+   'buyer' => NULL,
+   'stake_fork' => NULL,
+   'bm_bk_select' => 
+  array (
+    0 => 67,
+  ),
+   '_attributes' => 
+  array (
+    'multilogin_profile_name' => '6345588adb7535274a80a99a',
+    'logic_name' => 'logic',
+    'websocket_uid' => 'eabe7fcc-a338-4033-a974-9b23f5176540',
+    'websocket_url' => 'ws://localhost:9091',
+    'extension_id' => 7,
+  ),
+   '_oldAttributes' => NULL,
+   '_related' => 
+  array (
+    'extension' => 
+    app\modules\BotManager\models\FileGroups::__set_state(array(
+       '_attributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_oldAttributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_related' => 
+      array (
+      ),
+       '_relationsDependencies' => 
+      array (
+      ),
+       '_errors' => NULL,
+       '_validators' => NULL,
+       '_scenario' => 'default',
+       '_events' => 
+      array (
+      ),
+       '_eventWildcards' => 
+      array (
+      ),
+       '_behaviors' => 
+      array (
+      ),
+    )),
+  ),
+   '_relationsDependencies' => 
+  array (
+    'extension_id' => 
+    array (
+      'extension' => 'extension',
+    ),
+  ),
+   '_errors' => NULL,
+   '_validators' => NULL,
+   '_scenario' => 'default',
+   '_events' => 
+  array (
+  ),
+   '_eventWildcards' => 
+  array (
+  ),
+   '_behaviors' => 
+  array (
+  ),
+))
+prepareSettings:
+app\modules\BotManager\models\Bots::__set_state(array(
+   'thisIsTemp' => true,
+   'tempParams' => 
+  array (
+    'login' => '79326990106',
+    'password' => 'Vfg5g45grhe4',
+    'url' => '',
+    'urls' => 'https://www.fon.bet/live/',
+    'email' => '',
+    'email_password' => '',
+    'second_name' => '',
+  ),
+   'use_chrome' => false,
+   'restart' => true,
+   'experimental' => true,
+   'buyer' => NULL,
+   'stake_fork' => NULL,
+   'bm_bk_select' => 
+  array (
+    0 => 5,
+  ),
+   '_attributes' => 
+  array (
+    'multilogin_profile_name' => '63794a4ae7718f2dcb0eee53',
+    'logic_name' => 'logic',
+    'websocket_uid' => '134e03c9-2e81-4bc3-8929-de8cd010ca54',
+    'websocket_url' => 'ws://localhost:9091',
+    'extension_id' => 7,
+  ),
+   '_oldAttributes' => NULL,
+   '_related' => 
+  array (
+    'extension' => 
+    app\modules\BotManager\models\FileGroups::__set_state(array(
+       '_attributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_oldAttributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_related' => 
+      array (
+      ),
+       '_relationsDependencies' => 
+      array (
+      ),
+       '_errors' => NULL,
+       '_validators' => NULL,
+       '_scenario' => 'default',
+       '_events' => 
+      array (
+      ),
+       '_eventWildcards' => 
+      array (
+      ),
+       '_behaviors' => 
+      array (
+      ),
+    )),
+  ),
+   '_relationsDependencies' => 
+  array (
+    'extension_id' => 
+    array (
+      'extension' => 'extension',
+    ),
+  ),
+   '_errors' => NULL,
+   '_validators' => NULL,
+   '_scenario' => 'default',
+   '_events' => 
+  array (
+  ),
+   '_eventWildcards' => 
+  array (
+  ),
+   '_behaviors' => 
+  array (
+  ),
+))
+prepareSettings:
+app\modules\BotManager\models\Bots::__set_state(array(
+   'thisIsTemp' => true,
+   'tempParams' => 
+  array (
+    'login' => 'MB447552',
+    'password' => 'Still2704!',
+    'url' => '123',
+    'urls' => 'https://www.savedday.one/en/live/overview',
+    'email' => 'no-email',
+    'email_password' => 'no-email',
+    'second_name' => '',
+  ),
+   'use_chrome' => false,
+   'restart' => false,
+   'experimental' => false,
+   'buyer' => NULL,
+   'stake_fork' => NULL,
+   'bm_bk_select' => 
+  array (
+    0 => 140,
+  ),
+   '_attributes' => 
+  array (
+    'multilogin_profile_name' => '23276707',
+    'logic_name' => 'logic',
+    'websocket_uid' => 'pinnacle',
+    'websocket_url' => 'ws://localhost:9091',
+    'extension_id' => 7,
+  ),
+   '_oldAttributes' => NULL,
+   '_related' => 
+  array (
+    'extension' => 
+    app\modules\BotManager\models\FileGroups::__set_state(array(
+       '_attributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_oldAttributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_related' => 
+      array (
+      ),
+       '_relationsDependencies' => 
+      array (
+      ),
+       '_errors' => NULL,
+       '_validators' => NULL,
+       '_scenario' => 'default',
+       '_events' => 
+      array (
+      ),
+       '_eventWildcards' => 
+      array (
+      ),
+       '_behaviors' => 
+      array (
+      ),
+    )),
+  ),
+   '_relationsDependencies' => 
+  array (
+    'extension_id' => 
+    array (
+      'extension' => 'extension',
+    ),
+  ),
+   '_errors' => NULL,
+   '_validators' => NULL,
+   '_scenario' => 'default',
+   '_events' => 
+  array (
+  ),
+   '_eventWildcards' => 
+  array (
+  ),
+   '_behaviors' => 
+  array (
+  ),
+))
+prepareSettings:
+app\modules\BotManager\models\Bots::__set_state(array(
+   'thisIsTemp' => true,
+   'tempParams' => 
+  array (
+    'login' => '+79041241127',
+    'password' => 'Psoruka3',
+    'url' => '',
+    'urls' => 'https://www.fon.bet/live/',
+    'email' => '',
+    'email_password' => '',
+    'second_name' => '',
+  ),
+   'use_chrome' => false,
+   'restart' => false,
+   'experimental' => true,
+   'buyer' => NULL,
+   'stake_fork' => NULL,
+   'bm_bk_select' => 
+  array (
+    0 => 5,
+  ),
+   '_attributes' => 
+  array (
+    'multilogin_profile_name' => '630f43eac2cf35ba42b9b625',
+    'logic_name' => 'logic',
+    'websocket_uid' => '03e42883-8d11-48fc-9574-f780823dff26',
+    'websocket_url' => 'ws://localhost:9091',
+    'extension_id' => 7,
+  ),
+   '_oldAttributes' => NULL,
+   '_related' => 
+  array (
+    'extension' => 
+    app\modules\BotManager\models\FileGroups::__set_state(array(
+       '_attributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_oldAttributes' => 
+      array (
+        'id' => 7,
+        'type' => 0,
+        'bk_internal' => 'extension',
+        'name' => 'Base',
+        'comment' => '',
+      ),
+       '_related' => 
+      array (
+      ),
+       '_relationsDependencies' => 
+      array (
+      ),
+       '_errors' => NULL,
+       '_validators' => NULL,
+       '_scenario' => 'default',
+       '_events' => 
+      array (
+      ),
+       '_eventWildcards' => 
+      array (
+      ),
+       '_behaviors' => 
+      array (
+      ),
+    )),
+  ),
+   '_relationsDependencies' => 
+  array (
+    'extension_id' => 
+    array (
+      'extension' => 'extension',
+    ),
+  ),
+   '_errors' => NULL,
+   '_validators' => NULL,
+   '_scenario' => 'default',
+   '_events' => 
+  array (
+  ),
+   '_eventWildcards' => 
+  array (
+  ),
+   '_behaviors' => 
+  array (
+  ),
+))

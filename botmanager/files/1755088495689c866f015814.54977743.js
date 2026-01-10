@@ -1,0 +1,1049 @@
+(function () {
+
+    "use strict";
+
+    /**
+     * @import libs/jquery-3.3.1.min.js
+     */
+
+    let newAPI = false;
+    let authClicked = 0;
+    let busy = false;
+    let increaseDelay = false;
+    let stopSports = false;
+    let enterError = false;
+    const $couponFrame = () => $('div#betslip-root-inner iframe').contents();
+    const port = window.self === window.top
+        ? chrome.runtime.connect({name: `port_melbet`})
+        : {postMessage: () => console.log(arguments)};
+
+    const settings = {
+        authCheckInterval: 2000,
+        waitTillLoadingMs: 6000,
+        maxWaitForBetStatus: 50000,
+        url: '',
+        login: '',
+        password: '',
+        phone: '',
+        email: '',
+        uid: '',
+        stake_fork: {},
+        eventTimeLimit: 3600000,
+        eventMaxBets: 3,
+        betweenBets: 25000,
+    };
+
+    const currentBetData = new class CurrentBetData {
+        constructor() {
+            this.init([]);
+        }
+
+        init(data) {
+            this.data = data;
+            this.max = 0;
+            this.external_id = '';
+            this.willPlace = 0;
+        }
+    };
+
+    const accordance = {
+        'FOOTBALL': 'Футбол',
+        'HOCKEY': 'Хоккей',
+        'VOLLEYBALL': 'Волейбол',
+        'TENNIS': 'Теннис',
+        'TABLETENNIS': 'Настольный теннис',
+        'BASEBALL': 'Бейсбол',
+        'BASKETBALL': 'Баскетбол',
+        'CYBERSPORT': 'Киберспорт',
+    };
+
+    const ourCommand = new ourCommandProto();
+    const getBalance = returnNull => {
+        const $b = $('div.account-block_user-select span.account-block_user-cash:visible');
+        if ($b.length > 0) {
+            return parseFloat($b.text().replace(',', '')
+                .replace(/[^\d.]/g, '').trim());
+        } else {
+            return returnNull ? 'null' : 0;
+        }
+    };
+
+    const authCheck = function () {
+        if (enterError === true) {
+            port.postMessage({
+                answered: "auth_error",
+                status: "ERROR",
+            });
+            bsError(port, 'ERROR AUTH!');
+            return;
+        }
+        (async () => {
+            const $logLink = $('a.btn:textEquals("Войти")');
+            if ($logLink.length > 0) {
+                // Hint: Log In
+                port.postMessage({m: "tech works! 2"});
+                await delayPromise(777);
+                await tryToLogIn().catch(e => bsError(port, 'Error login: ' + e));
+            } else {
+                port.postMessage({
+                    m: "authorized!",
+                    balance: getBalance(true),
+                });
+            }
+        })()
+            .catch(e => dLog('red', 'MB', `authCheck error: ${e}`))
+            .then(delayFunction(settings.authCheckInterval))
+            .then(authCheck);
+    };
+
+    const tryToLogIn = async () => {
+        if (Date.now() - authClicked < 60000) {
+            throw 'Too soon!';
+        }
+        const $buttonLogin = $('a.btn:textEquals("Войти")');
+        const $formLogin = $('form[name="loginForm"]');
+        if ($formLogin.length > 0) {
+            await delayPromise(1000);
+            await clearAndSimulate($('input[name="userName"]')[0], settings.login);
+            await delayPromise(1555);
+            await clearAndSimulate($('input[name="password"]')[0], settings.password);
+            await delayPromise(1555);
+            await mouseChain({target: $('input[value="Войти"]')[0], events: fullClick, error: '$formLogin'});
+            await delayPromise(555);
+            authClicked = Date.now();
+            const $checkBalance = await waitForElement('div.account-block_user-select span.account-block_user-cash:visible', 333, 5555).catch(() => $([]));
+            if ($checkBalance.length === 0) {
+                enterError = true;
+            }
+        } else if ($buttonLogin.length > 0) {
+            await mouseChain({target: $buttonLogin[0], events: fullClick, error: '$buttonLogin'});
+            await delayPromise(555);
+            await waitForElement('form[name="loginForm"]', 333, 4444);
+            await delayPromise(555);
+            await clearAndSimulate($('input[name="userName"]')[0], settings.login);
+            await delayPromise(1555);
+            await clearAndSimulate($('input[name="password"]')[0], settings.password);
+            await delayPromise(1555);
+            await mouseChain({target: $('input[value="Войти"]')[0], events: fullClick, error: 'submit login'});
+            await delayPromise(555);
+            authClicked = Date.now();
+            const $checkBalance = await waitForElement('div.account-block_user-select span.account-block_user-cash:visible', 333, 5555).catch(() => $([]));
+            if ($checkBalance.length === 0) {
+                enterError = true;
+            }
+        }
+        dLog('', 'MB', 'Auth clicked!');
+        return "auth_clicked";
+    };
+
+    const closePreviousCoupons = async skip => {
+        if (skip) {
+            return 'skipped!';
+        }
+        // Hint: Click 'Remove all' once or every 'Close'
+        const $clearBtn = $couponFrame().find("button.dg_betslip_remove_all");
+        if ($clearBtn.length === 1) {
+            await mouseChain({
+                target: $clearBtn[0],
+                events: fullClick,
+                scroll: true,
+                error: 'c0'
+            });
+            await delayPromise(1555);
+            const $apprBtn = $couponFrame().find('div.dg-bet-slip__modal-btn-col button:textEquals("Да")');
+            await mouseChain({
+                target: $apprBtn[0],
+                events: fullClick,
+                scroll: true,
+                error: 'c1'
+            });
+            await delayPromise(500);
+            return 'ClearBtn clicked!';
+        }
+        while ($couponFrame().find("button.dg_betslip_ico-remove").length > 0) {
+            await mouseChain({
+                target: $couponFrame().find("button.dg_betslip_ico-remove").eq(0)[0],
+                events: fullClick,
+                scroll: true,
+                error: 'c1'
+            });
+            await delayPromise(555);
+        }
+        return 'All were closed!';
+    };
+
+    const openEvent = async data => {
+        dLog('red', 'MB', ['openEvent', data]);
+        const eventName = `${data.team1} — ${data.team2}`.toLowerCase();
+        const sport = accordance[data.sport];
+        const checkWeAreThere = function () {
+            const team1 = $('#home_tm_name').trt();
+            const team2 = $('#away_tm_name').trt();
+            const checkEvent = `${team1} — ${team2}`.toLowerCase();
+            return checkEvent === eventName || locutus_similar_text(checkEvent, eventName, true) > 70;
+        };
+        let $multiBetPage = $([]);
+        const switchToSport = async () => {
+            dLog('red', 'MB', `switchToSport: ${sport}`);
+            $multiBetPage = await waitForElement(`div#MultiBetPage a.sport_type:textEquals("${sport}"):visible`, 333, 15000);
+            if ($multiBetPage.closest('li').find('div.tg-ico-arrow').hasClass('tg--rotated') === false) {
+                await mouseChain({
+                    target: $multiBetPage[0],
+                    events: fullClick,
+                    error: `expand sport list`,
+                    scroll: true
+                });
+                await delayPromise(500);
+            }
+        };
+        const checkScore = async () => {
+            if (data.score === '' || data.sport !== 'FOOTBALL'
+                || ['CORNER_HDP', 'CORNER_TOTAL'].indexOf(data.market) > -1) {
+                return '';
+            }
+            const getScore = () => {
+                const $scores = $('span.tg-clr-akcent2.tg_score');
+                return $scores.eq(0).trt() + ':' + $scores.eq(1).trt();
+            };
+            await waitForCondition(() => getScore() !== '',
+                700, 10000, 'No score');
+            if (getScore() !== data.score.replace(/[^\d:]/g, '').trim()) {
+                throw getScore();
+            }
+            return '';
+        };
+        if (checkWeAreThere()) {
+            return 'We probably on event page!'
+        }
+        const $goStart = await waitForElement([
+            'li.tg__submenu__item:textEquals("Live")',
+        ], 200, 10000)
+            .catch(() => $([]));
+        if ($goStart.length > 0) {
+            await mouseChain({target: $goStart[0], events: ['click'], scroll: true, error: '$goStart'})
+                .catch(() => console.log('never mind'));
+            await delayPromise(999);
+        } else {
+            dLog('red', 'MB',
+                `No $goStart at ${document.location.href} (${(window.self === window.top)})!`);
+        }
+        const withCountriesSel = 'div.tg__live_filter_item div.tg__checkbox_ico[title="Страна"]';
+        if ($(withCountriesSel).hasClass('checked')) {
+            await mouseChain({
+                target: $(withCountriesSel)[0],
+                events: fullClick,
+                error: 'withCountriesSel'
+            });
+            await delayPromise(888);
+        }
+        let $el = $([]);
+        if (data.type === 'LIVE') {
+            await switchToSport();
+            await delayPromise(555);
+            await waitForCondition(() => $multiBetPage.closest('li').find('ul#events li.live_menu_item').length > 0, 333, 10000, `No events for ${data.sport} :(`);
+            $multiBetPage.closest('li').find('ul#events li.live_menu_item').each(function () {
+                const $teams = $(this).find('div.tg_team_name');
+                if ($teams.length === 2) {
+                    let checkEvent = `${$teams.eq(0).trt()} — ${$teams.eq(1).trt()}`.toLowerCase();
+                    const res = checkEvent === eventName
+                        || locutus_similar_text(checkEvent, eventName, true) > 70;
+                    dLog('color: darkgray;', 'BBS',
+                        `"${checkEvent}" ${(res ? '==' : '!=')} "${eventName}"`);
+                    if (res) {
+                        $el = $(this);
+                        return false;
+                    }
+                }
+            });
+        }
+        if ($el.length === 1) {
+            await mouseChain({
+                target: $el.find('div[title="Доступные коэффиценты"]')[0],
+                events: fullClick,
+                scroll: true,
+                error: 'EVENT'
+            });
+        } else {
+            throw 'Wrong length of Event: ' + $el.length;
+        }
+        await waitForCondition(() => checkWeAreThere(),
+            777, 30000, 'We are not on event!');
+        const score = await checkScore().catch(e => `SCORE_CHANGED => we need ${data.score}, we have ${e}`);
+        if (score.indexOf('SCORE_CHANGED') > -1) {
+            throw score;
+        }
+        return 'Switched to event!';
+    };
+
+    const getBetElement = async data => {
+        //#-#-START
+        const markets = {
+            'ONE_TWO': {
+                'ONE': {
+                    roots: ['Исход',],
+                    pivotKeys: ['П1',],
+                },
+                'TWO': {
+                    roots: ['Исход',],
+                    pivotKeys: ['П2',],
+                },
+                'DRAW': {
+                    roots: ['Исход',],
+                    pivotKeys: ['X', 'Х',],
+                },
+                'ONE_DRAW': {
+                    roots: ['Двойной шанс'],
+                    pivotKeys: ['1X',],
+                },
+                'TWO_DRAW': {
+                    roots: ['Двойной шанс'],
+                    pivotKeys: ['X2',],
+                },
+                'ONE_TWO': {
+                    roots: ['Двойной шанс'],
+                    pivotKeys: ['12',],
+                }
+            },
+            'TOTAL': {
+                'OVER': {
+                    roots: ['Тотал', 'Азиатский Тотал',],
+                    pivotKeys: ['Больше (#PIVOT#)'],
+                },
+                'UNDER': {
+                    roots: ['Тотал', 'Азиатский Тотал',],
+                    pivotKeys: ['Меньше (#PIVOT#)'],
+                },
+            },
+            'T1_TOTAL': {
+                'OVER': {
+                    roots: ['Тотал ком.1',],
+                    pivotKeys: ['Больше (#PIVOT#)'],
+                },
+                'UNDER': {
+                    roots: ['Тотал ком.1',],
+                    pivotKeys: ['Меньше (#PIVOT#)'],
+                },
+            },
+            'T2_TOTAL': {
+                'OVER': {
+                    roots: ['Тотал ком.2',],
+                    pivotKeys: ['Больше (#PIVOT#)'],
+                },
+                'UNDER': {
+                    roots: ['Тотал ком.2',],
+                    pivotKeys: ['Меньше (#PIVOT#)'],
+                },
+            },
+            'HDP': {
+                'HOME': {
+                    roots: ['Фора', 'Азиатская Фора'],
+                    pivotKeys: ['Фора1 (#HPIVOT#)'],
+                },
+                'AWAY': {
+                    roots: ['Фора', 'Азиатская Фора'],
+                    pivotKeys: ['Фора2 (#HPIVOT#)'],
+                }
+            },
+            'EURO_HDP': {
+                'H1': {
+                    roots: ['Гандикап (#EPIVOT#)'],
+                    pivotKeys: ['П1']
+                },
+                'H2': {
+                    roots: ['Гандикап (#EPIVOT#)'],
+                    pivotKeys: ['П2']
+                },
+                'HX': {
+                    roots: ['Гандикап (#EPIVOT#)'],
+                    pivotKeys: ['X']
+                }
+            },
+        };
+
+        /*
+        const params = new AllMarkets(data);
+        params.proceed_basketball = function (data) {
+            if (!this.full) {
+                this.addTo('roots', `${this.tDigit}-я четверть: `);
+            }
+        };
+        marketsModifierAll(data, ['roots',], params, markets);
+         */
+
+        if (typeof markets[data.market] === 'undefined' || typeof markets[data.market][data.target] === 'undefined') {
+            throw `Unsupported ${data.time_value} / ${data.market} / ${data.target}`;
+        }
+
+        const m = markets[data.market][data.target];
+
+        const ePivot = pvt => {
+            const p = parseInt(pvt);
+            return p > 0 ? `${p}:0` : p < 0 ? `0:${Math.abs(p)}` : '0';
+        };
+
+        const hPivot = pvt => {
+            const prfx = pvt > 0 ? '+' : pvt < 0 ? '-' : '';
+            pvt = prfx + Math.abs(pvt);
+            return pvt;
+        };
+
+        replaceInner(m, {
+            '#TEAM1#': data.team1,
+            '#TEAM2#': data.team2,
+            '#PIVOT#': data.pivot,
+            '#HPIVOT#': hPivot(data.pivot),
+            '#EPIVOT#': ePivot(data.pivot),
+        });
+
+        let $ts = $([]);
+        if (data.sport === 'FOOTBALL' && data.time_value.indexOf('FULL') === -1) {
+            $ts = $('div.tab_selector span[title="1-й тайм"]');
+        } else {
+            $ts = $('div.tab_selector span[title="Основной"]');
+        }
+        if ($ts.length === 0) {
+            throw `No TabSelector`;
+        }
+        if (!$ts.hasClass('tab_selector_active')) {
+            await mouseChain({target: $ts[0], events: fullClick, error: '$ts'});
+            await delayPromise(1000);
+        }
+
+        const q = data.time_value.replace(/[^\d]/g, '').trim();
+        if (data.sport === 'BASKETBALL' && data.time_value.indexOf('FULL') === -1) {
+            for (const i in m.roots) {
+                m.roots[i] = `${q}-я четверть: ${m.roots[i]}`;
+            }
+        } else if (data.sport === 'HOCKEY' && data.time_value.indexOf('FULL') === -1) {
+            for (const i in m.roots) {
+                m.roots[i] = `${q}-й период: ${m.roots[i]}`;
+            }
+        } else if (data.sport === 'VOLLEYBALL' && data.time_value.indexOf('FULL') === -1) {
+            for (const i in m.roots) {
+                m.roots[i] = `${q}-й сет: ${m.roots[i]}`;
+            }
+        } else if (data.sport === 'TABLETENNIS' && data.time_value.indexOf('FULL') === -1) {
+            for (const i in m.roots) {
+                m.roots[i] = `${q}-й сет: ${m.roots[i]}`;
+            }
+        } else if (data.sport === 'CYBERSPORT') {
+            if (data.market === 'HDP') {
+                m.roots.push('Фора по картам');
+            }
+            if (data.market === 'TOTAL') {
+                m.roots.push('Тотал раундов');
+            }
+            if (data.time_value.indexOf('FULL') === -1) {
+                for (const i in m.roots) {
+                    m.roots[i] = `${q}-я карта: ${m.roots[i]}`;
+                }
+            }
+        } else if (data.sport === 'TENNIS') {
+            if (data.market === 'HDP') {
+                m.roots.push('Фора по геймам');
+            }
+            if (data.market === 'T1_TOTAL') {
+                m.roots.push('Тотал игрока 1');
+            }
+            if (data.market === 'T1_TOTAL') {
+                m.roots.push('Тотал игрока 2');
+            }
+            if (data.time_value.indexOf('FULL') === -1) {
+                for (const i in m.roots) {
+                    m.roots[i] = `${q}-й сет: ${m.roots[i]}`;
+                }
+            }
+        }
+
+        let $found = $([]);
+        for (const root of m.roots) {
+            console.log(`Checking root: ${root}`);
+            const $root = $(`div.tg__match_item div.tg__match_header span.tg__teams:textEqualsI("${root}"):visible`);
+            if ($root.length === 0) {
+                continue;
+            }
+            for (const pvt of m.pivotKeys) {
+                const $pivot = $root.find(`span.tg__match_item_odd_name:textEqualsI("${pvt}"):visible`);
+
+                if ($pivot.length === 0) {
+                    $(`div.tg__match_item div.tg__match_header span.tg__teams:textEqualsI("${root}"):visible`).closest('div.tg__match_item')
+                        .find(`span.tg__match_item_odd_name`).each(function () {
+                        if ($(this).text().replace(/\u200e/g, '').trim() === pvt) {
+                            $found = $(this);
+                        }
+                    });
+                }
+
+                if ($pivot.length === 1) {
+                    $found = $pivot.parent();
+                    break;
+                } else if ($pivot.length > 1) {
+                    throw `Strange pivot length ${$pivot.length} for ${root}/${pvt}`;
+                }
+            }
+        }
+        if ($found.length === 0) {
+            throw `${data.sport}/${data.type}/${data.time_value}/${data.market}/${data.target}/${data.pivot} not found :(`;
+        } else {
+            $found.closest('div.tg__match_item')[0].scrollIntoView();
+        }
+        return $found;
+        //#-#-FINISH
+    };
+
+    const openCoupon = async paramData => {
+        dLog('green', 'MB', ['openCoupon, paramData:', paramData]);
+        for (let i = 0; i < paramData.length; i++) {
+            const data = paramData[i];
+            dLog('green', 'MB', [`openCoupon ITERATION ${i}- we using data ${(typeof data)}:`, data]);
+            await openEvent(data);
+            dLog('green', 'MB', 'Event must be opened!');
+            const $element = await getBetElement(data);
+            console.log($element);
+            let coefWeWaitFor = $element.find('div.coef').trt();
+            dLog('green', 'MB', 'We got element! Coef: ' + coefWeWaitFor);
+            const waitForCouponVisibleStarted = Date.now();
+            let elementWasClicked = 0;
+            let performElementClick = async function () {
+                dLog('green', 'MB', 'performElementClick ' + elementWasClicked + ' (' + coefWeWaitFor
+                    + ') /' + (Date.now() - elementWasClicked));
+                await mouseChain({target: $element[0], events: ['click'], error: 'performElementClick'})
+                elementWasClicked = Date.now();
+            };
+            const checkCoupon = () => {
+                const event = (data.team1 + ' - ' + data.team2).toLowerCase();
+                let result = false;
+                $couponFrame().find('div.dg_betslip_stake').each(function () {
+                    const $teams = $(this).find('header.dg_betslip_stake_header span');
+                    let ev = `${$teams.eq(0).trt()} - ${$teams.eq(2).trt()}`.toLowerCase();
+                    if (event === ev || locutus_similar_text(event, ev, true) > 70) {
+                        result = true;
+                        return false;
+                    } else {
+                        dLog('red', 'MB', `'${ev}' !== '${event}'`);
+                    }
+                });
+                return result;
+            };
+            while (!checkCoupon() && Date.now() - waitForCouponVisibleStarted < 15000) {
+                await performElementClick();
+                await delayPromise(1000);
+            }
+            if (!checkCoupon()) {
+                throw `Coupon not opened!`;
+            }
+            const getMaxHere = async () => {
+                return '7777777';
+            };
+            if (paramData.length > 1) {
+                dLog('red', 'MB', `Express here! ${i}/${(paramData.length - 1)}`);
+                if (i === paramData.length - 1) {
+                    return await getMaxHere();
+                }
+            } else {
+                return await getMaxHere();
+            }
+        }
+    };
+
+    const checkCoefs = async data => {
+        const findInData = match => data.find(v => {
+            const localMatch = v.team1.toLowerCase() + ' - ' + v.team2.toLowerCase();
+            return localMatch === match.toLowerCase() || locutus_similar_text(localMatch, match.toLowerCase(), true) > 70;
+        });
+        const $coupons = $couponFrame().find('div.dg_betslip_stake');
+        const errors = [];
+        let checked = 0;
+        let totalCoef = 1;
+        $coupons.each(function () {
+            const $this = $(this);
+            const $teams = $this.find('header.dg_betslip_stake_header span');
+            const match = `${$teams.eq(0).trt()} - ${$teams.eq(2).trt()}`;
+            console.log(match);
+            let localCoef = parseFloat($this.find('div[type="default"]').trt());
+            let localData = findInData(match);
+            let $checkErrors = $this.find('div.dg_betslip_stake_message');
+            totalCoef = totalCoef * (isNaN(localCoef) ? 1 : localCoef);
+            if ($checkErrors.length > 0) {
+                errors.push($checkErrors.trt());
+            }
+            if (!localData || isNaN(localCoef)) {
+                errors.push(match + ' LOW_COEF - wrong match or localCoef!');
+                checked++;
+            } else {
+                checked++;
+            }
+        });
+        if (errors.length === 0 && checked === data.length) {
+            const nCheck = data[0].coef && !isNaN(parseFloat(data[0].coef)) ? parseFloat(data[0].coef) : totalCoef / 1.21;
+            if (totalCoef >= nCheck * 1.2) {
+                throw `Coef TOO BIG: ${totalCoef} instead of ${data[0].coef}`;
+            } else if (totalCoef < nCheck) {
+                throw `LOW_COEF ${data[0].coef} > ${totalCoef}`;
+            } else {
+                return `Coefs fine! here: ${totalCoef}, need: ${nCheck}/${data[0].coef}`;
+            }
+        } else {
+            throw errors.join('; ') + (checked !== data.length ? ` some stakes not checked (${checked}/${data.length})!` : '');
+        }
+    };
+
+    const proceedBetSport = async (data, balance) => {
+        const
+            realSuccessInterval = data[0].successBetInterval || settings.betweenBets,
+            wasSuccessStake = await bMess('WasSuccessStake')
+                .check(realSuccessInterval)
+                .catch(() => 0),
+            successDiff = Date.now() - wasSuccessStake;
+        if (successDiff < realSuccessInterval) {
+            throw `To early after previous success bet ${successDiff} instead of ${realSuccessInterval}!`
+        }
+        if (!!currentBetData.data[0].betFromParser) {
+            const checkRes = await eventsWorkAll('melbet',
+                settings.eventMaxBets, settings.eventTimeLimit,
+                currentBetData.data, false, true);
+            if (checkRes !== 'OK') {
+                dLog('red', 'MELBET', `We got errors: ${checkRes}`);
+                throw checkRes;
+            } else {
+                dLog('big-blue', 'MELBET',
+                    `We'll do bet because of and wasSuccessStake ${successDiff} > ${realSuccessInterval} and`);
+                for (const d of currentBetData.data) {
+                    const eventName = `${d.team1} - ${d.team2}`;
+                    dLog('blue', 'MELBET', `${settings.eventMaxBets} for ${eventName} not reached`);
+                }
+            }
+        }
+        const checkSuccess = async () => {
+            const started = Date.now();
+            while (Date.now() - started < 30000) {
+                const alertText = $couponFrame().find('div.dg-bet-slip__notifications').trt();
+                const acceptedText = $couponFrame().find('div#tstSlnBetSlipHeaderClosed');
+                if (alertText.indexOf('Изменения в параметрах ставок.') > -1) {
+                    return false;
+                } else if (alertText.indexOf('Сумма вашего текущего лимита') > -1) {
+                    throw 'LIMITED';
+                } else if (alertText !== '') {
+                    if (alertText.indexOf('Войди в систему, введя имя пользователя и пароль') > -1) {
+                        document.location.reload();
+                    }
+                    throw `Error: ${alertText}`;
+                } else if (acceptedText.length > 0) {
+                    return true;
+                }
+                await delayPromise(333);
+            }
+            throw `No bet result in ${(Date.now() - started)}`;
+        };
+        const checkBalance = willPlace => {
+            let localBalance = balance;
+            if (localBalance < willPlace) {
+                throw `NO_FUNDS - now: ${localBalance}, we need: ${willPlace}`;
+            } else if (typeof willPlace === 'undefined' || isNaN(willPlace)) {
+                throw 'Undefined or NaN will place';
+            }
+        };
+        await closePreviousCoupons(false);
+        currentBetData.max = await openCoupon(data);
+        do {
+            // Hint: Try to perform bet
+            await checkCoefs(data);
+            let willPlace = parseFloat(data[0].stake);
+            if (currentBetData.max !== -1 && willPlace > currentBetData.max) {
+                willPlace = currentBetData.max;
+            }
+            checkBalance(willPlace);
+            dLog('green', 'MB', `Will place (performBet): ${willPlace}, balance: ${balance}`);
+            const $input = $couponFrame().find('div.dg_bs_place_bet_container input');
+            if ($input.length !== 1) {
+                throw `2 Wrong number of bet's inputs: ${$input.length}`;
+            }
+            await clearAndInputNumber($input[0], willPlace.toString().replace('.00', '').trim());
+            await delayPromise(800);
+            dLog('green', 'MB', `STAKE entered ${willPlace}`);
+            let entered = parseFloat($input.val());
+            dLog('green', 'MB', `After enter stake check: willPlace = ${willPlace}, entered: ${entered}`);
+            if (isNaN(entered) || willPlace !== entered) {
+                dLog('red', 'MB', 'Entered !== willPlace - try to reenter!');
+                continue;
+            }
+            await delayPromise(1200);
+            const $placeBtn = $couponFrame().find('button.dg_betslip_bet_btn');
+            if ($placeBtn.length === 0 || $placeBtn.attr('disabled')) {
+                throw 'No place button or button disabled!';
+            }
+            await mouseChain({target: $placeBtn[0], events: fullClick, scroll: true, error: '$placeBtn'});
+        } while (!await checkSuccess());
+        // Hint: collect result
+        const res = await collectBetResult();
+        if (!res || !res.success || !res.message) {
+            throw 'Error collecting bet result!';
+        }
+
+        await mouseChain({target: $('span.dg_back_button')[0], events: fullClick, error: 'back history'});
+        await delayPromise(555);
+
+        return {
+            success: true,
+            message: {
+                external_id: res.message[0].external_id,
+                coef: res.message[0].coef,
+                stake: res.message[0].stake,
+                max: currentBetData.max,
+            },
+        };
+    };
+
+    const collectBetResult = async () => {
+        let collected = [];
+        const $expandCoupon = $couponFrame().find('div#tstSlnBetSlipHeaderClosed');
+        await mouseChain({target: $expandCoupon[0], events: fullClick, scroll: true, error: 'expand row'});
+        await delayPromise(333);
+        await waitForCondition(() => $couponFrame().find('button.dg_bet_slip_empty_button:textEquals("История Ставок")').length > 0,
+            333, 5555, 'history button');
+        await mouseChain({
+            target: $couponFrame().find('button.dg_bet_slip_empty_button:textEquals("История Ставок")')[0],
+            events: fullClick,
+            scroll: true,
+            error: 'history click'
+        });
+
+        const $historyBox = await waitForElement('div.bh_aside_content', 333, 15000);
+        
+        if ($historyBox.length > 0) {
+            const state = $historyBox.find('span.bh_card_header_info_status').trt();
+            collected.push({
+                external_id: $historyBox.find('span.bh_card_header_info_id').trt().replace(/[^\d.]/g, '').trim(),
+                status: state === 'Выигрыш' ? 'WON' : state === 'Проигрыш' ? 'LOSE' : 'ACCEPTED',
+                match: $historyBox.find('span.bh_details_item_header_team').trt(),
+                bkPivot: $historyBox.find('span.bh_details_item_market_actual').trt(),
+                coef: $historyBox.find('span.bh_details_item_num').trt(),
+                stake: $historyBox.find('span.bh_card_footer_sum_amount span.bh_details_amount').trt(),
+                result: '',
+            });
+        }
+
+        return {success: true, message: collected};
+    };
+
+    const collectBetResultsSports = async (inD, command, balance, inplay) => {
+        let collected = [];
+        const data = inD.length === 2 && inD[0] === 'limit' ? [] : inD;
+        const limit = inD.length === 2 && inD[0] === 'limit' ? (parseInt(inD[1]) <= 35 ? parseInt(inD[1]) : 35) : 30;
+        dLog('green', 'MB', [`collectBetResults, limit: ${limit}, inplay: ${inplay}, data: `, data]);
+        const $expandCoupon = () => $couponFrame().find('div#tstSlnBetSlipHeaderClosed');
+        if ($expandCoupon().length > 0) {
+            await mouseChain({target: $expandCoupon()[0], events: fullClick, scroll: true, error: 'expand row'});
+            await delayPromise(333);
+        }
+        await waitForCondition(() => $couponFrame().find('button.dg_bet_slip_empty_button:textEquals("История Ставок")').length > 0,
+            333, 3333, 'history button').catch(() => $([]));
+        if ($couponFrame().find('button.dg_bet_slip_empty_button:textEquals("История Ставок")').length === 0) {
+            await closePreviousCoupons(false);
+            await delayPromise(333);
+            if ($expandCoupon().length > 0) {
+                await mouseChain({target: $expandCoupon()[0], events: fullClick, scroll: true, error: 'expand row'});
+                await delayPromise(333);
+            }
+        }
+        await delayPromise(333);
+        await mouseChain({
+            target: $couponFrame().find('button.dg_bet_slip_empty_button:textEquals("История Ставок")')[0],
+            events: fullClick,
+            scroll: true,
+            error: 'history click'
+        });
+        const rowSel = 'div.tg__bet_history_row';
+        const $rows = await waitForElement(rowSel, 333, 15000);
+        for (let i = 0; i < $rows.length; i++) {
+            if (i >= limit) {
+                break;
+            }
+            const $this = $(rowSel).eq(i);
+            const $cols = $this.find('div.tg_bet_history_col');
+            const external_id = $cols.eq(1).trt();
+            if (data.length === 0 || data.indexOf(external_id) > -1) {
+                let opened = false;
+                let tries = 0;
+                while (!opened && tries < 5) {
+                    await mouseChain({
+                        target: $cols.eq(0)[0], events: fullClick,
+                        error: 'ro', scroll: true
+                    });
+                    await delayPromise(500);
+                    await waitForCondition(() => $(rowSel).eq(i).next().attr('class') === '',
+                        333, 10000, 'Bad next!')
+                        .catch(() => (opened = false, tries++, dLog('red', 'MB', `NOT OPENED! ${tries}`)));
+                    await delayPromise(1000);
+                    opened = true;
+                }
+                const stake = $cols.eq(3).trt().replace(/\s/g, '');
+                const result = $this.find('div.tg_table_lg').trt();
+                const state = $cols.eq(7).trt() === '' ? $cols.eq(6).trt() : $cols.eq(7).trt();
+                const $next = $(rowSel).eq(i).next();
+                const $coef = () => $next.find('div.tg_bet_history_col').eq(4).text()
+                    .replace('Коэфф.:', '')
+                    .replace(/[^\d.]/g, '').trim();
+                await waitForCondition(() => $coef() !== '', 333, 10000);
+                collected.push({
+                    external_id,
+                    status: state === 'Выигрыш' ? 'WON' : state === 'Проигрыш' ? 'LOSE' : 'ACCEPTED',
+                    match: $next.find('div.tg_bet_history_col').eq(1)
+                        .find('div.tg--align-center').trt(),
+                    bkPivot: $next.find('div.tg_bet_history_col').eq(3)
+                        .find('div:not([class])').text().replace(/\s+/g, ' ').trim(),
+                    coef: $coef(),
+                    stake: stake,
+                    result,
+                });
+                await mouseChain({target: $cols.eq(0)[0], events: fullClick, error: 'ro2', scroll: true});
+                await delayPromise(500);
+            }
+        }
+        dLog('green', 'MB', ['Collected', collected]);
+        await mouseChain({target: $('#maPageCloseButton')[0], events: fullClick, error: ''})
+            .catch(() => dLog('red', 'MB', 'No close btn'));
+        return {success: true, message: collected};
+    };
+
+    const sportCommands = new class SportCommands {
+        constructor() {
+            this.cLinks = {
+                'BET': proceedBetSport,
+                'EXPRESS_BET': proceedBetSport,
+                'BET_RESULT': collectBetResultsSports,
+            };
+        }
+
+        exists(command) {
+            return Object.keys(this.cLinks).indexOf(command) > -1;
+        }
+
+        async execute(command, data, balance) {
+            currentBetData.init(data);
+            dLog('green', 'MB', [command, data]);
+            const res = await this.cLinks[command](data, balance)
+                .catch(e => ({
+                    success: false,
+                    message: `${command}: ${e}, ${formatStack(e.stack)}`
+                }));
+            dLog(res.success ? 'green' : 'red', 'MB', [`${command} sports result was set:`, res]);
+            await bMess('MBSportResult').set(res);
+            return res;
+        }
+    };
+
+    const sportProcessor = command => {
+        dLog('green', 'MB', `SportProcessor: ${command.action}`);
+        if (sportCommands.exists(command.action)) {
+            // Hint: execute command
+            ourCommand.set(command);
+            sportCommands.execute(command.action, command.data, command.balance)
+                .finally(() => {
+                    ourCommand.clear();
+                });
+        } else {
+            dLog('red', 'MB', ['Unknown Sport command:', command]);
+        }
+    };
+
+    const executeSportCommand = async (data, command, balance) => {
+        dLog('green', 'MB', `executeSportCommand: ${command}, ${balance}`);
+        await bMess('MBSportCommand').set({action: command, data, balance});
+        const res = await bMess('MBSportResult')
+            .get(50000, 10000, 300, true);
+        return res;
+    };
+
+    const commands = new class commands {
+        constructor() {
+            this.cLinks = {
+                'BET': executeSportCommand,
+                'EXPRESS_BET': executeSportCommand,
+                'BET_RESULT': executeSportCommand,
+            };
+        }
+
+        exists(command) {
+            return Object.keys(this.cLinks).indexOf(command) > -1;
+        }
+
+        async execute(command, data) {
+            currentBetData.init(data);
+            //dLog('green', 'MB', [`commands execute ${command}`, data, formatStack((new Error()).stack)]);
+            const res = await this.cLinks[command](data, command, getBalance()).catch(e => ({
+                success: false,
+                message: `${command}: ${e}, ${formatStack(e.stack)}`
+            }));
+            dLog(res.success ? 'green' : 'red', 'MB', [`${command} result:`, res]);
+            port.postMessage(await this.prepareResult(command, res));
+            if (!res.success) {
+                throw res.message;
+            }
+            return res;
+        }
+
+        async prepareResult(command, res) {
+            if (['BET', 'EXPRESS_BET'].indexOf(command) > -1) {
+                const resultData = {
+                    "external_id": res.success ? res.message.external_id : '',
+                    "status": res.success ? 'ACCEPTED' : ['LOW_COEF', 'NO_FUNDS', 'SCORE_CHANGED', 'LIMITED']
+                        .find(t => res.message.indexOf(t) > -1) || 'FAILED',
+                    "market": currentBetData.data[0].market,
+                    "target": currentBetData.data[0].target,
+                    "pivot": currentBetData.data[0].pivot,
+                    "coef": res.success ? res.message.coef : currentBetData.data[0].coef,
+                    "stake": res.success ? res.message.stake : currentBetData.data[0].stake,
+                    "maximum": res.success && res.message.max ? res.message.max : 0,
+                };
+                if (res.success) {
+                    await eventsWorkAll('melbet',
+                        settings.eventMaxBets, settings.eventTimeLimit,
+                        currentBetData.data, true, true);
+                    await bMess('WasSuccessStake').set(Date.now());
+                    await bMess('Stake Maximums').set(0);
+                }
+                const doNotSend = !!currentBetData.data[0].betFromParser && !res.success
+                    && resultData.status !== 'LIMITED';
+                if (!!currentBetData.data[0].betFromParser && resultData.status !== 'LIMITED') {
+                    resultData.type = 'VALUE';
+                    resultData.mode = currentBetData.data[0].type;
+                    resultData.bookmaker = 'MELBET';
+                    resultData.placedCoef = resultData.coef;
+                    resultData.coef = currentBetData.data[0].coef;
+                    resultData.source = '468' || 'oddscp';
+                    resultData.currency = currentBetData.data[0]?.currency || 'USD';
+                    resultData.externalId = resultData.external_id;
+                    resultData.sport = currentBetData.data[0].sport;
+                    resultData.timeValue = currentBetData.data[0].time_value;
+                    resultData.league = currentBetData.data[0].league;
+                    resultData.homeTeam = currentBetData.data[0].team1;
+                    resultData.awayTeam = currentBetData.data[0].team2;
+                    resultData.score = currentBetData.data[0].score;
+                    resultData.pivot = resultData.pivot || null;
+                }
+                return {
+                    answered: !!currentBetData.data[0].betFromParser && resultData.status !== 'LIMITED'
+                        ? "F_BET" : "BET",
+                    data: resultData,
+                    answer: res.success ? 'Everything is Okay!' : res.message,
+                    doNotSend,
+                };
+            } else if (command === 'BET_RESULT') {
+                return {
+                    answered: "BET_RESULT",
+                    status: res.success ? "success" : "error",
+                    answer: res.message
+                };
+            } else {
+                return {};
+            }
+        }
+    }
+
+    const messageProcessor = message => {
+        dLog('green', 'MB', [`messageProcessor (${busy})`, message]);
+        newAPI = !!message.newAPI;
+        if (message.action === 'CHECK_BUSY') {
+            port.postMessage({
+                answered: message.action,
+                answer: busy ? 'BUSY' : 'FREE'
+            });
+        } else if (message.action === "auth") {
+            port.postMessage({m: "AUTH " + message.login + ' / ' + message.password});
+            settings.login = message.login;
+            settings.password = message.password;
+            settings.phone = message.phone;
+            settings.email = message.email;
+            settings.uid = message.uid;
+            settings.stake_fork = message?.stake_fork;
+            settings.eventMaxBets = message?.stake_fork?.eventMaxBets || 3;
+            settings.eventTimeLimit = message?.stake_fork?.eventTimeLimit * 1000 || 7200000;
+            settings.betweenBets = message.betweenBets || 40000;
+            authCheck();
+        } else if (busy) {
+            port.postMessage({
+                answered: message.action,
+                status: "error",
+                answer: "BUSY"
+            });
+        } else if (commands.exists(message.action)) {
+            // Hint: execute command
+            busy = true;
+            ourCommand.set(message);
+            commands.execute(message.action, message.data)
+                .finally(() => {
+                    busy = false;
+                    ourCommand.clear();
+                });
+        } else {
+            port.postMessage({
+                answered: message.action,
+                status: "error",
+                answer: `${message.action} not supported!`
+            });
+        }
+    };
+
+    if (window.self === window.top) {
+        port.onMessage.addListener(function (message) {
+            messageProcessor(message);
+        });
+    }
+
+    addEventListener("unload", function () {
+        if (ourCommand.isSet()) {
+            dLog('green', 'MB', ['Command was set till unload:', ourCommand.get()]);
+            // Hint: We allow payment to be done in 120 seconds for DEPOSIT
+            bMess('MELBET_COMMAND', true).set(ourCommand.get(), increaseDelay ? 130000 : 0);
+        }
+    }, true);
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', afterDOMLoaded);
+    } else {
+        afterDOMLoaded();
+    }
+
+    function afterDOMLoaded() {
+        port.postMessage({m: "PAGE LOADED!"});
+        if (window.self === window.top) {
+            // Hint: main window (outer with auth, menu, balance, etc.)
+            bMess('MELBET_COMMAND', true).check(40000, true)
+                .then(currentCommand => {
+                    dLog('orange', 'MB', [
+                        `Restoring at ${(window.self === window.top)}/${document.location.href} with:`,
+                        currentCommand
+                    ]);
+                    messageProcessor(currentCommand);
+                })
+                .catch(() => dLog('color: darkgray;', 'MB', 'No command!'));
+        } else if (document.location.href.indexOf('sport.melbet.ru/SportsBook/Home') > -1) {
+            // Hint: sports frame (here the most of work)
+            (async () => {
+                while (!stopSports) {
+                    const pageReloadRequestSel = 'div:textEquals("Вы вышли из системы! Пожалуйста, перезагрузите страницу")';
+                    if ($(pageReloadRequestSel).length > 0) {
+                        await mouseChain({
+                            target: $(pageReloadRequestSel).next()[0],
+                            events: fullClick, error: 'page reload'
+                        });
+                        document.location.reload();
+                    }
+                    const csc = await bMess('MBSportCommand').check(10000, true)
+                        .catch(() => null);
+                    if (csc !== null) {
+                        sportProcessor(csc);
+                    }
+                    const $li = $('div.tab_selector:contains("Live Info")');
+                    if ($li.length > 0 && !$li.hasClass("tab_selector_active")) {
+                        await mouseChain({target: $li[0], events: fullClick, error: '$li'});
+                    }
+                    await delayPromise(333);
+                }
+            })();
+            dLog('green', 'MB', 'Sport processor initialized!');
+        }
+    }
+
+})();

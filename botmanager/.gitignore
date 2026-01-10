@@ -1,0 +1,48 @@
+# phpstorm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+tests/_output/*
+tests/_support/_generated
+
+#vagrant folder
+/.vagrant
+
+modules/BotManager/Helpers/dummy_known_hosts
+
+*.log
+*.pem
+
+last_answer.txt
+last_request_betexy_proxy.txt
+last_answer_betexy_proxy.txt
+last_request_betexy_room.txt
+last_answer_betexy_room.txt
+last_request_betexy_run.txt
+last_answer_betexy_run.txt
+
+.phpactor.json

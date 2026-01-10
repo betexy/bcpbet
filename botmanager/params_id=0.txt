@@ -1,0 +1,17 @@
+array (
+  'bk' => '1WIN',
+  'login' => 'bcphorse01@gmail.com',
+  'password' => 'Y,}y3f)DZ;',
+  'phone' => '',
+  'uid' => 'c68a91ab-a85f-4bb8-a5a5-4f0746c39718',
+  'ws_url' => 'ws://localhost:9293',
+  'email' => '',
+  'email_password' => '',
+  'urls' => 'https://1waewn.com/betting/',
+  'browser' => '',
+  'profile' => '1WIN',
+  'restart' => true,
+  'second_name' => '',
+  'experimental' => false,
+  'comment' => '[cas]407;200',
+)

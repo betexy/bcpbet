@@ -1,0 +1,1405 @@
+{
+    "\/var\/www\/files\/170924136365e0f4132e4953.15591271.js": {
+        "modified": 1709241363,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_170924136365e0f4132e4953.15591271.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_170924136365e0f4132e4953.15591271.js.obfc"
+    },
+    "\/var\/www\/files\/172346531666b9fe6460a630.18218486.js": {
+        "modified": 1723465316,
+        "name": "libs\/helper.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172346531666b9fe6460a630.18218486.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172346531666b9fe6460a630.18218486.js.obfc"
+    },
+    "\/var\/www\/files\/170842384665d47aa6a22a03.77447929.js": {
+        "modified": 1708423846,
+        "name": "libs\/blockers.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_170842384665d47aa6a22a03.77447929.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_170842384665d47aa6a22a03.77447929.js.obfc"
+    },
+    "\/var\/www\/files\/171018313165ef52db46fb28.86400912.js": {
+        "modified": 1710183131,
+        "name": "libs\/injects.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_171018313165ef52db46fb28.86400912.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_171018313165ef52db46fb28.86400912.js.obfc"
+    },
+    "\/var\/www\/files\/169590317665156dc8a80908.61573932.js": {
+        "modified": 1695903176,
+        "name": "libs\/mainCycle.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_169590317665156dc8a80908.61573932.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_169590317665156dc8a80908.61573932.js.obfc"
+    },
+    "\/var\/www\/files\/1646171504621e9570a15cf1.62022965.js": {
+        "modified": 1646171504,
+        "name": "libs\/pari_push_remover.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171504621e9570a15cf1.62022965.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171504621e9570a15cf1.62022965.js.obfc"
+    },
+    "\/var\/www\/files\/1646171518621e957e75a999.64388304.js": {
+        "modified": 1646171518,
+        "name": "libs\/recaptcha.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171518621e957e75a999.64388304.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171518621e957e75a999.64388304.js.obfc"
+    },
+    "\/var\/www\/files\/1646171540621e9594761233.05258011.js": {
+        "modified": 1646171540,
+        "name": "libs\/sound.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171540621e9594761233.05258011.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171540621e9594761233.05258011.js.obfc"
+    },
+    "\/var\/www\/files\/1646171551621e959fef0444.64912106.js": {
+        "modified": 1646171551,
+        "name": "libs\/staticcache.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171551621e959fef0444.64912106.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171551621e959fef0444.64912106.js.obfc"
+    },
+    "\/var\/www\/files\/1646171575621e95b7379126.88824964.js": {
+        "modified": 1646171575,
+        "name": "libs\/ymBlock.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171575621e95b7379126.88824964.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171575621e95b7379126.88824964.js.obfc"
+    },
+    "\/var\/www\/files\/165488374462a385a04e8ac3.36004516.js": {
+        "modified": 1654883744,
+        "name": "js\/contentScriptCheck.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_165488374462a385a04e8ac3.36004516.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_165488374462a385a04e8ac3.36004516.js.obfc"
+    },
+    "\/var\/www\/files\/167473911163d27da7e7f550.44432680.js": {
+        "modified": 1674739111,
+        "name": "js\/logic.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_167473911163d27da7e7f550.44432680.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_167473911163d27da7e7f550.44432680.js.obfc"
+    },
+    "\/var\/www\/files\/1646171663621e960f1e5b05.82792151.js": {
+        "modified": 1646171663,
+        "name": "js\/logic_forks.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171663621e960f1e5b05.82792151.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171663621e960f1e5b05.82792151.js.obfc"
+    },
+    "\/var\/www\/files\/1646171701621e9635198d64.17716697.js": {
+        "modified": 1646171701,
+        "name": "js\/safecharge.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171701621e9635198d64.17716697.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171701621e9635198d64.17716697.js.obfc"
+    },
+    "\/var\/www\/files\/1646171843621e96c3593f06.86977831.js": {
+        "modified": 1646171843,
+        "name": "options.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171843621e96c3593f06.86977831.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646171843621e96c3593f06.86977831.js.obfc"
+    },
+    "\/var\/www\/files\/171900962366760157471905.13919884.js": {
+        "modified": 1719009623,
+        "name": "js\/weiss.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_171900962366760157471905.13919884.js.obf"
+    },
+    "\/var\/www\/files\/172275532066af28f8089874.99586414.js": {
+        "modified": 1722755320,
+        "name": "js\/chips.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172275532066af28f8089874.99586414.js.obf"
+    },
+    "\/var\/www\/files\/172355097866bb4d02ec0848.28887741.js": {
+        "modified": 1723550978,
+        "name": "js\/1xbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172355097866bb4d02ec0848.28887741.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172355097866bb4d02ec0848.28887741.js.obfc"
+    },
+    "\/var\/www\/files\/1721389174669a507698b032.01491812.js": {
+        "modified": 1721389174,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1721389174669a507698b032.01491812.js.obf"
+    },
+    "\/var\/www\/files\/172262842166ad39453eb8d0.77661400.js": {
+        "modified": 1722628421,
+        "name": "js\/csgo500.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172262842166ad39453eb8d0.77661400.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172262842166ad39453eb8d0.77661400.js.obfc"
+    },
+    "\/var\/www\/files\/172217550766a650134291e1.79461131.js": {
+        "modified": 1722175507,
+        "name": "js\/olimpCupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172217550766a650134291e1.79461131.js.obf"
+    },
+    "\/var\/www\/files\/172262848366ad39832a52e5.65200476.js": {
+        "modified": 1722628483,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172262848366ad39832a52e5.65200476.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172262848366ad39832a52e5.65200476.js.obfc"
+    },
+    "\/var\/www\/files\/172371997666bde128982633.38223227.js": {
+        "modified": 1723719976,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172371997666bde128982633.38223227.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172371997666bde128982633.38223227.js.obfc"
+    },
+    "\/var\/www\/files\/172314374166b5163d9808e7.38649010.js": {
+        "modified": 1723143741,
+        "name": "js\/fortunejack.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172314374166b5163d9808e7.38649010.js.obf"
+    },
+    "\/var\/www\/files\/172374980566be55ad2b3129.87893634.js": {
+        "modified": 1723749805,
+        "name": "libs\/helper.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172374980566be55ad2b3129.87893634.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172374980566be55ad2b3129.87893634.js.obfc"
+    },
+    "\/var\/www\/files\/172278028866af8a80c4d422.53372436.js": {
+        "modified": 1722780288,
+        "name": "js\/olimpParent.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172278028866af8a80c4d422.53372436.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172278028866af8a80c4d422.53372436.js.obfc"
+    },
+    "\/var\/www\/files\/171666926166524b4d49b9f9.46085033.js": {
+        "modified": 1716669261,
+        "name": "js\/favbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_171666926166524b4d49b9f9.46085033.js.obf"
+    },
+    "\/var\/www\/files\/172202256966a3faa90ba818.36146137.js": {
+        "modified": 1722022569,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172202256966a3faa90ba818.36146137.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172202256966a3faa90ba818.36146137.js.obfc"
+    },
+    "\/var\/www\/files\/172399367366c20e496c0b31.65532643.js": {
+        "modified": 1723993673,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172399367366c20e496c0b31.65532643.js.obf"
+    },
+    "\/var\/www\/files\/172400380166c235d91a52b5.21569611.js": {
+        "modified": 1724003801,
+        "name": "js\/favbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172400380166c235d91a52b5.21569611.js.obf"
+    },
+    "\/var\/www\/files\/17160463216648c9f1b0f424.82739828.js": {
+        "modified": 1716046321,
+        "name": "js\/stake.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17160463216648c9f1b0f424.82739828.js.obf"
+    },
+    "\/var\/www\/files\/172406685166c32c2394c8c6.59683308.js": {
+        "modified": 1724066851,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172406685166c32c2394c8c6.59683308.js.obf"
+    },
+    "\/var\/www\/files\/172409306066c3928485cb96.67290680.js": {
+        "modified": 1724093060,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172409306066c3928485cb96.67290680.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172409306066c3928485cb96.67290680.js.obfc"
+    },
+    "\/var\/www\/files\/172396168466c191543b7304.95712857.js": {
+        "modified": 1723961684,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172396168466c191543b7304.95712857.js.obf"
+    },
+    "\/var\/www\/files\/1646172583621e99a7793b75.23004783.js": {
+        "modified": 1646172583,
+        "name": "js\/cupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646172583621e99a7793b75.23004783.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1646172583621e99a7793b75.23004783.js.obfc"
+    },
+    "\/var\/www\/files\/172417773966c4dd4bb744b6.06304414.js": {
+        "modified": 1724177739,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172417773966c4dd4bb744b6.06304414.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172417773966c4dd4bb744b6.06304414.js.obfc"
+    },
+    "\/var\/www\/files\/171665308366520c1b37fb33.25390388.js": {
+        "modified": 1716653083,
+        "name": "js\/betcitycupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_171665308366520c1b37fb33.25390388.js.obf"
+    },
+    "\/var\/www\/files\/172294101666b1fe581602b6.65080119.js": {
+        "modified": 1722941016,
+        "name": "js\/gamdom.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172294101666b1fe581602b6.65080119.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172294101666b1fe581602b6.65080119.js.obfc"
+    },
+    "\/var\/www\/files\/16987391646540b3dc7d9877.85547812.js": {
+        "modified": 1698739164,
+        "name": "js\/ligastavok.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_16987391646540b3dc7d9877.85547812.js.obf"
+    },
+    "\/var\/www\/files\/172262851366ad39a13218e1.34586278.js": {
+        "modified": 1722628513,
+        "name": "js\/crashino.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172262851366ad39a13218e1.34586278.js.obf"
+    },
+    "\/var\/www\/files\/170967230765e787730fb440.57885467.js": {
+        "modified": 1709672307,
+        "name": "js\/solcasino.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_170967230765e787730fb440.57885467.js.obf"
+    },
+    "\/var\/www\/files\/172546725866d88a7abbb483.25886872.js": {
+        "modified": 1725467258,
+        "name": "libs\/helper.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172546725866d88a7abbb483.25886872.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172546725866d88a7abbb483.25886872.js.obfc"
+    },
+    "\/var\/www\/files\/172528462666d5c11249b410.69969879.js": {
+        "modified": 1725284626,
+        "name": "js\/fortunejack.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172528462666d5c11249b410.69969879.js.obf"
+    },
+    "\/var\/www\/files\/17176818286661bea4798af2.96103874.js": {
+        "modified": 1717681828,
+        "name": "js\/betboom.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17176818286661bea4798af2.96103874.js.obf"
+    },
+    "\/var\/www\/files\/172536549166d6fcf3e72b93.94775491.js": {
+        "modified": 1725365491,
+        "name": "js\/crashino.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172536549166d6fcf3e72b93.94775491.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172536549166d6fcf3e72b93.94775491.js.obfc"
+    },
+    "\/var\/www\/files\/172770457166faadfbd71541.01940566.js": {
+        "modified": 1727704571,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172770457166faadfbd71541.01940566.js.obf"
+    },
+    "\/var\/www\/files\/172777653966fbc71bc38500.27520064.js": {
+        "modified": 1727776539,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172777653966fbc71bc38500.27520064.js.obf"
+    },
+    "\/var\/www\/files\/172788301466fd670647d557.77179206.js": {
+        "modified": 1727883014,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172788301466fd670647d557.77179206.js.obf"
+    },
+    "\/var\/www\/files\/172597337966e0438383e8f1.20399237.js": {
+        "modified": 1725973379,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172597337966e0438383e8f1.20399237.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172597337966e0438383e8f1.20399237.js.obfc"
+    },
+    "\/var\/www\/files\/17282263426702a42627b6c7.21927877.js": {
+        "modified": 1728226342,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17282263426702a42627b6c7.21927877.js.obf"
+    },
+    "\/var\/www\/files\/17282914346703a26abf79c7.62632832.js": {
+        "modified": 1728291434,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17282914346703a26abf79c7.62632832.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17282914346703a26abf79c7.62632832.js.obfc"
+    },
+    "\/var\/www\/files\/172840845767056b89f05c52.85684050.js": {
+        "modified": 1728408457,
+        "name": "js\/ligastavok.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172840845767056b89f05c52.85684050.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172840845767056b89f05c52.85684050.js.obfc"
+    },
+    "\/var\/www\/files\/17284902986706ab3adfe325.20871810.js": {
+        "modified": 1728490298,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17284902986706ab3adfe325.20871810.js.obf"
+    },
+    "\/var\/www\/files\/17285725736707ec9de56a69.48714004.js": {
+        "modified": 1728572573,
+        "name": "js\/ligastavok.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17285725736707ec9de56a69.48714004.js.obf"
+    },
+    "\/var\/www\/files\/17285834606708172489a7c1.68581473.js": {
+        "modified": 1728583460,
+        "name": "js\/ligastavok.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17285834606708172489a7c1.68581473.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17285834606708172489a7c1.68581473.js.obfc"
+    },
+    "\/var\/www\/files\/172865805567093a87d8ea86.90649925.js": {
+        "modified": 1728658055,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172865805567093a87d8ea86.90649925.js.obf"
+    },
+    "\/var\/www\/files\/172866409967095223edb081.23396791.js": {
+        "modified": 1728664099,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172866409967095223edb081.23396791.js.obf"
+    },
+    "\/var\/www\/files\/17286872416709ac897b24e6.32567861.js": {
+        "modified": 1728687241,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17286872416709ac897b24e6.32567861.js.obf"
+    },
+    "\/var\/www\/files\/1728745130670a8eaa3030d3.84583159.js": {
+        "modified": 1728745130,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1728745130670a8eaa3030d3.84583159.js.obf"
+    },
+    "\/var\/www\/files\/1728748608670a9c40c75b44.68408772.js": {
+        "modified": 1728748608,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1728748608670a9c40c75b44.68408772.js.obf"
+    },
+    "\/var\/www\/files\/1700507024655bad9034ad37.34579325.js": {
+        "modified": 1700507024,
+        "name": "js\/fonru.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1700507024655bad9034ad37.34579325.js.obf"
+    },
+    "\/var\/www\/files\/1729006735670e8c8f153336.62210849.js": {
+        "modified": 1729006735,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729006735670e8c8f153336.62210849.js.obf"
+    },
+    "\/var\/www\/files\/1728994394670e5c5a98c291.83893473.js": {
+        "modified": 1728994394,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1728994394670e5c5a98c291.83893473.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1728994394670e5c5a98c291.83893473.js.obfc"
+    },
+    "\/var\/www\/files\/1728999333670e6fa50e7246.95684546.js": {
+        "modified": 1728999333,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1728999333670e6fa50e7246.95684546.js.obf"
+    },
+    "\/var\/www\/files\/172911402767102fab76df92.64848070.js": {
+        "modified": 1729114027,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172911402767102fab76df92.64848070.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172911402767102fab76df92.64848070.js.obfc"
+    },
+    "\/var\/www\/files\/1729790632671a82a8ac7350.51031435.js": {
+        "modified": 1729790632,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729790632671a82a8ac7350.51031435.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729790632671a82a8ac7350.51031435.js.obfc"
+    },
+    "\/var\/www\/files\/1729881262671be4ae440cc2.97218666.js": {
+        "modified": 1729881262,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729881262671be4ae440cc2.97218666.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729881262671be4ae440cc2.97218666.js.obfc"
+    },
+    "\/var\/www\/files\/1729881276671be4bcca8650.02706465.js": {
+        "modified": 1729881276,
+        "name": "libs\/helper.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729881276671be4bcca8650.02706465.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729881276671be4bcca8650.02706465.js.obfc"
+    },
+    "\/var\/www\/files\/1729881245671be49d941ff0.95845269.js": {
+        "modified": 1729881245,
+        "name": "options.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729881245671be49d941ff0.95845269.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729881245671be49d941ff0.95845269.js.obfc"
+    },
+    "\/var\/www\/files\/1730053346671e84e26453a1.57811111.js": {
+        "modified": 1730053346,
+        "name": "js\/mostobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1730053346671e84e26453a1.57811111.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1730053346671e84e26453a1.57811111.js.obfc"
+    },
+    "\/var\/www\/files\/1729790091671a808bb1a702.69428559.js": {
+        "modified": 1729790091,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729790091671a808bb1a702.69428559.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729790091671a808bb1a702.69428559.js.obfc"
+    },
+    "\/var\/www\/files\/1729517029671655e5586969.63113920.js": {
+        "modified": 1729517029,
+        "name": "js\/bet365.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729517029671655e5586969.63113920.js.obfc"
+    },
+    "\/var\/www\/files\/1729803935671ab69fb39de5.59554947.js": {
+        "modified": 1729803935,
+        "name": "js\/fonbetcupis.mobile.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1729803935671ab69fb39de5.59554947.js.obf"
+    },
+    "\/var\/www\/files\/17303945076723b98b9a6930.27969376.js": {
+        "modified": 1730394507,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17303945076723b98b9a6930.27969376.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17303945076723b98b9a6930.27969376.js.obfc"
+    },
+    "\/var\/www\/files\/17304086936723f0f5961139.04534390.js": {
+        "modified": 1730408693,
+        "name": "js\/bet365.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17304086936723f0f5961139.04534390.js.obfc"
+    },
+    "\/var\/www\/files\/17304111866723fab28b7815.50931713.js": {
+        "modified": 1730411186,
+        "name": "js\/bet365.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17304111866723fab28b7815.50931713.js.obfc",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17304111866723fab28b7815.50931713.js.obf"
+    },
+    "\/var\/www\/files\/1731135652672f08a461b623.21489810.js": {
+        "modified": 1731135652,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1731135652672f08a461b623.21489810.js.obf"
+    },
+    "\/var\/www\/files\/1731143805672f287d4f9424.71597101.js": {
+        "modified": 1731143805,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1731143805672f287d4f9424.71597101.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1731143805672f287d4f9424.71597101.js.obfc"
+    },
+    "\/var\/www\/files\/173134216767322f57b01893.32743487.js": {
+        "modified": 1731342167,
+        "name": "js\/bet365.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173134216767322f57b01893.32743487.js.obfc",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173134216767322f57b01893.32743487.js.obf"
+    },
+    "\/var\/www\/files\/1731527637673503d5889581.11498593.js": {
+        "modified": 1731527637,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1731527637673503d5889581.11498593.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1731527637673503d5889581.11498593.js.obfc"
+    },
+    "\/var\/www\/files\/173162664667368696406763.23861437.js": {
+        "modified": 1731626646,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173162664667368696406763.23861437.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173162664667368696406763.23861437.js.obfc"
+    },
+    "\/var\/www\/files\/1732107411673ddc9348bd54.36349668.js": {
+        "modified": 1732107411,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1732107411673ddc9348bd54.36349668.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1732107411673ddc9348bd54.36349668.js.obfc"
+    },
+    "\/var\/www\/files\/1732113267673df37342cc33.06618381.js": {
+        "modified": 1732113267,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1732113267673df37342cc33.06618381.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1732113267673df37342cc33.06618381.js.obfc"
+    },
+    "\/var\/www\/files\/1732122070673e15d6484d57.46861697.js": {
+        "modified": 1732122070,
+        "name": "js\/bet365.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1732122070673e15d6484d57.46861697.js.obfc",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1732122070673e15d6484d57.46861697.js.obf"
+    },
+    "\/var\/www\/files\/172234987366a8f931e2bb69.63029036.js": {
+        "modified": 1722349873,
+        "name": "js\/winlinecupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_172234987366a8f931e2bb69.63029036.js.obf"
+    },
+    "\/var\/www\/files\/173254127167447b57718736.14085981.js": {
+        "modified": 1732541271,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173254127167447b57718736.14085981.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173254127167447b57718736.14085981.js.obfc"
+    },
+    "\/var\/www\/files\/17326163606745a0a8c18b29.16502796.js": {
+        "modified": 1732616360,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17326163606745a0a8c18b29.16502796.js.obfc"
+    },
+    "\/var\/www\/files\/17326164006745a0d0877ba7.21599571.js": {
+        "modified": 1732616400,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17326164006745a0d0877ba7.21599571.js.obfc"
+    },
+    "\/var\/www\/files\/17326176926745a5dc860974.10166261.js": {
+        "modified": 1732617692,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17326176926745a5dc860974.10166261.js.obfc",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17326176926745a5dc860974.10166261.js.obf"
+    },
+    "\/var\/www\/files\/1732961716674ae5b4baa850.72872023.js": {
+        "modified": 1732961716,
+        "name": "js\/fortunejack.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1732961716674ae5b4baa850.72872023.js.obf"
+    },
+    "\/var\/www\/files\/17333307316750872b1e3151.18165106.js": {
+        "modified": 1733330731,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17333307316750872b1e3151.18165106.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17333307316750872b1e3151.18165106.js.obfc"
+    },
+    "\/var\/www\/files\/17334241776751f431c47065.99648324.js": {
+        "modified": 1733424177,
+        "name": "js\/fortunejack.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17334241776751f431c47065.99648324.js.obf"
+    },
+    "\/var\/www\/files\/173350394067532bc4691f08.96044677.js": {
+        "modified": 1733503940,
+        "name": "js\/leon.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173350394067532bc4691f08.96044677.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173350394067532bc4691f08.96044677.js.obfc"
+    },
+    "\/var\/www\/files\/17344579386761ba52ef5f15.20209883.js": {
+        "modified": 1734457938,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17344579386761ba52ef5f15.20209883.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17344579386761ba52ef5f15.20209883.js.obfc"
+    },
+    "\/var\/www\/files\/173179941267392974f10fc5.26816805.js": {
+        "modified": 1731799412,
+        "name": "js\/fonbetcupis.mobile.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173179941267392974f10fc5.26816805.js.obf"
+    },
+    "\/var\/www\/files\/1735551250677269120ca839.57347788.js": {
+        "modified": 1735551250,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1735551250677269120ca839.57347788.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1735551250677269120ca839.57347788.js.obfc"
+    },
+    "\/var\/www\/files\/1737211962678bc03a28b526.10672173.js": {
+        "modified": 1737211962,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1737211962678bc03a28b526.10672173.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1737211962678bc03a28b526.10672173.js.obfc"
+    },
+    "\/var\/www\/files\/1737305178678d2c5a6d5831.03404345.js": {
+        "modified": 1737305178,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1737305178678d2c5a6d5831.03404345.js.obfc",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1737305178678d2c5a6d5831.03404345.js.obf"
+    },
+    "\/var\/www\/files\/1737414177678ed621177d48.55503978.js": {
+        "modified": 1737414177,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1737414177678ed621177d48.55503978.js.obf"
+    },
+    "\/var\/www\/files\/1737564884679122d4809267.74759504.js": {
+        "modified": 1737564884,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1737564884679122d4809267.74759504.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1737564884679122d4809267.74759504.js.obfc"
+    },
+    "\/var\/www\/files\/1738244060679b7fdcd4e1d5.36202334.js": {
+        "modified": 1738244060,
+        "name": "js\/leon.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1738244060679b7fdcd4e1d5.36202334.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1738244060679b7fdcd4e1d5.36202334.js.obfc"
+    },
+    "\/var\/www\/files\/173887151067a512d65a9d48.13148249.js": {
+        "modified": 1738871510,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173887151067a512d65a9d48.13148249.js.obf"
+    },
+    "\/var\/www\/files\/173920552667aa2b960feda3.67658884.js": {
+        "modified": 1739205526,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173920552667aa2b960feda3.67658884.js.obf"
+    },
+    "\/var\/www\/files\/174117387667c834741e76e8.83607006.js": {
+        "modified": 1741173876,
+        "name": "js\/vave.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174117387667c834741e76e8.83607006.js.obf"
+    },
+    "\/var\/www\/files\/173937178167acb50599ff09.30441572.js": {
+        "modified": 1739371781,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_173937178167acb50599ff09.30441572.js.obf"
+    },
+    "\/var\/www\/files\/174222520567d83f357e5b41.16056232.js": {
+        "modified": 1742225205,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174222520567d83f357e5b41.16056232.js.obf"
+    },
+    "\/var\/www\/files\/174274975767e0403d2a8bf3.64784416.js": {
+        "modified": 1742749757,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174274975767e0403d2a8bf3.64784416.js.obf"
+    },
+    "\/var\/www\/files\/174290690167e2a615b9e7d0.75872102.js": {
+        "modified": 1742906901,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174290690167e2a615b9e7d0.75872102.js.obf"
+    },
+    "\/var\/www\/files\/174301599367e450396ba860.72333123.js": {
+        "modified": 1743015993,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174301599367e450396ba860.72333123.js.obf"
+    },
+    "\/var\/www\/files\/1735602245677330451ee273.82307867.js": {
+        "modified": 1735602245,
+        "name": "js\/bet365.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1735602245677330451ee273.82307867.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1735602245677330451ee273.82307867.js.obfc"
+    },
+    "\/var\/www\/files\/174337168267e9bda2650050.55436690.js": {
+        "modified": 1743371682,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174337168267e9bda2650050.55436690.js.obf"
+    },
+    "\/var\/www\/files\/174405456867f429289e47a6.67452714.js": {
+        "modified": 1744054568,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174405456867f429289e47a6.67452714.js.obf"
+    },
+    "\/var\/www\/files\/174438670267f93a8e2a0b93.07166589.js": {
+        "modified": 1744386702,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174438670267f93a8e2a0b93.07166589.js.obf"
+    },
+    "\/var\/www\/files\/174405438367f4286fb8b980.16801670.js": {
+        "modified": 1744054383,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174405438367f4286fb8b980.16801670.js.obf"
+    },
+    "\/var\/www\/files\/17461959776814d609e376e1.62116674.js": {
+        "modified": 1746195977,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17461959776814d609e376e1.62116674.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17461959776814d609e376e1.62116674.js.obfc"
+    },
+    "\/var\/www\/files\/1745865544680fcb486fc666.91269703.js": {
+        "modified": 1745865544,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1745865544680fcb486fc666.91269703.js.obf"
+    },
+    "\/var\/www\/files\/1746723572681ce2f42b5c31.09089428.js": {
+        "modified": 1746723572,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1746723572681ce2f42b5c31.09089428.js.obf"
+    },
+    "\/var\/www\/files\/174394220167f272393ee581.10656397.js": {
+        "modified": 1743942201,
+        "name": "js\/stake.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174394220167f272393ee581.10656397.js.obf"
+    },
+    "\/var\/www\/files\/17484301406836ed3c861cb9.89240196.js": {
+        "modified": 1748430140,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17484301406836ed3c861cb9.89240196.js.obf"
+    },
+    "\/var\/www\/files\/17491907786842887a7f1406.93707960.js": {
+        "modified": 1749190778,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17491907786842887a7f1406.93707960.js.obf"
+    },
+    "\/var\/www\/files\/1749190845684288bd5c4da8.79421910.js": {
+        "modified": 1749190845,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1749190845684288bd5c4da8.79421910.js.obfc"
+    },
+    "\/var\/www\/files\/174932517368449575647216.28850371.js": {
+        "modified": 1749325173,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_174932517368449575647216.28850371.js.obf"
+    },
+    "\/var\/www\/files\/17493252066844959609d430.20056437.js": {
+        "modified": 1749325206,
+        "name": "libs\/helper.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17493252066844959609d430.20056437.js.obf"
+    },
+    "\/var\/www\/files\/175069946668598dca527f13.61290303.js": {
+        "modified": 1750699466,
+        "name": "js\/stake.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175069946668598dca527f13.61290303.js.obf"
+    },
+    "\/var\/www\/files\/17513862016864085976d670.05601330.js": {
+        "modified": 1751386201,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17513862016864085976d670.05601330.js.obf"
+    },
+    "\/var\/www\/files\/17513862156864086732b7e8.30622585.js": {
+        "modified": 1751386215,
+        "name": "libs\/helper.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17513862156864086732b7e8.30622585.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17513862156864086732b7e8.30622585.js.obfc"
+    },
+    "\/var\/www\/files\/17513862456864088531b415.16164483.js": {
+        "modified": 1751386245,
+        "name": "options.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17513862456864088531b415.16164483.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17513862456864088531b415.16164483.js.obfc"
+    },
+    "\/var\/www\/files\/17526599896877781595d896.45004080.js": {
+        "modified": 1752659989,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17526599896877781595d896.45004080.js.obf"
+    },
+    "\/var\/www\/files\/1752066764686e6accd750d3.80022113.js": {
+        "modified": 1752066764,
+        "name": "js\/vave.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1752066764686e6accd750d3.80022113.js.obf"
+    },
+    "\/var\/www\/files\/1752910328687b49f8074df2.99280687.js": {
+        "modified": 1752910328,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1752910328687b49f8074df2.99280687.js.obf"
+    },
+    "\/var\/www\/files\/1753212134687fe4e66575e5.39922993.js": {
+        "modified": 1753212134,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1753212134687fe4e66575e5.39922993.js.obf"
+    },
+    "\/var\/www\/files\/175330400168814bc1d360d8.47331459.js": {
+        "modified": 1753304001,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175330400168814bc1d360d8.47331459.js.obf"
+    },
+    "\/var\/www\/files\/17534635056883bad16203d6.30771934.js": {
+        "modified": 1753463505,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17534635056883bad16203d6.30771934.js.obf"
+    },
+    "\/var\/www\/files\/17535430176884f169b77154.99028127.js": {
+        "modified": 1753543017,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17535430176884f169b77154.99028127.js.obf"
+    },
+    "\/var\/www\/files\/1754222479688f4f8f86ab63.93466849.js": {
+        "modified": 1754222479,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754222479688f4f8f86ab63.93466849.js.obf"
+    },
+    "\/var\/www\/files\/1754241554688f9a12e04040.45137757.js": {
+        "modified": 1754241554,
+        "name": "js\/betboom.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754241554688f9a12e04040.45137757.js.obf"
+    },
+    "\/var\/www\/files\/1754241696688f9aa0966f32.09827786.js": {
+        "modified": 1754241696,
+        "name": "js\/ligastavok.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754241696688f9aa0966f32.09827786.js.obf"
+    },
+    "\/var\/www\/files\/1754246184688fac2802fa95.61023019.js": {
+        "modified": 1754246184,
+        "name": "js\/roobet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754246184688fac2802fa95.61023019.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754246184688fac2802fa95.61023019.js.obfc"
+    },
+    "\/var\/www\/files\/1754159774688e5a9e590773.42054693.js": {
+        "modified": 1754159774,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754159774688e5a9e590773.42054693.js.obf"
+    },
+    "\/var\/www\/files\/1754503090689397b25be107.12752786.js": {
+        "modified": 1754503090,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754503090689397b25be107.12752786.js.obf"
+    },
+    "\/var\/www\/files\/17546450846895c25c7b90a8.08550585.js": {
+        "modified": 1754645084,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17546450846895c25c7b90a8.08550585.js.obf"
+    },
+    "\/var\/www\/files\/17549054116899bb43d22e66.96777597.js": {
+        "modified": 1754905411,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17549054116899bb43d22e66.96777597.js.obf"
+    },
+    "\/var\/www\/files\/1755023045689b86c5d89203.50022661.js": {
+        "modified": 1755023045,
+        "name": "js\/betboom.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755023045689b86c5d89203.50022661.js.obf"
+    },
+    "\/var\/www\/files\/1755288216689f92989f2dd6.46256589.js": {
+        "modified": 1755288216,
+        "name": "js\/betboom.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755288216689f92989f2dd6.46256589.js.obf"
+    },
+    "\/var\/www\/files\/1755262214689f2d06893a07.26122446.js": {
+        "modified": 1755262214,
+        "name": "js\/ligastavok.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755262214689f2d06893a07.26122446.js.obf"
+    },
+    "\/var\/www\/files\/1754678991689646cff3abd2.03507503.js": {
+        "modified": 1754678991,
+        "name": "js\/stake.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754678991689646cff3abd2.03507503.js.obf"
+    },
+    "\/var\/www\/files\/1753208799687fd7df1ee388.47388258.js": {
+        "modified": 1753208799,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1753208799687fd7df1ee388.47388258.js.obf"
+    },
+    "\/var\/www\/files\/1754159213688e586dea1193.22054041.js": {
+        "modified": 1754159213,
+        "name": "js\/chips.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1754159213688e586dea1193.22054041.js.obf"
+    },
+    "\/var\/www\/files\/1755079030689c6176a01b35.91431560.js": {
+        "modified": 1755079030,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755079030689c6176a01b35.91431560.js.obf"
+    },
+    "\/var\/www\/files\/175369430968874065551041.89861478.js": {
+        "modified": 1753694309,
+        "name": "js\/razed.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175369430968874065551041.89861478.js.obf"
+    },
+    "\/var\/www\/files\/175554113368a36e8d674197.96465427.js": {
+        "modified": 1755541133,
+        "name": "js\/stake.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175554113368a36e8d674197.96465427.js.obf"
+    },
+    "\/var\/www\/files\/1755088495689c866f015814.54977743.js": {
+        "modified": 1755088495,
+        "name": "js\/melbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755088495689c866f015814.54977743.js.obf"
+    },
+    "\/var\/www\/files\/1755089292689c898cee99a4.22230198.js": {
+        "modified": 1755089292,
+        "name": "js\/winlinecupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755089292689c898cee99a4.22230198.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755089292689c898cee99a4.22230198.js.obfc"
+    },
+    "\/var\/www\/files\/175570135068a5e066cc0e23.46863108.js": {
+        "modified": 1755701350,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570135068a5e066cc0e23.46863108.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570135068a5e066cc0e23.46863108.js.obfc"
+    },
+    "\/var\/www\/files\/175572190268a630aeba5330.27765136.js": {
+        "modified": 1755721902,
+        "name": "libs\/common.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175572190268a630aeba5330.27765136.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175572190268a630aeba5330.27765136.js.obfc"
+    },
+    "\/var\/www\/files\/175570156868a5e140d17919.88046940.js": {
+        "modified": 1755701568,
+        "name": "js\/stake.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570156868a5e140d17919.88046940.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570156868a5e140d17919.88046940.js.obfc"
+    },
+    "\/var\/www\/files\/1755086430689c7e5e4324a1.25855404.js": {
+        "modified": 1755086430,
+        "name": "js\/betpanda.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755086430689c7e5e4324a1.25855404.js.obf"
+    },
+    "\/var\/www\/files\/175570145568a5e0cf223bd0.03182638.js": {
+        "modified": 1755701455,
+        "name": "js\/ligastavok.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570145568a5e0cf223bd0.03182638.js.obf"
+    },
+    "\/var\/www\/files\/1755087810689c83c2169cf7.79748906.js": {
+        "modified": 1755087810,
+        "name": "js\/vave.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755087810689c83c2169cf7.79748906.js.obf"
+    },
+    "\/var\/www\/files\/1755087882689c840a40da40.13976953.js": {
+        "modified": 1755087882,
+        "name": "js\/tether.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755087882689c840a40da40.13976953.js.obf"
+    },
+    "\/var\/www\/files\/175570114968a5df9dae89a3.20757626.js": {
+        "modified": 1755701149,
+        "name": "js\/razed.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570114968a5df9dae89a3.20757626.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570114968a5df9dae89a3.20757626.js.obfc"
+    },
+    "\/var\/www\/files\/175570125668a5e0087715c0.48611276.js": {
+        "modified": 1755701256,
+        "name": "js\/csgo500.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570125668a5e0087715c0.48611276.js.obf"
+    },
+    "\/var\/www\/files\/1755088017689c8491b4b663.66463678.js": {
+        "modified": 1755088017,
+        "name": "js\/vbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755088017689c8491b4b663.66463678.js.obf"
+    },
+    "\/var\/www\/files\/175570107168a5df4fe4d578.45901466.js": {
+        "modified": 1755701071,
+        "name": "js\/bcgame.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570107168a5df4fe4d578.45901466.js.obf"
+    },
+    "\/var\/www\/files\/175594651568a99e13c19640.44827170.js": {
+        "modified": 1755946515,
+        "name": "js\/vbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175594651568a99e13c19640.44827170.js.obf"
+    },
+    "\/var\/www\/files\/175597280068aa04c0cfb010.03001022.js": {
+        "modified": 1755972800,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175597280068aa04c0cfb010.03001022.js.obf"
+    },
+    "\/var\/www\/files\/1755084937689c78891a4c72.36540601.js": {
+        "modified": 1755084937,
+        "name": "js\/batery.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755084937689c78891a4c72.36540601.js.obf"
+    },
+    "\/var\/www\/files\/175622270368add4ef0a2b86.92275478.js": {
+        "modified": 1756222703,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175622270368add4ef0a2b86.92275478.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175622270368add4ef0a2b86.92275478.js.obfc"
+    },
+    "\/var\/www\/files\/1755087955689c84535b2496.86157323.js": {
+        "modified": 1755087955,
+        "name": "js\/wild.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755087955689c84535b2496.86157323.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755087955689c84535b2496.86157323.js.obfc"
+    },
+    "\/var\/www\/files\/175618641068ad472a62ac52.97141924.js": {
+        "modified": 1756186410,
+        "name": "js\/vbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175618641068ad472a62ac52.97141924.js.obf"
+    },
+    "\/var\/www\/files\/175633172568af7ecdb0aca0.99853799.js": {
+        "modified": 1756331725,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175633172568af7ecdb0aca0.99853799.js.obf"
+    },
+    "\/var\/www\/files\/175603893768ab0719cb62c6.24333753.js": {
+        "modified": 1756038937,
+        "name": "js\/ligastavok.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175603893768ab0719cb62c6.24333753.js.obf"
+    },
+    "\/var\/www\/files\/175570118668a5dfc2a64c74.62390110.js": {
+        "modified": 1755701186,
+        "name": "js\/chips.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175570118668a5dfc2a64c74.62390110.js.obf"
+    },
+    "\/var\/www\/files\/175640489968b09ca3591bf6.07186548.js": {
+        "modified": 1756404899,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175640489968b09ca3591bf6.07186548.js.obf"
+    },
+    "\/var\/www\/files\/175641160368b0b6d3970d65.41250118.js": {
+        "modified": 1756411603,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175641160368b0b6d3970d65.41250118.js.obf"
+    },
+    "\/var\/www\/files\/175642011168b0d80f92e965.22464461.js": {
+        "modified": 1756420111,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175642011168b0d80f92e965.22464461.js.obf"
+    },
+    "\/var\/www\/files\/175664905468b4565e5ad662.81848350.js": {
+        "modified": 1756649054,
+        "name": "js\/vbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175664905468b4565e5ad662.81848350.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175664905468b4565e5ad662.81848350.js.obfc"
+    },
+    "\/var\/www\/files\/1755088763689c877be3bd23.02324318.js": {
+        "modified": 1755088763,
+        "name": "js\/olimpCupis.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755088763689c877be3bd23.02324318.js.obf"
+    },
+    "\/var\/www\/files\/175673468668b5a4de016460.75999759.js": {
+        "modified": 1756734686,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175673468668b5a4de016460.75999759.js.obf"
+    },
+    "\/var\/www\/files\/175647040368b19c8302c9c8.21367909.js": {
+        "modified": 1756470403,
+        "name": "js\/betplay.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175647040368b19c8302c9c8.21367909.js.obf"
+    },
+    "\/var\/www\/files\/175684659668b75a04574a59.45599061.js": {
+        "modified": 1756846596,
+        "name": "js\/vbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175684659668b75a04574a59.45599061.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175684659668b75a04574a59.45599061.js.obfc"
+    },
+    "\/var\/www\/files\/175691451168b8634f596083.27481040.js": {
+        "modified": 1756914511,
+        "name": "js\/wild.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175691451168b8634f596083.27481040.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175691451168b8634f596083.27481040.js.obfc"
+    },
+    "\/var\/www\/files\/1755089100689c88ccd596c5.93281101.js": {
+        "modified": 1755089100,
+        "name": "js\/leon.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755089100689c88ccd596c5.93281101.js.obf"
+    },
+    "\/var\/www\/files\/175692891968b89b9786fc06.82862733.js": {
+        "modified": 1756928919,
+        "name": "js\/onewin.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175692891968b89b9786fc06.82862733.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175692891968b89b9786fc06.82862733.js.obfc"
+    },
+    "\/var\/www\/files\/175679419268b68d505ee294.20736367.js": {
+        "modified": 1756794192,
+        "name": "js\/fonru.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175679419268b68d505ee294.20736367.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175679419268b68d505ee294.20736367.js.obfc"
+    },
+    "\/var\/www\/files\/175640926868b0adb473d552.44144786.js": {
+        "modified": 1756409268,
+        "name": "js\/1xbet.js",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175640926868b0adb473d552.44144786.js.obf",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175640926868b0adb473d552.44144786.js.obfc"
+    },
+    "\/var\/www\/files\/175769145668c43e4091fd37.02519870.js": {
+        "modified": 1757691456,
+        "name": "js\/vave.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175769145668c43e4091fd37.02519870.js.obfc"
+    },
+    "\/var\/www\/files\/175796316668c8639e807992.20809857.js": {
+        "modified": 1757963166,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175796316668c8639e807992.20809857.js.obfc"
+    },
+    "\/var\/www\/files\/175796698768c8728be508e8.86267270.js": {
+        "modified": 1757966987,
+        "name": "js\/stake.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175796698768c8728be508e8.86267270.js.obfc"
+    },
+    "\/var\/www\/files\/175693316468b8ac2c08a294.35829432.js": {
+        "modified": 1756933164,
+        "name": "js\/betplay.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175693316468b8ac2c08a294.35829432.js.obfc"
+    },
+    "\/var\/www\/files\/175804292768c99b2fedae71.14034248.js": {
+        "modified": 1758042927,
+        "name": "js\/stake.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175804292768c99b2fedae71.14034248.js.obfc"
+    },
+    "\/var\/www\/files\/175805605868c9ce7a3862d3.91400265.js": {
+        "modified": 1758056058,
+        "name": "js\/stake.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175805605868c9ce7a3862d3.91400265.js.obfc"
+    },
+    "\/var\/www\/files\/175769151468c43e7ae2a482.85787783.js": {
+        "modified": 1757691514,
+        "name": "js\/cryptocasino.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175769151468c43e7ae2a482.85787783.js.obfc"
+    },
+    "\/var\/www\/files\/175811744868cabe4899d669.39334460.js": {
+        "modified": 1758117448,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175811744868cabe4899d669.39334460.js.obfc"
+    },
+    "\/var\/www\/files\/175811745668cabe5066ca27.83325152.js": {
+        "modified": 1758117456,
+        "name": "js\/fonru.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175811745668cabe5066ca27.83325152.js.obfc"
+    },
+    "\/var\/www\/files\/175769148868c43e605fdaf0.09440996.js": {
+        "modified": 1757691488,
+        "name": "js\/mostobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175769148868c43e605fdaf0.09440996.js.obfc"
+    },
+    "\/var\/www\/files\/175769147868c43e5647f7c6.08740750.js": {
+        "modified": 1757691478,
+        "name": "js\/betpanda.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175769147868c43e5647f7c6.08740750.js.obfc"
+    },
+    "\/var\/www\/files\/175835769668ce68c04d35e0.48351768.js": {
+        "modified": 1758357696,
+        "name": "js\/betpanda.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175835769668ce68c04d35e0.48351768.js.obfc"
+    },
+    "\/var\/www\/files\/175835766968ce68a5d3e8a3.04752720.js": {
+        "modified": 1758357669,
+        "name": "js\/jetvegas.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175835766968ce68a5d3e8a3.04752720.js.obfc"
+    },
+    "\/var\/www\/files\/175835790068ce698ca54518.87645545.js": {
+        "modified": 1758357900,
+        "name": "js\/bcgame.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175835790068ce698ca54518.87645545.js.obfc"
+    },
+    "\/var\/www\/files\/175839165768ceed69cedca4.72172640.js": {
+        "modified": 1758391657,
+        "name": "js\/betplay.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175839165768ceed69cedca4.72172640.js.obfc"
+    },
+    "\/var\/www\/files\/175843722868cf9f6c6b8666.44775566.js": {
+        "modified": 1758437228,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175843722868cf9f6c6b8666.44775566.js.obfc"
+    },
+    "\/var\/www\/files\/175861331668d24f444d3052.04019209.js": {
+        "modified": 1758613316,
+        "name": "js\/betpanda.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175861331668d24f444d3052.04019209.js.obfc"
+    },
+    "\/var\/www\/files\/175862621168d281a3c158c1.37022902.js": {
+        "modified": 1758626211,
+        "name": "js\/stake.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175862621168d281a3c158c1.37022902.js.obfc"
+    },
+    "\/var\/www\/files\/175862631568d2820b563096.76880083.js": {
+        "modified": 1758626315,
+        "name": "js\/mostobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175862631568d2820b563096.76880083.js.obfc"
+    },
+    "\/var\/www\/files\/175864067268d2ba20c6db69.12507076.js": {
+        "modified": 1758640672,
+        "name": "js\/onewin.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175864067268d2ba20c6db69.12507076.js.obfc"
+    },
+    "\/var\/www\/files\/175862690368d28457eab192.42462762.js": {
+        "modified": 1758626903,
+        "name": "js\/fortunejack.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175862690368d28457eab192.42462762.js.obfc",
+        "obfuscated_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175862690368d28457eab192.42462762.js.obf"
+    },
+    "\/var\/www\/files\/175882660968d590716de058.48608687.js": {
+        "modified": 1758826609,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175882660968d590716de058.48608687.js.obfc"
+    },
+    "\/var\/www\/files\/175862720568d28585d75cd7.64875446.js": {
+        "modified": 1758627205,
+        "name": "js\/bcgame.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175862720568d28585d75cd7.64875446.js.obfc"
+    },
+    "\/var\/www\/files\/175895273968d77d2319aee8.40278108.js": {
+        "modified": 1758952739,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175895273968d77d2319aee8.40278108.js.obfc"
+    },
+    "\/var\/www\/files\/175895722068d78ea491eab9.04222368.js": {
+        "modified": 1758957220,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175895722068d78ea491eab9.04222368.js.obfc"
+    },
+    "\/var\/www\/files\/175862695668d2848c2c1f33.55013362.js": {
+        "modified": 1758626956,
+        "name": "js\/csgo500.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175862695668d2848c2c1f33.55013362.js.obfc"
+    },
+    "\/var\/www\/files\/175940132168de55693f9605.28647899.js": {
+        "modified": 1759401321,
+        "name": "js\/olimpParent.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175940132168de55693f9605.28647899.js.obfc"
+    },
+    "\/var\/www\/files\/175959807668e155fcea1c22.32117308.js": {
+        "modified": 1759598076,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175959807668e155fcea1c22.32117308.js.obfc"
+    },
+    "\/var\/www\/files\/175961029568e185b7703672.60379786.js": {
+        "modified": 1759610295,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175961029568e185b7703672.60379786.js.obfc"
+    },
+    "\/var\/www\/files\/175966794968e266edef9df2.97344449.js": {
+        "modified": 1759667949,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175966794968e266edef9df2.97344449.js.obfc"
+    },
+    "\/var\/www\/files\/175951842968e01eddd5ca58.47775825.js": {
+        "modified": 1759518429,
+        "name": "js\/vbet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175951842968e01eddd5ca58.47775825.js.obfc"
+    },
+    "\/var\/www\/files\/176009762568e8f559b2c895.76355159.js": {
+        "modified": 1760097625,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176009762568e8f559b2c895.76355159.js.obfc"
+    },
+    "\/var\/www\/files\/176019942368ea82ff89a8c5.05901224.js": {
+        "modified": 1760199423,
+        "name": "js\/mellstroy.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176019942368ea82ff89a8c5.05901224.js.obfc"
+    },
+    "\/var\/www\/files\/176050930768ef3d7b4ab1b1.46658290.js": {
+        "modified": 1760509307,
+        "name": "libs\/helper.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176050930768ef3d7b4ab1b1.46658290.js.obfc"
+    },
+    "\/var\/www\/files\/175882661768d590792d4e48.90030457.js": {
+        "modified": 1758826617,
+        "name": "js\/mostobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175882661768d590792d4e48.90030457.js.obfc"
+    },
+    "\/var\/www\/files\/176078833268f37f6c06a2f7.39774988.js": {
+        "modified": 1760788332,
+        "name": "js\/vbet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176078833268f37f6c06a2f7.39774988.js.obfc"
+    },
+    "\/var\/www\/files\/176080712368f3c8d34417c6.41154381.js": {
+        "modified": 1760807123,
+        "name": "js\/vbet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176080712368f3c8d34417c6.41154381.js.obfc"
+    },
+    "\/var\/www\/files\/175985915668e551d46039f2.81749789.js": {
+        "modified": 1759859156,
+        "name": "js\/duel.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175985915668e551d46039f2.81749789.js.obfc"
+    },
+    "\/var\/www\/files\/175862658868d2831c0254b6.12451453.js": {
+        "modified": 1758626588,
+        "name": "js\/ligastavok.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175862658868d2831c0254b6.12451453.js.obfc"
+    },
+    "\/var\/www\/files\/175952540768e03a1f34c566.26511533.js": {
+        "modified": 1759525407,
+        "name": "js\/vave.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175952540768e03a1f34c566.26511533.js.obfc"
+    },
+    "\/var\/www\/files\/176194650969052b8d94bb35.49410303.js": {
+        "modified": 1761946509,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176194650969052b8d94bb35.49410303.js.obfc"
+    },
+    "\/var\/www\/files\/1762206194690921f28907d9.80042353.js": {
+        "modified": 1762206194,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1762206194690921f28907d9.80042353.js.obfc"
+    },
+    "\/var\/www\/files\/17622612146909f8dee7e411.49885949.js": {
+        "modified": 1762261214,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17622612146909f8dee7e411.49885949.js.obfc"
+    },
+    "\/var\/www\/files\/175871712568d3e4c5e26680.07285346.js": {
+        "modified": 1758717125,
+        "name": "js\/olimpCupis.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175871712568d3e4c5e26680.07285346.js.obfc"
+    },
+    "\/var\/www\/files\/176287164969134961967403.93861110.js": {
+        "modified": 1762871649,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176287164969134961967403.93861110.js.obfc"
+    },
+    "\/var\/www\/files\/176288462469137c10e390c8.30994708.js": {
+        "modified": 1762884624,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176288462469137c10e390c8.30994708.js.obfc"
+    },
+    "\/var\/www\/files\/175940441968de61835d85d6.10359492.js": {
+        "modified": 1759404419,
+        "name": "js\/betboom.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_175940441968de61835d85d6.10359492.js.obfc"
+    },
+    "\/var\/www\/files\/176313105869173eb269f260.80067778.js": {
+        "modified": 1763131058,
+        "name": "libs\/offscreen.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176313105869173eb269f260.80067778.js.obfc"
+    },
+    "\/var\/www\/files\/17630482526915fb3c8b8115.46556413.js": {
+        "modified": 1763048252,
+        "name": "js\/bcgame.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630482526915fb3c8b8115.46556413.js.obfc"
+    },
+    "\/var\/www\/files\/17630485076915fc3b95e411.43847173.js": {
+        "modified": 1763048507,
+        "name": "js\/ligastavok.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630485076915fc3b95e411.43847173.js.obfc"
+    },
+    "\/var\/www\/files\/17630481096915faad510224.85989032.js": {
+        "modified": 1763048109,
+        "name": "js\/rainbet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630481096915faad510224.85989032.js.obfc"
+    },
+    "\/var\/www\/files\/17630480456915fa6d392179.30786887.js": {
+        "modified": 1763048045,
+        "name": "js\/mellstroy.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630480456915fa6d392179.30786887.js.obfc"
+    },
+    "\/var\/www\/files\/17630482256915fb212f1f66.90405438.js": {
+        "modified": 1763048225,
+        "name": "js\/onewin.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630482256915fb212f1f66.90405438.js.obfc"
+    },
+    "\/var\/www\/files\/17630479496915fa0d3e9cb4.84598083.js": {
+        "modified": 1763047949,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630479496915fa0d3e9cb4.84598083.js.obfc"
+    },
+    "\/var\/www\/files\/17631450216917753d873732.15334361.js": {
+        "modified": 1763145021,
+        "name": "js\/stake.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17631450216917753d873732.15334361.js.obfc"
+    },
+    "\/var\/www\/files\/1763578714691e135a8bd873.81871731.js": {
+        "modified": 1763578714,
+        "name": "js\/vave.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1763578714691e135a8bd873.81871731.js.obfc"
+    },
+    "\/var\/www\/files\/17630480786915fa8e2103d6.95082182.js": {
+        "modified": 1763048078,
+        "name": "js\/betboom.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630480786915fa8e2103d6.95082182.js.obfc"
+    },
+    "\/var\/www\/files\/1763640850691f06125342f1.26860433.js": {
+        "modified": 1763640850,
+        "name": "js\/vave.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1763640850691f06125342f1.26860433.js.obfc"
+    },
+    "\/var\/www\/files\/1763648808691f2528286e08.66255544.js": {
+        "modified": 1763648808,
+        "name": "js\/stake.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1763648808691f2528286e08.66255544.js.obfc"
+    },
+    "\/var\/www\/files\/17637702546920ff8e0d5c30.03842751.js": {
+        "modified": 1763770254,
+        "name": "js\/onewin.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17637702546920ff8e0d5c30.03842751.js.obfc"
+    },
+    "\/var\/www\/files\/17638960986922eb22e1fa23.52874545.js": {
+        "modified": 1763896098,
+        "name": "js\/mellstroy.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17638960986922eb22e1fa23.52874545.js.obfc"
+    },
+    "\/var\/www\/files\/17630482036915fb0b048033.63254475.js": {
+        "modified": 1763048203,
+        "name": "js\/mostobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630482036915fb0b048033.63254475.js.obfc"
+    },
+    "\/var\/www\/files\/176070871368f24869889a31.63214697.js": {
+        "modified": 1760708713,
+        "name": "js\/jetvegas.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176070871368f24869889a31.63214697.js.obfc"
+    },
+    "\/var\/www\/files\/17630479776915fa29b9ac59.52978036.js": {
+        "modified": 1763047977,
+        "name": "js\/duel.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630479776915fa29b9ac59.52978036.js.obfc"
+    },
+    "\/var\/www\/files\/17630481416915facd1bdaa9.24648402.js": {
+        "modified": 1763048141,
+        "name": "js\/fonbetcupis.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17630481416915facd1bdaa9.24648402.js.obfc"
+    },
+    "\/var\/www\/files\/17647946726930a13005b650.07989557.js": {
+        "modified": 1764794672,
+        "name": "js\/vave.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17647946726930a13005b650.07989557.js.obfc"
+    },
+    "\/var\/www\/files\/1755084971689c78abd4d247.56001833.js": {
+        "modified": 1755084971,
+        "name": "js\/fonbetby.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1755084971689c78abd4d247.56001833.js.obfc"
+    },
+    "\/var\/www\/files\/17653969906939d1fe0f0286.94496803.js": {
+        "modified": 1765396990,
+        "name": "js\/fonbetby.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17653969906939d1fe0f0286.94496803.js.obfc"
+    },
+    "\/var\/www\/files\/1765556556693c414ca960e5.84741948.js": {
+        "modified": 1765556556,
+        "name": "js\/mellstroy.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1765556556693c414ca960e5.84741948.js.obfc"
+    },
+    "\/var\/www\/files\/1765832658694077d2a90241.97286889.js": {
+        "modified": 1765832658,
+        "name": "js\/betpanda.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1765832658694077d2a90241.97286889.js.obfc"
+    },
+    "\/var\/www\/files\/1765832925694078dd4a6023.20644828.js": {
+        "modified": 1765832925,
+        "name": "js\/bcgame.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1765832925694078dd4a6023.20644828.js.obfc"
+    },
+    "\/var\/www\/files\/17658327176940780dc462d5.43196939.js": {
+        "modified": 1765832717,
+        "name": "js\/jbcom.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17658327176940780dc462d5.43196939.js.obfc"
+    },
+    "\/var\/www\/files\/1765832959694078ff13cad7.80984421.js": {
+        "modified": 1765832959,
+        "name": "js\/csgo500.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_1765832959694078ff13cad7.80984421.js.obfc"
+    },
+    "\/var\/www\/files\/176583280069407860658384.40045816.js": {
+        "modified": 1765832800,
+        "name": "js\/roobet.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176583280069407860658384.40045816.js.obfc"
+    },
+    "\/var\/www\/files\/176686610769503cbbe01826.64530402.js": {
+        "modified": 1766866107,
+        "name": "js\/onewin.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176686610769503cbbe01826.64530402.js.obfc"
+    },
+    "\/var\/www\/files\/17668923856950a3613e8262.02236527.js": {
+        "modified": 1766892385,
+        "name": "js\/mellstroy.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_17668923856950a3613e8262.02236527.js.obfc"
+    },
+    "\/var\/www\/files\/176694788269517c2a682e52.79022896.js": {
+        "modified": 1766947882,
+        "name": "js\/mellstroy.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176694788269517c2a682e52.79022896.js.obfc"
+    },
+    "\/var\/www\/files\/176694743569517a6ba27302.92721646.js": {
+        "modified": 1766947435,
+        "name": "js\/onewin.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176694743569517a6ba27302.92721646.js.obfc"
+    },
+    "\/var\/www\/files\/176789942469600120ba0f26.81780054.js": {
+        "modified": 1767899424,
+        "name": "js\/mellstroy.js",
+        "obfuscated_wc_filename": "\/var\/www\/modules\/BotManager\/Helpers\/..\/..\/..\/files\/_var_www_files_176789942469600120ba0f26.81780054.js.obfc"
+    }
+}

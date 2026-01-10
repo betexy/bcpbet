@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bet Bot Options</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Stake:</td>
+        <td><input type="number" value="" id="stake" style="min-width: 50px;"/></td>
+    </tr>
+    <tr>
+        <td>Currency:</td>
+        <td><select id="currency">
+            <option value=""></option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="RUB">RUB</option>
+            <option value="GBP">GBP</option>
+            <option value="CAD">CAD</option>
+            <option value="BRL">BRL</option>
+            <option value="INR">INR</option>
+            <option value="UAH">UAH</option>
+            <option value="THB">THB</option>
+            <option value="IDR">IDR</option>
+            <option value="KZT">KZT</option>
+            <option value="AZN">AZN</option>
+            <option value="BYN">BYN</option>
+            <option value="BGN">BGN</option>
+            <option value="CHF">CHF</option>
+            <option value="SEK">SEK</option>
+        </select></td>
+    </tr>
+    <tr>
+        <td colspan="2" id="status" style="color: red; font-weight: bold;">
+            Note:<br/>if value is -1 it means use stake from config, if it differs - override stake,<br />
+            if currency is empty it means use currency from config, overwise - use from here.
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="button" value="Save" id="save" style="min-width: 100%"/>
+        </td>
+    </tr>
+</table>
+<script src="options.js"></script>
+</body>
+</html>
