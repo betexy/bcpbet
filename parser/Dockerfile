@@ -26,8 +26,8 @@ RUN apt-get update && apt-get install -y \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHPRedis
-RUN pecl install redis \
+# Install PHPRedis (version compatible with PHP 7.3)
+RUN pecl install redis-4.3.0 \
     && docker-php-ext-enable redis
 
 # Install extensions

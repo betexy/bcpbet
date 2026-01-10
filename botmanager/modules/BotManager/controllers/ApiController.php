@@ -442,9 +442,9 @@ class ApiController extends \yii\web\Controller
                     $redis->del($betInfoKey);
                 }
             } else {
-                // Bet was successfully placed - remove lock after some time (cleanup)
-                // Keep lock for a while to prevent immediate reuse, but set shorter expiry
-                $redis->expire($betLockKey, 10); // Keep for 10 seconds, then auto-expire
+                // Bet was successfully placed - extend lock to 10 minutes to prevent reuse
+                // This ensures the bet won't be available for other clients for a longer period
+                $redis->expire($betLockKey, 600); // Lock for 10 minutes (600 seconds)
             }
             
             // Close connection only if we created it directly

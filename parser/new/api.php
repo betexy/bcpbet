@@ -194,13 +194,15 @@ foreach ($bets as $index => $bet) {
     // Check if this bet is locked by current client (already taken by this client)
     $lockedBy = $redis->get($betLockKey);
     if ($lockedBy === $clientId) {
-        // Client already has this bet, return it
+        // Client already has this bet, return it again and refresh lock
+        // This allows client to retrieve the bet again if needed (e.g., after page reload)
         $availableBet = $bet;
         $betIndex = $index;
         // Refresh lock
         $redis->expire($betLockKey, 120);
         break;
     }
+    // If locked by another client, continue to next bet
 }
 
 if ($availableBet === null) {
