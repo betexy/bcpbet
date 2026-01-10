@@ -355,7 +355,51 @@
                 return this.complex.proceedAnswer();
             } else {
                 return {
-                    'F_BET': (message, bk) => {
+                    'F_BET': async (message, bk) => {
+                        // Check if this is from new parser and send report
+                        const isNewParser = message.data && message.data[0] && 
+                            (message.data[0]._parser_bet_id || message.data[0].betFromParser === true);
+                        
+                        if (isNewParser && message.data && message.data[0]) {
+                            const betData = message.data[0];
+                            // Check if parser URL contains /new/
+                            const parserUrl = betData._parser_url || '';
+                            if (parserUrl && parserUrl.indexOf('/new/') > -1) {
+                                const reportData = {
+                                    action: 'BET_RESULT',
+                                    result: message.data[0].status === 'ACCEPTED' ? 'SUCCESS' : 'FAILED',
+                                    message: message.data[0].status === 'ACCEPTED' ? 'Bet placed successfully' : `Bet not placed: ${message.data[0].status}`,
+                                    room: {
+                                        bk: this.common.intBkToExternal(bk),
+                                        uid: this.common.s.websocket_uid,
+                                        state: message.data[0].status === 'ACCEPTED' ? 'ACCEPTED' : 'FAILED',
+                                        balance: message?.data?.balance || this.common.bkBalances[bk] || '0'
+                                    },
+                                    data: {
+                                        status: message.data[0].status || 'FAILED',
+                                        bet_id: betData._parser_bet_id || '',
+                                        parser_url: parserUrl,
+                                        external_id: message.data[0].external_id || '',
+                                        market: message.data[0].market || '',
+                                        target: message.data[0].target || '',
+                                        pivot: message.data[0].pivot || '',
+                                        coef: message.data[0].coef || '',
+                                        stake: message.data[0].stake || '',
+                                        maximum: message.data[0].maximum || '0'
+                                    },
+                                    original_command: 'BET',
+                                    betFromParser: true,
+                                    parser_bet_id: betData._parser_bet_id || '',
+                                    parser_url: parserUrl,
+                                    client_id: betData._parser_client_id || this.common.s.websocket_uid,
+                                    timestamp: Date.now()
+                                };
+                                
+                                // Send report to Reports API
+                                await this.common._sendParserReport(reportData);
+                            }
+                        }
+                        
                         this.common.sendAnswer(bk, {
                             action: 'F_BET',
                             data: message.data,

@@ -3521,6 +3521,76 @@ class Common {
     }
 
     /**
+     * Check if parser URL is a new parser (contains /new/)
+     * @param {string} url - Parser URL
+     * @returns {boolean}
+     */
+    _isNewParserUrl(url) {
+        return typeof url === 'string' && url.indexOf('/new/') > -1;
+    }
+
+    /**
+     * Send report to Reports API for new parser bets
+     * @param {object} reportData - Report data with bet information
+     */
+    async _sendParserReport(reportData) {
+        try {
+            // Determine base URL from websocket_url
+            // For example: ws://localhost:9293 -> http://localhost
+            // or wss://bcpbet.com:9293 -> https://bcpbet.com
+            let baseUrl = '';
+            if (this._settings.websocket_url) {
+                const protocol = this._settings.websocket_url.startsWith('wss') ? 'https' : 'http';
+                const wsUrl = this._settings.websocket_url.replace(/^wss?:\/\//, '');
+                const host = wsUrl.split(':')[0].split('/')[0];
+                baseUrl = `${protocol}://${host}`;
+            } else {
+                // Fallback: try to use current origin (if available in extension context)
+                if (typeof window !== 'undefined' && window.location) {
+                    baseUrl = `${window.location.protocol}//${window.location.host}`;
+                } else {
+                    // Last fallback: use bcpbet.com (you can modify this)
+                    baseUrl = 'http://bcpbet.com';
+                }
+            }
+            
+            // Construct Reports API URL (Yii2 routing: /BotManager/api/report or /index.php?r=BotManager/api/report)
+            const reportUrl = `${baseUrl}/BotManager/api/report`;
+            
+            // Prepare payload
+            const payload = JSON.stringify(reportData);
+            
+            // Send report
+            const response = await fetch(reportUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/json'
+                },
+                body: `payload=${encodeURIComponent(payload)}`
+            }).catch(e => {
+                dLog('red', 'Common', `Error sending parser report: ${e}`);
+                return null;
+            });
+            
+            if (response && response.ok) {
+                const data = await response.json().catch(() => ({}));
+                if (enableFullLogs) {
+                    dLog('green', 'Common', `Parser report sent successfully: ${data.success ? 'success' : 'failed'}`);
+                }
+                return data;
+            } else {
+                if (enableFullLogs) {
+                    dLog('yellow', 'Common', `Parser report send failed: ${response ? response.status : 'no response'}`);
+                }
+            }
+        } catch (e) {
+            dLog('red', 'Common', `Exception sending parser report: ${e}`);
+        }
+        return null;
+    }
+
+    /**
      * Send response to server
      * @param bk - internal bk name
      * @param answer
@@ -4334,9 +4404,17 @@ class Common {
                     //console.log(`Skip because ${stakeFork.bookie} not ready!`);
                     continue;
                 }
-                const response = await fetch(stakeFork.link, {
-                    headers: {Authorization: `Bearer ${self._settings[stakeFork.bookie + '_jwt']}`}
-                })
+                
+                // Check if this is a new parser URL (starts with /new/)
+                const isNewParser = self._isNewParserUrl(stakeFork.link);
+                
+                // Prepare headers
+                const headers = {Authorization: `Bearer ${self._settings[stakeFork.bookie + '_jwt']}`};
+                if (isNewParser && self.s.websocket_uid) {
+                    headers['X-Client-Id'] = self.s.websocket_uid;
+                }
+                
+                const response = await fetch(stakeFork.link, {headers})
                     .catch(e => {
                         dLog('red', 'Common', `forkForStake: ${e}, ${errors}, ${Date.now() - lastAlert}`);
                         if (e.message.indexOf('Failed to fetch') > -1) {
@@ -4349,6 +4427,21 @@ class Common {
                         }
                         return null;
                     });
+                
+                // Handle rate limiting for new parser
+                if (response && response.status === 429) {
+                    try {
+                        const rateLimitData = await response.json();
+                        const retryAfter = rateLimitData.retry_after || 60;
+                        dLog('yellow', 'Common', `Rate limit exceeded, waiting ${retryAfter} seconds`);
+                        await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+                    } catch (e) {
+                        dLog('red', 'Common', `Error parsing rate limit response: ${e}`);
+                        await new Promise(resolve => setTimeout(resolve, 60000)); // Default 1 minute wait
+                    }
+                    continue;
+                }
+                
                 const encryptedRespText = response && response.ok ? await response.text() : '';
                 if (!encryptedRespText || stakeFork.prevForkForStake === encryptedRespText) {
                     continue;
@@ -4362,6 +4455,29 @@ class Common {
                 } catch (e) {
                     dLog('red', 'Common', [`Error in JSON: ${e}, response:`, respText]);
                 }
+                
+                // Handle new parser response format: {status: 'success', data: [...], bet_id: '...'}
+                let parserBetId = null;
+                if (isNewParser && json && typeof json === 'object' && !Array.isArray(json)) {
+                    if (json.status === 'success' && json.data && Array.isArray(json.data) && json.data.length > 0) {
+                        // Store bet_id before converting to array
+                        parserBetId = json.bet_id || null;
+                        // Convert new format to old format for compatibility
+                        json = json.data;
+                        // Store parser info for each bet
+                        if (parserBetId) {
+                            json.forEach((bet) => {
+                                bet._parser_bet_id = parserBetId;
+                                bet._parser_url = stakeFork.link;
+                                bet._parser_client_id = self.s.websocket_uid;
+                            });
+                        }
+                    } else {
+                        // No bets available or error
+                        continue;
+                    }
+                }
+                
                 if (json && typeof json === 'object' && Array.isArray(json)) {
                     const sorted = json.sort((a, b) =>
                         a['income'] < b['income'] ? 1 : a['income'] === b['income'] ? 0 : -1);
@@ -4376,10 +4492,35 @@ class Common {
                         if (success) {
                             const {ok, errors} = stakeFork.check(result, current);
                             if (ok) {
+                                // If this is a new parser, add parser information to bet data
+                                if (isNewParser && current._parser_bet_id) {
+                                    if (result.data && Array.isArray(result.data) && result.data.length > 0) {
+                                        result.data[0]._parser_bet_id = current._parser_bet_id;
+                                        result.data[0]._parser_url = current._parser_url || stakeFork.link;
+                                        result.data[0]._parser_client_id = current._parser_client_id || self.s.websocket_uid;
+                                        result.data[0].betFromParser = true;
+                                        result._isNewParser = true;
+                                    }
+                                }
+                                
                                 if (!!stakeFork.express) {
                                     pool.addBet(result);
                                     if (pool.isReady(enableFullLogs)) {
-                                        self.proceedCommand(pool.getCommand());
+                                        const poolCommand = pool.getCommand();
+                                        if (isNewParser && current._parser_bet_id) {
+                                            poolCommand._isNewParser = true;
+                                            if (poolCommand.data && Array.isArray(poolCommand.data)) {
+                                                poolCommand.data.forEach(bet => {
+                                                    if (bet._parser_bet_id === undefined) {
+                                                        bet._parser_bet_id = current._parser_bet_id;
+                                                        bet._parser_url = current._parser_url || stakeFork.link;
+                                                        bet._parser_client_id = current._parser_client_id || self.s.websocket_uid;
+                                                        bet.betFromParser = true;
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        self.proceedCommand(poolCommand);
                                     }
                                 } else {
                                     self.proceedCommand(result);
