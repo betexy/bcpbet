@@ -1,0 +1,113 @@
+version: '3'
+services:
+
+  #PHP Service
+  yiiapp:
+    build:
+      context: ./botmanager
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: yiiapp
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_TAGS: prod
+    working_dir: /var/www
+    volumes:
+      - ./botmanager/:/var/www
+      - ./dc-configs/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  #PHP Parser Daemon
+  parserDaemon:
+    build:
+      context: ./parser
+      dockerfile: Dockerfile
+    image: digitalocean.com/php_parser
+    container_name: parserDaemon
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www2
+    command: php /var/www2/new/parserProxy.php
+    volumes:
+      - ./parser/:/var/www2
+      - ./dc-configs/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+      
+  # Redis  
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis:alpine
+    restart: unless-stopped
+    tty: true
+    networks:
+      - app-network
+      
+  #Cron Service
+  yiicron:
+    build:
+      context: ./botmanager
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: yiicron
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_TAGS: prod
+    working_dir: /var/www
+    entrypoint: sh /var/www/cron.sh
+    volumes:
+      - ./botmanager/:/var/www
+      - ./dc-configs/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network
+
+  #MySQL Service
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    # For windows:
+    #command: --innodb_use_native_aio=0
+    # For IDEA Db access
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: yiidb
+      MYSQL_USER: yiidb
+      MYSQL_PASSWORD: F2naj5vXpg&o3HmP2@LG
+      MYSQL_ROOT_PASSWORD: AN6TWio@#B@*aFsy9Jj9
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - ./dc-configs/mysql/my.cnf:/etc/mysql/my.cnf:ro
+    networks:
+      - app-network
+
+  #Nginx Service
+  nginx:
+    image: hxnir/nginx-jwt-validation:latest
+    container_name: nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./botmanager/:/var/www
+      - ./parser/:/var/www2
+      - ./dc-configs/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./dc-configs/nginx/conf.d/parser.conf:/etc/nginx/conf.d/parser.conf
+      - ./dc-configs/nginx/hhh:/etc/nginx/hhh
+    networks:
+      - app-network
+    #command: ["tail", "-f", "/dev/null"]
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+

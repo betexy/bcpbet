@@ -1,0 +1,30 @@
+# Logs
+*.log
+pdlogs.txt
+tmux-*.log
+
+# Database data
+dbdata/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.back
+*.new
+res.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
