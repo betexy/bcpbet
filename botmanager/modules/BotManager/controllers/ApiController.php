@@ -385,9 +385,76 @@ class ApiController extends \yii\web\Controller
     {
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $payload = Yii::$app->request->post('payload', '');
-        return Json::encode(empty($payload)
-            ? ["success" => false, "message" => "No payload!"]
-            : Report::createFromPayload($payload));
+        if (empty($payload)) {
+            return Json::encode(["success" => false, "message" => "No payload!"]);
+        }
+        
+        $result = Report::createFromPayload($payload);
+        
+        // Handle parser bet unlock if report is from new parser
+        try {
+            $jsonPayload = json_decode($payload, true);
+            if (isset($jsonPayload['parser_bet_id']) && isset($jsonPayload['parser_url'])) {
+                // This is a report from new parser - unlock bet if not placed successfully
+                $this->unlockParserBet(
+                    $jsonPayload['parser_bet_id'],
+                    $jsonPayload['parser_url'],
+                    $jsonPayload['client_id'] ?? '',
+                    $jsonPayload['data']['status'] ?? 'FAILED'
+                );
+            }
+        } catch (\Exception $e) {
+            // Log error but don't fail the report
+            Yii::error("Error unlocking parser bet: " . $e->getMessage());
+        }
+        
+        return Json::encode($result);
+    }
+    
+    /**
+     * Unlock parser bet in Redis if bet was not placed successfully
+     */
+    private function unlockParserBet($betId, $parserUrl, $clientId, $status)
+    {
+        try {
+            // Use Yii Redis component if available, otherwise connect directly
+            if (Yii::$app->has('redis')) {
+                $redis = Yii::$app->redis;
+            } else {
+                // Fallback: direct Redis connection
+                $redis = new \Redis();
+                $redis->connect('redis', 6379, 2.0);
+            }
+            
+            $queueKey = 'parser_queue:' . md5($parserUrl);
+            $betLockKey = "parser_lock:{$queueKey}:{$betId}";
+            
+            // Only unlock if bet was not successfully placed (status is not ACCEPTED)
+            if ($status !== 'ACCEPTED' && $status !== 'SUCCESS') {
+                // Check if this bet is still locked by this client
+                $lockedBy = $redis->get($betLockKey);
+                if ($lockedBy === $clientId) {
+                    // Unlock the bet
+                    $redis->del($betLockKey);
+                    
+                    // Also remove bet info
+                    $betInfoKey = "parser_bet_info:{$queueKey}:{$betId}";
+                    $redis->del($betInfoKey);
+                }
+            } else {
+                // Bet was successfully placed - remove lock after some time (cleanup)
+                // Keep lock for a while to prevent immediate reuse, but set shorter expiry
+                $redis->expire($betLockKey, 10); // Keep for 10 seconds, then auto-expire
+            }
+            
+            // Close connection only if we created it directly
+            if (!Yii::$app->has('redis') && $redis instanceof \Redis) {
+                $redis->close();
+            }
+        } catch (\Exception $e) {
+            // Redis might not be available, log but don't fail
+            Yii::error("Redis unlock error: " . $e->getMessage());
+        }
     }
 
     public function actionMarginReport()

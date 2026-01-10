@@ -32,3 +32,16 @@ Thumbs.db
 # Large files
 botmanager/backup*.tar.gz
 botmanager/files/*.
+
+# Parser temporary files
+parser/new/current_*.json
+parser/new/history_*.json
+parser/*/current_*.json
+parser/*/history_*.json
+
+# Bot archives
+*.zip
+bc124.zip
+
+# Planning documents (optional, can be committed)
+# PLAN_NEW_PARSER_REPORTS.md
