@@ -120,6 +120,38 @@ function delayPromise(ms, throughout) {
         }, ms);
     });
 }
+const delayFunction = ms => () => delayPromise(ms);
+function fetchAjax(params) {
+    const method = (params.type || 'GET').toUpperCase();
+    const headers = {};
+    if (params.username && params.password) {
+        headers['Authorization'] = 'Basic ' + btoa(params.username + ':' + params.password);
+    }
+    let body;
+    if (method !== 'GET') {
+        if (params.contentType === 'json' || (typeof params.data === 'string' && params.contentType && params.contentType.includes('json'))) {
+            headers['Content-Type'] = 'application/json';
+            body = typeof params.data === 'string' ? params.data : JSON.stringify(params.data);
+        } else if (params.data && typeof params.data === 'object') {
+            body = new URLSearchParams(params.data).toString();
+            headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+        } else {
+            body = params.data;
+        }
+    }
+    fetch(params.url, {method, headers, body})
+        .then(async resp => {
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const text = await resp.text();
+            if (params.dataType === 'json') {
+                try { return JSON.parse(text); } catch (e) { return text; }
+            }
+            return text;
+        })
+        .then(d => { if (params.success) params.success(d); })
+        .catch(e => { if (params.error) params.error(null, String(e), e); })
+        .finally(() => { if (params.always) params.always(); });
+}
 /**
  * @constructor
  * @param {string} name - name of message
@@ -927,7 +959,7 @@ class StakeFork {
         }
 
         if (this.onlySecondBookie && this.onlySecondBookie?.length > 0
-            && source?.second_bk && this.onlySecondBookie.indexOf(source.second_bk) > -1) {
+            && source?.second_bk && this.onlySecondBookie.indexOf(source.second_bk) === -1) {
             return {ok: false, errors: `${source.second_bk} not in onlySecondBookie!`};
         }
 
@@ -1035,7 +1067,9 @@ class StakeFork {
 /*------------ end blockers -------------------*/
 
 /*------------- begin injects -----------------*/
+
 chrome.runtime.onMessage.addListener((message, sender) => {
+    if (!sender.tab) return false;
     const tabId = sender.tab.id;
     const frameId = sender.frameId;
     if (!Object.keys(message).some(k => k.indexOf('Loaded') > -1)
@@ -1059,19 +1093,13 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     let loadScript = function () {
         let current = scripts.shift();
         if (typeof current !== 'undefined') {
-            // console.log('Now executing: ' + current);
-            chrome.scripting.executeScript(
-                {
-                    target: { tabId: activeTabId, frameIds: [frameId] },
-                    files: [current]
-                },
-                () => loadScript()
-            );
+            //console.log('Now executing: ' + current);
+            chrome.scripting.executeScript({
+                 target: { tabId: activeTabId, frameIds: [frameId] },                                                      
+                 files: [current]                                                                                          
+            }, loadScript);         
         } else {
-            console.log(
-                `%cAll scripts must be implemented! ${activeTabId}/${frameId}`,
-                'background: grey; color: yellow;'
-            );
+            console.log(`%cAll scripts must be implemented! ${activeTabId}/${frameId}`, 'background: grey; color: yellow;');
         }
     };
 
@@ -1106,6 +1134,9 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
 /*-------------- begin common -----------------*/
 let enableFullLogs, manualCommand;
+const formatStack = stack => stack     
+      ? stack.replace(/\n/g, ' ').replace(/chrome-extension:\/\/\w+\//g, '').replace(/\s+/g, ' ').trim()                 
+      : 'No stack!';  
 console.log('%c' + 'Common version 3.1.0',
     'background: green; color: white; font-size: 12px; font-weight: bold; padding: 3px;');
 
@@ -1163,10 +1194,21 @@ class Common {
         this.bkBalancesUpdated = this._gBkBalances();
         this.portQueue = this._gPortQueue();
         this.activePorts = {};
+        this.pendingBets = 0;
+        chrome.storage.local.get(['pendingBets', 'stopped'], (r) => {
+            if (r.pendingBets && typeof r.pendingBets === 'number') {
+                this.pendingBets = r.pendingBets;
+                console.log(`[FarmAgent] Restored pendingBets from storage: ${this.pendingBets}`);
+            }
+            if (r.stopped && typeof r.stopped === 'object') {
+                this.stopped = r.stopped;
+                console.log(`[FarmAgent] Restored stopped state from storage:`, this.stopped);
+            }
+        });
         this.cutChecked = Date.now();
         // TODO: Why I'd stopped using this mechanism? - maybe it is cuz my check was based on bkUrls?
         this._bkTitleCheck = {
-            //olimp: 'Олимп'
+            //olimp: '�����'
         };
         this._settings = Common._getSettings();
         this.expires = this._settings.expires || 0;
@@ -1175,7 +1217,7 @@ class Common {
         const checkResult = this._checkSettings(self)
             .then(() => {
                 if (checkResult.length > 0) {
-                    alert(checkResult.join('\n'));
+                    console.warn('[Settings]', checkResult.join('\n'));
                     throw checkResult;
                 }
                 self._addListener();
@@ -1207,6 +1249,7 @@ class Common {
                         }
                     } while (self.createTabErrors.length > 0);
                     self._serverInit();
+                    self._farmAgentInit();
                     self._checkCurrentOperationInit();
                     self._eightyMinutesInit();
                     //self._psApiInit();
@@ -1786,9 +1829,20 @@ class Common {
                     });
                 }
                 const data = JSON.parse(JSON.stringify(command.data));
+                const betData = ['BET', 'ARB_BET', 'FORK_BET', 'READY_TO_BET'].indexOf(command.action) > -1 ? [data.shift()] : data;
+
+                // Log parser info before sending to content script
+                if (betData && betData[0] && (betData[0]._parser_bet_id || betData[0]._parser_url)) {
+                    console.log('%c[PARSER DEBUG] Sending bet to content script', 'background: blue; color: white; font-weight: bold; padding: 3px;', {
+                        action: command.action,
+                        parserBetId: betData[0]._parser_bet_id || 'N/A',
+                        parserUrl: betData[0]._parser_url || 'N/A',
+                    });
+                }
+
                 self.messageToBk(bk, {
                     action: command.action,
-                    data: ['BET', 'ARB_BET', 'FORK_BET', 'READY_TO_BET'].indexOf(command.action) > -1 ? [data.shift()] : data,
+                    data: betData,
                     newAPI: true,
                     check_limited: !!command.check_limited,
                 });
@@ -2486,7 +2540,7 @@ class Common {
             //console.log(url, data);
             const urlName = type + '_api_url', loginName = type + '_api_http_login',
                 passwordName = type + '_api_http_password';
-            $.ajax({
+            fetchAjax({
                 type: "POST",
                 url: self.s[urlName],
                 dataType: 'json',
@@ -2536,7 +2590,7 @@ class Common {
         while (!gotBbStake) {
             await delayPromise(50);
         }
-        for (const [idx, val] of self._settings.active_bks.entries()) {
+        self._settings.active_bks.forEach((val, idx) => {
             if (typeof bbSettings[val + '_login'] === 'undefined'
                 || typeof bbSettings[val + '_password'] === 'undefined') {
                 errors.push(`Login or password for ${val} not defined!`);
@@ -2594,7 +2648,7 @@ class Common {
                         bbSettings[val + '_qrCode']]);
                 }
             }
-        };
+        });
         if (this._checkIsBoth()) {
             dLog('big-red', 'Common', ['Both stakeForks and register enabled!']);
         }
@@ -2610,14 +2664,14 @@ class Common {
         if (this._settings.active_bks.length < 1) {
             //errors.push('Empty Active BKs list!');
         }
-        for (const [idx, val] of this._settings.active_bks.entries()) {
+        this._settings.active_bks.forEach((val, idx) => {
             if (typeof self._settings[val + '_login'] !== 'string' || self._settings[val + '_login'].length < 3) {
                 errors.push('No login for ' + val);
             }
             if (typeof self._settings[val + '_password'] !== 'string' || self._settings[val + '_password'].length < 3) {
                 errors.push('No password for ' + val);
             }
-        };
+        });
         return errors;
     }
 
@@ -2804,7 +2858,7 @@ class Common {
                 //sendResponse({success: false, message: textStatus});
             }
         };
-        $.ajax(ajaxParams);
+        fetchAjax(ajaxParams);
     }
 
     _blockedCodes(request, sendResponse) {
@@ -2828,7 +2882,7 @@ class Common {
             ajaxParams['username'] = this.s.codes_http_login;
             ajaxParams['password'] = this.s.codes_http_password;
         }
-        $.ajax(ajaxParams);
+        fetchAjax(ajaxParams);
     }
 
     _ajaxCall(request, url, sendResponse) {
@@ -2859,7 +2913,7 @@ class Common {
         console.log('%c' + `Performing ajaxCall to ${request.url} with params:`,
             'background: blue; color: white; font-size: 12px; font-weight: bold; padding: 3px;',
             ajaxParams);
-        $.ajax(ajaxParams);
+        fetchAjax(ajaxParams);
     }
 
     _debuggerPromise(action, tabId, method, params) {
@@ -2943,44 +2997,27 @@ class Common {
                 }
             }
         };
-
-        const debuggerEvent = (tabId, request) => {
-            let current = request.debuggerEventsChain.shift();
+        const debuggerEvent = () => {
+            current = request.debuggerEventsChain.shift();
             console.log('We took element:', current);
             let now = Date.now();
-
+            let code = '';
             if (current.type === 'keyCode') {
                 clickGo([current.body]);
-            }
-            else if (current.type === 'selector') {
-                const selector = current.body.replace(/"/g, '\\"');
-                const codeFunc = () => {
-                    const ___rect = document.querySelector(selector).getBoundingClientRect();
-                    return {
-                        left: getRandomRounded(___rect.left, ___rect.right),
-                        top: getRandomRounded(___rect.top, ___rect.bottom)
-                    };
-                };
-                chrome.scripting.executeScript(
-                    {
-                        target: { tabId },
-                        func: codeFunc
-                    },
-                    (results) => clickGo(results.map(r => r.result))
-                );
-            }
-            else if (current.type === 'function' || current.type === 'keyFunction') {
-                const funcBody = current.body;
-                const codeFunc = new Function(funcBody);
-                chrome.scripting.executeScript(
-                    {
-                        target: { tabId },
-                        func: codeFunc
-                    },
-                    (results) => clickGo(results.map(r => r.result))
-                );
-            }
-            else {
+            } else if (current.type === 'selector') {
+                code = 'let ___rect' + now + ' = $("' + current.body.replace(/"/g, '\\\"') + '").get(0).getBoundingClientRect();'
+                    + 'let ___res' + now + ' = { left: getRandomRounded(___rect' + now + '.left, ___rect' + now
+                    + '.right), top: getRandomRounded(___rect' + now + '.top, ___rect' + now + '.bottom) };'
+                    + '___res' + now + ';';
+                chrome.tabs.executeScript(tabId, {
+                    code: code
+                }, clickGo);
+            } else if (current.type === 'function' || current.type === 'keyFunction') {
+                code = '(() => {' + current.body.replace(/"/g, '\\\"') + '})();';
+                chrome.tabs.executeScript(tabId, {
+                    code: code
+                }, clickGo);
+            } else {
                 goNextEvent();
             }
         };
@@ -3109,13 +3146,7 @@ class Common {
             'rucaptchaSend': 'http://rucaptcha.com/in.php',
             'rucaptchaRes': 'http://rucaptcha.com/res.php',
         };
-        if (request.KEEP_ALIVE) {
-            // just trying to keep us alive
-            chrome.runtime.getPlatformInfo(platformInfo => {
-                // should be enough
-                // console.log(platformInfo);
-            });
-        } else if (request.changeAutoloadSettings) {
+        if (request.changeAutoloadSettings) {
             countNumbers('ONE');
             if (request.changeAutoloadSettings === 'checkIndexInArray' && request.valueToStore) {
                 self._fonChangeUrl(typeof request.valueToStore === 'number' ? request.valueToStore : parseInt(request.valueToStore));
@@ -3290,17 +3321,10 @@ class Common {
             return true;
         } else if (typeof request.includeFile === 'string' && typeof request.bk === 'string') {
             countNumbers('SEVENTEEN');
-
-            chrome.scripting.executeScript(
-                {
-                    target: { tabId: self.bkTabs[request.bk] },
-                    files: [request.includeFile],
-                    world: 'MAIN' // чтобы скрипт выполнялся в контексте страницы
-                },
-                () => sendResponse('Done!')
-            );
-
-            return true; // оставляем, чтобы Chrome понимал, что sendResponse будет вызван асинхронно
+            // Hint: INCLUDE SCRIPT TO
+            chrome.tabs.executeScript(self.bkTabs[request.bk], {file: request.includeFile},
+                () => sendResponse('Done!'));
+            return true;
         } else if (request.addThisToOpenedTabs) {
             countNumbers('EIGHTEEN');
             // Hint: Add tab to opened tabs
@@ -3423,7 +3447,7 @@ class Common {
             params.username = 'partner';
             params.password = '9mE4qrey2Mvy3r3T';
         }
-        $.ajax(params);
+        fetchAjax(params);
     }
 
     askTab(tabId, question, needAnswer) {
@@ -3534,32 +3558,50 @@ class Common {
      * @param {object} reportData - Report data with bet information
      */
     async _sendParserReport(reportData) {
+        console.log('%c[PARSER DEBUG] _sendParserReport called', 'background: blue; color: white; font-weight: bold; padding: 3px;', {
+            reportData: reportData
+        });
         try {
             // Determine base URL from websocket_url
-            // For example: ws://localhost:9293 -> http://localhost
-            // or wss://bcpbet.com:9293 -> https://bcpbet.com
+            // Special case: if websocket_url is 'ws://localhost:9293', use external API address
+            // because extensions run on client machines and 'localhost' would point to client's machine
             let baseUrl = '';
             if (this._settings.websocket_url) {
-                const protocol = this._settings.websocket_url.startsWith('wss') ? 'https' : 'http';
-                const wsUrl = this._settings.websocket_url.replace(/^wss?:\/\//, '');
-                const host = wsUrl.split(':')[0].split('/')[0];
-                baseUrl = `${protocol}://${host}`;
+                // Check if it's the standard localhost websocket (same for all extensions)
+                if (this._settings.websocket_url === 'ws://localhost:9293' ||
+                    this._settings.websocket_url === 'ws://localhost:9293/') {
+                    // Use external API address that works from outside
+                    baseUrl = 'http://bcpbet.com';
+                } else {
+                    // For other websocket URLs, extract host as usual
+                    const protocol = this._settings.websocket_url.startsWith('wss') ? 'https' : 'http';
+                    const wsUrl = this._settings.websocket_url.replace(/^wss?:\/\//, '');
+                    // Handle cases like "95.213.229.240/server:80" -> extract just the host
+                    const host = wsUrl.split('/')[0].split(':')[0];
+                    baseUrl = `${protocol}://${host}`;
+                }
             } else {
                 // Fallback: try to use current origin (if available in extension context)
                 if (typeof window !== 'undefined' && window.location) {
                     baseUrl = `${window.location.protocol}//${window.location.host}`;
                 } else {
-                    // Last fallback: use bcpbet.com (you can modify this)
+                    // Last fallback: use bcpbet.com
                     baseUrl = 'http://bcpbet.com';
                 }
             }
-            
-            // Construct Reports API URL (Yii2 routing: /BotManager/api/report or /index.php?r=BotManager/api/report)
+
+            // Construct Reports API URL
             const reportUrl = `${baseUrl}/BotManager/api/report`;
-            
+
+            console.log('%c[PARSER DEBUG] Report URL:', 'background: blue; color: white; font-weight: bold; padding: 3px;', {
+                reportUrl: reportUrl,
+                websocket_url: this._settings.websocket_url,
+                baseUrl: baseUrl
+            });
+
             // Prepare payload
             const payload = JSON.stringify(reportData);
-            
+
             // Send report
             const response = await fetch(reportUrl, {
                 method: 'POST',
@@ -3572,14 +3614,23 @@ class Common {
                 dLog('red', 'Common', `Error sending parser report: ${e}`);
                 return null;
             });
-            
+
             if (response && response.ok) {
                 const data = await response.json().catch(() => ({}));
+                console.log('%c[PARSER DEBUG] Report sent successfully', 'background: green; color: white; font-weight: bold; padding: 3px;', {
+                    success: data.success,
+                    message: data.message,
+                    response: data
+                });
                 if (enableFullLogs) {
                     dLog('green', 'Common', `Parser report sent successfully: ${data.success ? 'success' : 'failed'}`);
                 }
                 return data;
             } else {
+                console.log('%c[PARSER DEBUG] Report send failed', 'background: red; color: white; font-weight: bold; padding: 3px;', {
+                    status: response ? response.status : 'no response',
+                    response: response
+                });
                 if (enableFullLogs) {
                     dLog('yellow', 'Common', `Parser report send failed: ${response ? response.status : 'no response'}`);
                 }
@@ -3666,6 +3717,13 @@ class Common {
             && typeof answer.data === 'object' && !(answer.data instanceof Array)
         ) {
             answer.data['hash'] = ccBackup.data.hash;
+        }
+        // Track accepted bets for pending_bets counter
+        if (['F_BET', 'BET_RESULT'].indexOf(answer.action) > -1
+            && answer.data && typeof answer.data === 'object' && !(answer.data instanceof Array)
+            && answer.data.status === 'ACCEPTED') {
+            this.pendingBets++;
+            chrome.storage.local.set({pendingBets: this.pendingBets});
         }
         this._finalSend(JSON.parse(JSON.stringify(answer)));
         if (this.s.experimental &&
@@ -3854,6 +3912,22 @@ class Common {
                         fundsUpdated: self.bkBalancesUpdated[bk]
                     }
                 });
+            },
+            'FARM_CUT_DETECTED': async (bk, message) => {
+                self._farmReport('report_cut', {bk: self.intBkToExternal(bk), ...message.cutInfo});
+            },
+            'FARM_WITHDRAW_RESULT': async (bk, message) => {
+                self._farmReport('withdrawal-result', {bk: self.intBkToExternal(bk), ...message.result});
+            },
+            'FARM_PENDING_BETS': async (bk, message) => {
+                console.log(`[FarmAgent] FARM_PENDING_BETS received: count=${message.count} (type: ${typeof message.count}), bk=${bk}`);
+                if (typeof message.count === 'number') {
+                    self.pendingBets = message.count;
+                    chrome.storage.local.set({pendingBets: self.pendingBets});
+                    console.log(`[FarmAgent] pendingBets updated to ${self.pendingBets}`);
+                } else {
+                    console.log(`[FarmAgent] pendingBets NOT updated (count is ${message.count}), keeping ${self.pendingBets}`);
+                }
             },
         };
     }
@@ -4154,7 +4228,7 @@ class Common {
             },
             getTimeValue: bet => {
                 if (bet.indexOf('GAME__') === 0) {
-                    // GAME__02_03__P1 (победа П1 во 2-м сете 3-м гейме)
+                    // GAME__02_03__P1 (������ �1 �� 2-� ���� 3-� �����)
                     // WARNING! THIS IS SPECIAL INVERSE ORDER BECAUSE OF STAKE!!!
                     const digits = /(\d+)\D+(\d+)/.exec(bet);
                     return digits && digits[1] && digits[2]
@@ -4172,43 +4246,25 @@ class Common {
         }
     }
 
-    hexToBytes(hex) {
-        const clean = hex.trim().toLowerCase();
-        if (clean.length % 2 !== 0) throw new Error("Invalid hex");
-        const out = new Uint8Array(clean.length / 2);
-        for (let i = 0; i < out.length; i++) {
-            out[i] = parseInt(clean.substr(i * 2, 2), 16);
-        }
-        return out;
-    }
-
-    b64ToAscii(b64) {
-        return atob(b64);
-    }
-
     async somethingFunny(data) {
-    try {
-        const b64CipherHex = data.slice(0, data.length - 64);
-        const b64NonceHex  = data.slice(data.length - 64);
-
-        const cipherHex = atob(b64CipherHex);
-        const nonceHex  = atob(b64NonceHex);
-
-        const ciphertext = this.hexToBytes(cipherHex);
-        const nonce      = this.hexToBytes(nonceHex);
-
-        const keyHex = atob('N2ZiMzE2OTk2MWVkZTJhYzU2MWUwMzNkZmNiNWYxZTBkMTgxMmI4ZTI5NGFlN2Q1NzEyMDg5ZWVjODM1YzlmZQ==');
-        const key    = this.hexToBytes(keyHex);
-
-        const plain = nacl.secretbox.open(ciphertext, nonce, key);
-        if (!plain) return data;
-
-        return new TextDecoder().decode(plain);
-    } catch (e) {
-        return data;
+        let encrypted, nonce;
+        try {
+            encrypted = atob(data.slice(0, data.length - 64));
+            nonce = atob(data.slice(data.length - 64));
+        } catch (e) {
+            return data;
+        }
+        const fromHex = (hex) => {
+            const arr = new Uint8Array(hex.length / 2);
+            for (let i = 0; i < hex.length; i += 2)
+                arr[i / 2] = parseInt(hex.substr(i, 2), 16);
+            return arr;
+        };
+        const key = fromHex(atob('N2ZiMzE2OTk2MWVkZTJhYzU2MWUwMzNkZmNiNWYxZTBkMTgxMmI4ZTI5NGFlN2Q1NzEyMDg5ZWVjODM1YzlmZQ=='));
+        const result = nacl.secretbox.open(fromHex(encrypted), fromHex(nonce), key);
+        if (!result) return data;
+        return new TextDecoder().decode(result);
     }
-    }
-
     /**
      * Transform fork to our bet
      * @param {object} source
@@ -4337,6 +4393,21 @@ class Common {
                 .replace('betway.com', 'betway.es')
                 .replace('//sports.b', '//b');
         }
+
+        // Preserve parser info from source (new parser fields)
+        if (source._parser_bet_id) {
+            betRow._parser_bet_id = source._parser_bet_id;
+        }
+        if (source._parser_url) {
+            betRow._parser_url = source._parser_url;
+        }
+        if (source._parser_client_id) {
+            betRow._parser_client_id = source._parser_client_id;
+        }
+        if (source.betFromParser) {
+            betRow.betFromParser = source.betFromParser;
+        }
+
         response.data.push(betRow);
         if (!betRow.market || !betRow.target || !betRow.sport || !betRow.time_value) {
             bad.push(`market: '${!!betRow.market}', target: '${!!betRow.target}', `
@@ -4404,16 +4475,16 @@ class Common {
                     //console.log(`Skip because ${stakeFork.bookie} not ready!`);
                     continue;
                 }
-                
-                // Check if this is a new parser URL (starts with /new/)
+
+                // Check if this is a new parser URL (contains /new/)
                 const isNewParser = self._isNewParserUrl(stakeFork.link);
-                
+
                 // Prepare headers
                 const headers = {Authorization: `Bearer ${self._settings[stakeFork.bookie + '_jwt']}`};
                 if (isNewParser && self.s.websocket_uid) {
                     headers['X-Client-Id'] = self.s.websocket_uid;
                 }
-                
+
                 const response = await fetch(stakeFork.link, {headers})
                     .catch(e => {
                         dLog('red', 'Common', `forkForStake: ${e}, ${errors}, ${Date.now() - lastAlert}`);
@@ -4422,12 +4493,12 @@ class Common {
                             if (errors >= 120 && Date.now() - lastAlert > 120000) {
                                 lastAlert = Date.now();
                                 errors = 0;
-                                alert(`Невозможно подключиться! Проверьте прокси!`);
+                                console.warn(`Невозможно подключиться! Проверьте прокси!`);
                             }
                         }
                         return null;
                     });
-                
+
                 // Handle rate limiting for new parser
                 if (response && response.status === 429) {
                     try {
@@ -4437,11 +4508,11 @@ class Common {
                         await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
                     } catch (e) {
                         dLog('red', 'Common', `Error parsing rate limit response: ${e}`);
-                        await new Promise(resolve => setTimeout(resolve, 60000)); // Default 1 minute wait
+                        await new Promise(resolve => setTimeout(resolve, 60000));
                     }
                     continue;
                 }
-                
+
                 const encryptedRespText = response && response.ok ? await response.text() : '';
                 if (!encryptedRespText || stakeFork.prevForkForStake === encryptedRespText) {
                     continue;
@@ -4455,8 +4526,9 @@ class Common {
                 } catch (e) {
                     dLog('red', 'Common', [`Error in JSON: ${e}, response:`, respText]);
                 }
-                
+
                 // Handle new parser response format: {status: 'success', data: [...], bet_id: '...'}
+                // OR array format: [{_parser_bet_id: '...', _parser_url: '...', ...}]
                 let parserBetId = null;
                 if (isNewParser && json && typeof json === 'object' && !Array.isArray(json)) {
                     if (json.status === 'success' && json.data && Array.isArray(json.data) && json.data.length > 0) {
@@ -4476,8 +4548,19 @@ class Common {
                         // No bets available or error
                         continue;
                     }
+                } else if (isNewParser && json && Array.isArray(json) && json.length > 0) {
+                    // New parser returns array with _parser_bet_id already in each element
+                    // Ensure all bets have parser info
+                    json.forEach((bet) => {
+                        if (bet._parser_bet_id && !bet._parser_url) {
+                            bet._parser_url = stakeFork.link;
+                        }
+                        if (bet._parser_bet_id && !bet._parser_client_id) {
+                            bet._parser_client_id = self.s.websocket_uid;
+                        }
+                    });
                 }
-                
+
                 if (json && typeof json === 'object' && Array.isArray(json)) {
                     const sorted = json.sort((a, b) =>
                         a['income'] < b['income'] ? 1 : a['income'] === b['income'] ? 0 : -1);
@@ -4493,16 +4576,20 @@ class Common {
                             const {ok, errors} = stakeFork.check(result, current);
                             if (ok) {
                                 // If this is a new parser, add parser information to bet data
-                                if (isNewParser && current._parser_bet_id) {
-                                    if (result.data && Array.isArray(result.data) && result.data.length > 0) {
-                                        result.data[0]._parser_bet_id = current._parser_bet_id;
-                                        result.data[0]._parser_url = current._parser_url || stakeFork.link;
-                                        result.data[0]._parser_client_id = current._parser_client_id || self.s.websocket_uid;
+                                if (isNewParser) {
+                                    const parserBetId = current._parser_bet_id || (result.data && result.data[0] && result.data[0]._parser_bet_id);
+                                    const parserUrl = current._parser_url || (result.data && result.data[0] && result.data[0]._parser_url) || stakeFork.link;
+                                    const parserClientId = current._parser_client_id || (result.data && result.data[0] && result.data[0]._parser_client_id) || self.s.websocket_uid;
+
+                                    if (parserBetId && result.data && Array.isArray(result.data) && result.data.length > 0) {
+                                        result.data[0]._parser_bet_id = parserBetId;
+                                        result.data[0]._parser_url = parserUrl;
+                                        result.data[0]._parser_client_id = parserClientId;
                                         result.data[0].betFromParser = true;
                                         result._isNewParser = true;
                                     }
                                 }
-                                
+
                                 if (!!stakeFork.express) {
                                     pool.addBet(result);
                                     if (pool.isReady(enableFullLogs)) {
@@ -4596,17 +4683,10 @@ class Common {
                 self.clearIntervals();
                 delayPromise(3333)
                     .then(() => {
-                        fetch(self._settings.test_url + 'bb_bot.php?action=error', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/x-www-form-urlencoded"
-                            },
-                            body: new URLSearchParams({
-                                id: bbSettings.websocket_uid
-                            })
-                        })
-                        .finally(() => {
-                            self._reload();
+                        fetchAjax({
+                            type: 'POST', url: self._settings.test_url + 'bb_bot.php?action=error',
+                            data: {id: bbSettings.websocket_uid},
+                            always: function () { self._reload(); }
                         });
                     });
             }
@@ -4649,6 +4729,105 @@ class Common {
         if (!this.expires) {
             this._logWsInit();
         }
+    }
+
+    _farmAgentInit() {
+        const farmUrl = (bbSettings.farm_agent_url || 'http://127.0.0.1:8765').replace(/\/$/, '');
+        const accountId = this._settings.websocket_uid;
+        if (!accountId) return;
+        const self = this;
+
+        this.intervals['farmAgent'] = setInterval(async () => {
+            try {
+                const payload = self._buildHeartbeatPayload();
+                console.log(`[FarmAgent] heartbeat sending:`, JSON.stringify(payload));
+                const resp = await fetch(`${farmUrl}/api/ext/${accountId}/heartbeat`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload),
+                });
+                if (!resp.ok) {
+                    console.log(`[FarmAgent] heartbeat failed: ${resp.status}`);
+                    return;
+                }
+                const data = await resp.json();
+                console.log(`[FarmAgent] heartbeat OK, commands: ${(data.ext_commands || []).length}`);
+                for (const cmd of (data.ext_commands || [])) {
+                    console.log(`[FarmAgent] command: ${cmd.type}`);
+                    self._processFarmCommand(cmd);
+                }
+            } catch (e) { console.log(`[FarmAgent] heartbeat error: ${e.message}`); }
+        }, 60000);
+    }
+
+    _processFarmCommand(cmd) {
+        console.log(`[FarmAgent] _processFarmCommand:`, JSON.stringify(cmd));
+        let bk = cmd.params && cmd.params.bk ? this.extBkToInternal(cmd.params.bk) : null;
+        if (!bk && this._settings.active_bks.length > 0) {
+            bk = this._settings.active_bks[0];
+            console.log(`[FarmAgent] No bk in params, using first active: ${bk}`);
+        }
+        console.log(`[FarmAgent] Resolved bk: ${bk}, type: ${cmd.type}`);
+        if (cmd.type === 'betexy_withdraw' && bk) {
+            this.messageToBk(bk, {action: 'FARM_WITHDRAW', data: cmd.params});
+        } else if (cmd.type === 'betexy_pause' && bk) {
+            this.stopped[bk] = true;
+            chrome.storage.local.set({stopped: this.stopped});
+            if (this.intervals['forkForStake']) {
+                clearInterval(this.intervals['forkForStake']);
+                delete this.intervals['forkForStake'];
+            }
+            this._farmReport('withdrawal-result', {
+                bk: cmd.params.bk, command_id: cmd.command_id,
+                success: true, message: 'Paused'
+            });
+        } else if (cmd.type === 'betexy_resume' && bk) {
+            this.stopped[bk] = false;
+            chrome.storage.local.set({stopped: this.stopped});
+            this._getForkForStakeInit();
+            this.reopenBk(bk);
+            this._farmReport('withdrawal-result', {
+                bk: cmd.params.bk, command_id: cmd.command_id,
+                success: true, message: 'Resumed'
+            });
+        } else if (cmd.type === 'betexy_check_bets') {
+            const targetBk = bk || this._settings.active_bks[0];
+            console.log(`[FarmAgent] Sending FARM_CHECK_BETS to bk: ${targetBk}, portQueue:`, Object.keys(this.portQueue), 'activePorts:', Object.keys(this.activePorts));
+            this.messageToBk(targetBk, {action: 'FARM_CHECK_BETS'});
+        } else if (cmd.type === 'betexy_restart') {
+            console.log('[FarmAgent] Restarting extension...');
+            chrome.runtime.reload();
+        }
+    }
+
+    _buildHeartbeatPayload() {
+        const balances = {};
+        for (const bk of this._settings.active_bks) {
+            balances[bk] = {
+                balance: this.bkBalances[bk] === 'null' ? null : parseFloat(this.bkBalances[bk]),
+                updated: this.bkBalancesUpdated[bk],
+                ready: !!this.bkReady[bk],
+                limited: this.limitedBks.indexOf(bk) > -1,
+            };
+        }
+        return {
+            uid: this._settings.websocket_uid,
+            balances, busy: this.busy, profile: this._settings.profile,
+            pending_bets: this.pendingBets,
+            timestamp: Date.now()
+        };
+    }
+
+    async _farmReport(action, data) {
+        const farmUrl = (bbSettings.farm_agent_url || 'http://127.0.0.1:8765').replace(/\/$/, '');
+        const accountId = this._settings.websocket_uid;
+        try {
+            await fetch(`${farmUrl}/api/ext/${accountId}/${action}`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({uid: accountId, ...data}),
+            });
+        } catch (e) { /* silent */ }
     }
 
     _reload() {
@@ -4883,7 +5062,7 @@ class Common {
         const self = this;
         const url = self._settings.test_url + 'bb_test.php?action=get_command&uid=' + self.s.websocket_uid;
         this.intervals['ping'] = setInterval(function () {
-            $.get(url, function (data) {
+            fetch(url).then(r => r.text()).then(function (data) {
                 let parsed;
                 try {
                     parsed = JSON.parse(data);
@@ -4913,11 +5092,11 @@ class Common {
                     });
                 }
                 if (parsed.trans) {
-                    $.get(`${url}&accepted=${parsed.trans}`, function (data) {
-                        console.log('Accepted sent!');
-                    });
+                    fetch(`${url}&accepted=${parsed.trans}`)
+                        .then(() => console.log('Accepted sent!'))
+                        .catch(() => {});
                 }
-            }).fail(function () {
+            }).catch(function () {
                 //clearInterval(self.intervals['ping']);
                 //self.intervals['ping'] = 0;
                 //alert('Server is inaccessible!');
@@ -5003,15 +5182,10 @@ class Common {
                         if (typeof data.OLIMP_URL !== 'undefined' && data.OLIMP_URL !== '') {
                             self._bkUrlCheck.olimp = data.OLIMP_URL.replace('http://', '').replace('https://', '');
                             console.log('%cOLIMP check url was set: ' + self._bkUrlCheck.olimp, 'background: grey;');
-                            fetch(self._settings.test_url + 'bb_bot.php?action=olimp_url', {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/x-www-form-urlencoded"
-                                },
-                                body: new URLSearchParams({
-                                    id: bbSettings.websocket_uid
-                                })
-                            }).finally(() => {});
+                            fetchAjax({
+                                type: 'POST', url: self._settings.test_url + 'bb_bot.php?action=olimp_url',
+                                data: {id: self._settings.websocket_uid, url: self._bkUrlCheck.olimp}
+                            });
                         }
                     });
                 }
@@ -5048,7 +5222,7 @@ class Common {
             localBkUrls['fonbetcupis'] = 'https://www.fon.bet/live';
         }
         return {
-            'bks': Object.assign({}, {
+            'bks': Object.assign({},{
                 // PS:
                 'blockchain': 'BTC',
                 'neteller': 'NETELLER',
@@ -5062,7 +5236,7 @@ class Common {
                 'whatismyip': 'WHATISMYIP',
                 'myip': 'MYIP'
             }, bbSettings.commonSettings.bks),
-            'bkUrls': Object.assign({}, {
+            'bkUrls': Object.assign({},{
                 // PS:
                 qiwi: 'https://w.qiwi.com/',
                 skrill: 'https://www.skrill.com/en/',
@@ -5075,7 +5249,7 @@ class Common {
                 whatismyip: 'https://app.multiloginapp.com/WhatIsMyIP',
                 myip: 'https://www.myip.com/'
             }, localBkUrls),
-            'bkUrlCheck': Object.assign({}, {
+            'bkUrlCheck': Object.assign({},{
                 // PS:
                 qiwi: 'qiwi.com',
                 skrill: 'skrill.com',
@@ -5093,63 +5267,64 @@ class Common {
     }
 
     _overrideWebSockets(bk, tabId) {
+        //console.log('%c' + '_overrideWebSockets', 'background: green; color: white; font-size: 13px; font-weight: bold; padding: 10px;');
         const self = this;
-
-        waitForCondition(
-            () => typeof tabId === 'number' || self.bkTabs[bk] !== false,
-            1000,
-            120000,
-            bk + ' not authorized!'
-        )
-        .then(async () => {
-            try {
-                const targetTabId = typeof tabId === 'number' ? tabId : self.bkTabs[bk];
-
-                // MV3: вставка скрипта ws.js через executeScript с files
-                await chrome.scripting.executeScript({
-                    target: { tabId: targetTabId },
-                    files: ['libs/ws.js'],
-                    world: 'MAIN' // чтобы скрипт исполнялся в контексте страницы
-                });
-
-                console.log(
-                    `%cWS script loaded in ${bk} / ${targetTabId}!`,
-                    'background: green; color: white; font-size: 12px; font-weight: bold; padding: 1px;'
-                );
-            } catch (e) {
-                console.log(
-                    `%c${e}`,
-                    'background: red; color: yellow; font-size: 12px; font-weight: bold; padding: 3px;'
-                );
-            }
-        });
+        waitForCondition(() => {
+                //console.log(`${self.common.bkTabs['fon']} / ${self.common.bkBalances['fon']} ${self.common.bkBalancesUpdated['fon']}`);
+                //return (Math.floor(Date.now() / 1000) - self.common.bkBalancesUpdated[bk]) < 10000;
+                return typeof tabId === 'number' || self.bkTabs[bk] !== false;
+            },
+            1000, 120000, bk + ' not authorized!')
+            .then(() => chrome.tabs.executeScript(typeof tabId === 'number' ? tabId : self.bkTabs[bk],
+                {
+                    code: `
+                            (function() {
+	                            try {
+		                            var e = document.createElement('script');
+		                            e.src = chrome.extension.getURL('libs/ws.js');
+		                            (document.head || document.documentElement).appendChild(e);
+		                            e.onload = function() {
+			                            e.parentNode.removeChild(e);
+		                            };
+	                            } catch (e) {
+	                                console.error(e);
+	                            }
+                            })();
+                        `,
+                    allFrames: true,
+                    runAt: 'document_start'
+                },
+                () => console.log('%c' + `WS script loaded in ${bk} / ${typeof tabId === 'number' ? tabId : self.bkTabs[bk]}!`,
+                    'background: green; color: white; font-size: 12px; font-weight: bold; padding: 1px;')))
+            .catch(e => console.log('%c' + e, 'background: red; color: yellow; font-size: 12px; font-weight: bold; padding: 3px;'));
     }
 }
 
+const _bAction = chrome.action || chrome.browserAction;
 if (bbSettings.experimental) {
     chrome.storage.local.get(['BE_COMMANDS_ENABLED'], function (result) {
         if (!result || typeof result.BE_COMMANDS_ENABLED === 'undefined' || result.BE_COMMANDS_ENABLED) {
-            chrome.action.setIcon({path: "icon3.png"});
+            _bAction.setIcon({path: "/icon3.png"});
         } else {
-            chrome.action.setIcon({path: "icon2.png"});
+            _bAction.setIcon({path: "/icon2.png"});
         }
     });
 
-    chrome.browserAction.onClicked.addListener(function (tab) {
+    _bAction.onClicked.addListener(function (tab) {
         chrome.storage.local.get(['BE_COMMANDS_ENABLED'], function (result) {
             if (!result || typeof result.BE_COMMANDS_ENABLED === 'undefined' || result.BE_COMMANDS_ENABLED) {
                 chrome.storage.local.set({'BE_COMMANDS_ENABLED': false}, () => {
-                    chrome.action.setIcon({path: "icon2.png"});
+                    _bAction.setIcon({path: "/icon2.png"});
                 });
             } else {
                 chrome.storage.local.set({'BE_COMMANDS_ENABLED': true}, () => {
-                    chrome.action.setIcon({path: "icon3.png"});
+                    _bAction.setIcon({path: "/icon3.png"});
                 });
             }
         });
     });
 } else {
-    chrome.action.setIcon({path: "/icon.png"});
+    _bAction.setIcon({path: "/icon.png"});
 }
 
 /*-------------- end common -------------------*/
@@ -5165,6 +5340,146 @@ function  MainCycle () {
         'cloudbet'
     ];
     this.common = new Common(this);
+
+    this.proceedAnswer = function () {
+        const self = this;
+        return {
+            'F_BET': async (message, bk) => {
+                // Check if this is from new parser
+                let isNewParser = false;
+                let betDataItem = null;
+
+                if (message.data && !Array.isArray(message.data)) {
+                    betDataItem = message.data;
+                    isNewParser = !!(betDataItem._parser_bet_id || betDataItem.betFromParser === true);
+                } else if (message.data && Array.isArray(message.data) && message.data[0]) {
+                    betDataItem = message.data[0];
+                    isNewParser = !!(betDataItem._parser_bet_id || betDataItem.betFromParser === true);
+                }
+
+                // If parser info is missing from message but exists in currentCommand, restore it
+                if (!isNewParser && self.common.command.currentCommand && self.common.command.currentCommand.data &&
+                    Array.isArray(self.common.command.currentCommand.data) && self.common.command.currentCommand.data[0]) {
+                    const currentCommandData = self.common.command.currentCommand.data[0];
+                    if (currentCommandData._parser_bet_id || currentCommandData._parser_url) {
+                        if (betDataItem) {
+                            betDataItem._parser_bet_id = betDataItem._parser_bet_id || currentCommandData._parser_bet_id;
+                            betDataItem._parser_url = betDataItem._parser_url || currentCommandData._parser_url;
+                            betDataItem._parser_client_id = betDataItem._parser_client_id || currentCommandData._parser_client_id;
+                            betDataItem.betFromParser = betDataItem.betFromParser || currentCommandData.betFromParser || true;
+                            isNewParser = !!(betDataItem._parser_bet_id || betDataItem.betFromParser === true);
+                        }
+                    }
+                }
+
+                // Send report to parser if it's a new parser bet with /new/ URL
+                if (isNewParser && betDataItem) {
+                    const parserUrl = betDataItem._parser_url || '';
+                    if (parserUrl && parserUrl.indexOf('/new/') > -1) {
+                        const reportData = {
+                            action: 'BET_RESULT',
+                            result: betDataItem.status === 'ACCEPTED' ? 'SUCCESS' : 'FAILED',
+                            message: betDataItem.status === 'ACCEPTED' ? 'Bet placed successfully' : `Bet not placed: ${betDataItem.status}`,
+                            room: {
+                                bk: self.common.intBkToExternal(bk),
+                                uid: self.common.s.websocket_uid,
+                                state: betDataItem.status === 'ACCEPTED' ? 'ACCEPTED' : 'FAILED',
+                                balance: message?.data?.balance || self.common.bkBalances[bk] || '0'
+                            },
+                            data: {
+                                status: betDataItem.status || 'FAILED',
+                                bet_id: betDataItem._parser_bet_id || '',
+                                parser_url: parserUrl,
+                                external_id: betDataItem.external_id || betDataItem.externalId || '',
+                                market: betDataItem.market || '',
+                                target: betDataItem.target || '',
+                                pivot: betDataItem.pivot || '',
+                                coef: betDataItem.coef || '',
+                                stake: betDataItem.stake || '',
+                                maximum: betDataItem.maximum || '0'
+                            },
+                            original_command: 'BET',
+                            betFromParser: true,
+                            parser_bet_id: betDataItem._parser_bet_id || '',
+                            parser_url: parserUrl,
+                            client_id: betDataItem._parser_client_id || self.common.s.websocket_uid,
+                            timestamp: Date.now()
+                        };
+                        await self.common._sendParserReport(reportData);
+                    }
+                }
+
+                // Always call sendAnswer with original message.data
+                self.common.sendAnswer(bk, {
+                    action: 'F_BET',
+                    data: message.data,
+                    answer: message.answer,
+                    balance: message?.data?.balance,
+                    doNotSend: !!message.doNotSend,
+                });
+            },
+            'FORK_BET': (message, bk) => {
+                self.common.sendAnswer(bk, {
+                    action: 'FORK_BET',
+                    data: message.data,
+                    answer: message.answer,
+                    balance: message?.data?.balance,
+                    doNotSend: !!message.doNotSend,
+                });
+            },
+            'BET': (message, bk) => {
+                self.common.sendAnswer(bk, {
+                    action: 'BET_RESULT',
+                    data: message.data,
+                    answer: message.answer,
+                    balance: message?.data?.balance,
+                    doNotSend: !!message.doNotSend,
+                });
+            },
+            'EXPRESS_BET': (message, bk) => {
+                self.common.sendAnswer(bk, {
+                    action: 'BET_RESULT',
+                    data: message.data,
+                    answer: message.answer,
+                    balance: message?.data?.balance,
+                    doNotSend: !!message.doNotSend,
+                });
+            },
+            'MAXIMUM': (message, bk) => {
+                self.common.sendAnswer(bk, {
+                    action: 'MAXIMUM',
+                    data: {
+                        maximum: message.answer
+                    }
+                });
+            },
+            'open_event': (message, bk) => {
+                self.common.sendAnswer(bk, {
+                    action: 'open_event',
+                    data: message
+                });
+            },
+            'MULTI_BET': (message, bk) => {
+                if (['marathon'].indexOf(bk) > -1) {
+                    message.data.forEach(val => self.common.sendAnswer(bk, val));
+                }
+            },
+            'MONITOR': (message, bk) => {
+                if (!message.data || message.data.status !== 'DATA') {
+                    self.common.sendAnswer(bk, {
+                        action: 'MONITOR',
+                        data: message
+                    });
+                }
+            },
+            'GET_EVENTS': (message, bk) => {
+                self.common.sendAnswer(bk, {
+                    action: 'GET_EVENTS',
+                    data: message
+                });
+            },
+        };
+    }
 
     this._arbBet = function (command, bk) {
         if (this.delayedBetsSupport.indexOf(bk) === -1) {

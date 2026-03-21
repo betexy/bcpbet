@@ -45,7 +45,7 @@ $lin = SoftwareVersions::findOne(['id' => 3]);
     <?php
         $crones =  LockHelper::getInstance()->getStats();
         foreach ($crones as $cron) {
-            echo "$cron</><br />";
+            echo $cron . '<br />';
         }
     ?>
 

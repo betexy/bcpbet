@@ -389,71 +389,114 @@ class ApiController extends \yii\web\Controller
             return Json::encode(["success" => false, "message" => "No payload!"]);
         }
         
+        // DEBUG: Log incoming report
+        $jsonPayload = json_decode($payload, true);
+        Yii::info("=== PARSER REPORT DEBUG ===", 'app');
+        Yii::info("Action: " . ($jsonPayload['action'] ?? 'N/A'), 'app');
+        Yii::info("Parser bet_id: " . ($jsonPayload['parser_bet_id'] ?? 'N/A'), 'app');
+        Yii::info("Parser URL: " . ($jsonPayload['parser_url'] ?? 'N/A'), 'app');
+        Yii::info("Client ID: " . ($jsonPayload['client_id'] ?? 'N/A'), 'app');
+        Yii::info("Status: " . ($jsonPayload['data']['status'] ?? 'N/A'), 'app');
+        Yii::info("External ID: " . ($jsonPayload['data']['external_id'] ?? 'N/A'), 'app');
+        Yii::info("Full payload: " . $payload, 'app');
+        
         $result = Report::createFromPayload($payload);
         
         // Handle parser bet unlock if report is from new parser
         try {
-            $jsonPayload = json_decode($payload, true);
             if (isset($jsonPayload['parser_bet_id']) && isset($jsonPayload['parser_url'])) {
-                // This is a report from new parser - unlock bet if not placed successfully
+                $reportStatus = $jsonPayload['data']['status'] ?? '';
+                $successLockTimeout = isset($jsonPayload['success_lock_timeout']) ? (int) $jsonPayload['success_lock_timeout'] : 600;
+                if ($successLockTimeout <= 0) {
+                    $successLockTimeout = 600;
+                }
+                error_log("PARSER_UNLOCK: bet_id=" . $jsonPayload['parser_bet_id'] . ", status=" . ($reportStatus !== '' ? $reportStatus : '(empty)'));
                 $this->unlockParserBet(
                     $jsonPayload['parser_bet_id'],
                     $jsonPayload['parser_url'],
                     $jsonPayload['client_id'] ?? '',
-                    $jsonPayload['data']['status'] ?? 'FAILED'
+                    $reportStatus,
+                    $successLockTimeout
                 );
+            } else {
+                // Log what fields are missing
+                error_log("PARSER_UNLOCK: Not a new parser report. parser_bet_id=" . (isset($jsonPayload['parser_bet_id']) ? 'YES' : 'NO') . ", parser_url=" . (isset($jsonPayload['parser_url']) ? 'YES' : 'NO'));
             }
         } catch (\Exception $e) {
             // Log error but don't fail the report
-            Yii::error("Error unlocking parser bet: " . $e->getMessage());
+            error_log("PARSER_UNLOCK ERROR: " . $e->getMessage());
         }
         
         return Json::encode($result);
     }
     
     /**
-     * Unlock parser bet in Redis if bet was not placed successfully
+     * Parser lock handling on report.
+     * Смысл successLockTimeout: при ACCEPTED/SUCCESS лоk только продлевается по TTL,
+     * клиент помечается «успешным» по этой ставке и больше никогда не снимается по отчёту.
+     *
+     * - ACCEPTED / SUCCESS: добавляем clientId в «success set» по betId, EXPIRE lock. Позже
+     *   пришедший FAILED от этого же clientId игнорируем (не делаем SREM).
+     * - Явный провал (FAILED и т.п.): SREM(clientId) только если он ещё не в success set.
+     * - Нет/неизвестный статус: SREM не вызываем.
+     *
+     * @param int $successLockTimeout сколько секунд держать лоk после успешной ставки (только TTL)
      */
-    private function unlockParserBet($betId, $parserUrl, $clientId, $status)
+    private function unlockParserBet($betId, $parserUrl, $clientId, $status, $successLockTimeout = 600)
     {
         try {
-            // Use Yii Redis component if available, otherwise connect directly
-            if (Yii::$app->has('redis')) {
-                $redis = Yii::$app->redis;
-            } else {
-                // Fallback: direct Redis connection
-                $redis = new \Redis();
-                $redis->connect('redis', 6379, 2.0);
-            }
-            
-            $queueKey = 'parser_queue:' . md5($parserUrl);
+            $status = trim((string)($status ?? ''));
+            $statusUpper = $status !== '' ? strtoupper($status) : '';
+
+            error_log("PARSER_UNLOCK: betId={$betId}, status=" . ($status !== '' ? $status : '(empty)') . ", clientId={$clientId}, successLockTimeout={$successLockTimeout}");
+
+            $redis = new \Redis();
+            $redis->connect('redis', 6379, 2.0);
+
+            // Normalize parser URL like in api.php so /new/abb_pairs_pre_stake and /new/abb_pairs_pre_stake/ match
+            $parserUrlNorm = '/' . trim(parse_url((string) $parserUrl, PHP_URL_PATH) ?: (string) $parserUrl, '/');
+            $queueKey = 'parser_queue:' . md5($parserUrlNorm);
             $betLockKey = "parser_lock:{$queueKey}:{$betId}";
-            
-            // Only unlock if bet was not successfully placed (status is not ACCEPTED)
-            if ($status !== 'ACCEPTED' && $status !== 'SUCCESS') {
-                // Check if this bet is still locked by this client
-                $lockedBy = $redis->get($betLockKey);
-                if ($lockedBy === $clientId) {
-                    // Unlock the bet
-                    $redis->del($betLockKey);
-                    
-                    // Also remove bet info
-                    $betInfoKey = "parser_bet_info:{$queueKey}:{$betId}";
-                    $redis->del($betInfoKey);
+            $betSuccessKey = "parser_bet_success:{$queueKey}:{$betId}";
+
+            $hasLock = $redis->sIsMember($betLockKey, $clientId);
+            $alreadyReportedSuccess = $redis->sIsMember($betSuccessKey, $clientId);
+
+            $isSuccess = in_array($statusUpper, ['ACCEPTED', 'SUCCESS'], true);
+
+            if ($isSuccess) {
+                $ttl = (int) $successLockTimeout;
+                if ($ttl <= 0) {
+                    $ttl = 600;
                 }
-            } else {
-                // Bet was successfully placed - extend lock to 10 minutes to prevent reuse
-                // This ensures the bet won't be available for other clients for a longer period
-                $redis->expire($betLockKey, 600); // Lock for 10 minutes (600 seconds)
-            }
-            
-            // Close connection only if we created it directly
-            if (!Yii::$app->has('redis') && $redis instanceof \Redis) {
+                $redis->sAdd($betSuccessKey, $clientId);
+                $redis->expire($betSuccessKey, $ttl);
+                $redis->expire($betLockKey, $ttl);
+                error_log("PARSER_UNLOCK: success — clientId in success set, EXPIRE TTL={$ttl}s, no SREM ever");
                 $redis->close();
+                return;
             }
+
+            $explicitFailure = in_array($statusUpper, ['FAILED', 'REJECTED', 'NO_FUNDS', 'CANCELLED', 'EXPIRED', 'ERROR'], true);
+
+            if ($explicitFailure && $hasLock && !$alreadyReportedSuccess) {
+                $redis->sRem($betLockKey, $clientId);
+                $betInfoKey = "parser_bet_info:{$queueKey}:{$betId}";
+                $redis->del($betInfoKey);
+                $remaining = $redis->sCard($betLockKey);
+                if ($remaining === 0) {
+                    $redis->del($betLockKey);
+                }
+                error_log("PARSER_UNLOCK: failure — SREM clientId, remaining={$remaining}");
+            } elseif ($explicitFailure && $alreadyReportedSuccess) {
+                error_log("PARSER_UNLOCK: failure ignored — clientId already reported success, no SREM");
+            } elseif (!$explicitFailure) {
+                error_log("PARSER_UNLOCK: unknown/missing status — no SREM, lock unchanged");
+            }
+
+            $redis->close();
         } catch (\Exception $e) {
-            // Redis might not be available, log but don't fail
-            Yii::error("Redis unlock error: " . $e->getMessage());
+            error_log("PARSER_UNLOCK ERROR: " . $e->getMessage());
         }
     }
 

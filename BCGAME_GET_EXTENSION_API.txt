@@ -1,0 +1,181 @@
+Инструкция по получению расширения под BCGAME через API (боевой режим, без обфускации)
+===============================================================================
+
+1. Эндпоинт
+-----------
+
+Базовый URL:
+https://bcpbet.com/botmanager/api/get-extension
+
+Метод: GET
+
+Ответ: ZIP-файл с уже собранным расширением (extension.zip).
+
+
+2. Общий вид запроса
+--------------------
+
+GET https://bcpbet.com/botmanager/api/get-extension?params=<BASE64URL_ОТ_JSON>&testing=false&id=0&obf=0
+
+Где:
+- params  – ОБЯЗАТЕЛЬНЫЙ параметр, URL‑безопасный base64 от JSON с настройками.
+- testing – ДОЛЖЕН быть равен false (боевой режим).
+- id      – обычно 0 (специальные режимы оговариваются отдельно).
+- obf     – ДОЛЖЕН быть равен 0 (без обфускации).
+
+
+3. Формат JSON для BCGAME (до кодирования в base64)
+---------------------------------------------------
+
+Ниже пример типового боевого JSON для BCGAME. Все значения в кавычках нужно заменить на ваши реальные данные.
+
+{
+  "bk": "BCGAME",
+  "login": "REAL_BCGAME_LOGIN",
+  "password": "REAL_BCGAME_PASSWORD",
+  "phone": "+79998887766",
+  "uid": "bot_bcgame_1",
+  "ws_url": "ws://ВАШ_WS_СЕРВЕР:ПОРТ",
+  "email": "user@example.com",
+  "email_password": "MAIL_PASSWORD",
+  "urls": "https://bc.game/sports",
+  "use_chrome": true,
+  "profile": "bcgame_profile_1",
+  "restart": true,
+  "second_name": "Familiya",
+  "experimental": false
+}
+
+Пояснения по полям:
+- bk             – код букмекера, ДОЛЖЕН быть "BCGAME".
+- login          – логин от аккаунта BCGAME.
+- password       – пароль от аккаунта BCGAME.
+- phone          – телефон аккаунта (если используется).
+- uid            – уникальный идентификатор бота/сессии (строка, должна быть стабильной для конкретного бота).
+- ws_url         – адрес вашего WebSocket‑сервера, к которому будет подключаться расширение (по вашей инфраструктуре).
+- email          – e‑mail аккаунта (по необходимости).
+- email_password – пароль от почты (по необходимости).
+- urls           – URL рабочей зоны букмекера. Для BCGAME достаточно "https://bc.game/sports". При необходимости можно добавить несколько URL через точку с запятой.
+- use_chrome     – использовать ли Chrome (обычно true).
+- profile        – имя профиля, по которому вы различаете/настраиваете ботов.
+- restart        – логический флаг, разрешающий автоперезапуск логики/браузера по внутренним правилам.
+- second_name    – фамилия (если НУЖНО использовать персональные данные).
+- experimental   – флаг экспериментального режима (обычно false в бою).
+
+При необходимости вы можете добавить дополнительные поля (например, betexy_bot_id, buyer, stake_forks и т.д.) – они будут переданы внутрь логики генерации расширения.
+
+
+4. Кодирование JSON в params (base64url)
+---------------------------------------
+
+Алгоритм:
+
+1) Собираете JSON, как в примере выше.
+2) Превращаете JSON в строку.
+3) Делаёте обычный base64 от строки JSON.
+4) Преобразуете base64 в URL‑безопасный формат:
+   - символ '+' заменяете на '-'
+   - символ '/' заменяете на '_'
+   - символы '=' в конце можно удалить (trailing padding)
+
+Получившаяся строка и есть значение params (BASE64URL_ОТ_JSON).
+
+
+5. Полный пример конечного URL
+------------------------------
+
+Пусть после кодирования JSON вы получили строку:
+
+eyJiayI6IkJDR0FNRSIsImxvZ2luIjoiUkVBTF9CQ0dBTUVfTE9HSU4iLCJwYXNzd29yZCI6IlJFQUxfQkNnQU1FX1BBU1MiLCIuLi4ifQ
+
+Тогда итоговый запрос будет:
+
+https://bcpbet.com/botmanager/api/get-extension?params=eyJiayI6IkJDR0FNRSIsImxvZ2luIjoiUkVBTF9CQ0dBTUVfTE9HSU4iLCJwYXNzd29yZCI6IlJFQUxfQkNnQU1FX1BBU1MiLCIuLi4ifQ&testing=false&id=0&obf=0
+
+
+6. Пример на Node.js (формирование params под BCGAME)
+-----------------------------------------------------
+
+const payload = {
+  bk: "BCGAME",
+  login: "REAL_BCGAME_LOGIN",
+  password: "REAL_BCGAME_PASSWORD",
+  phone: "+79998887766",
+  uid: "bot_bcgame_1",
+  ws_url: "ws://ВАШ_WS_СЕРВЕР:ПОРТ",
+  email: "user@example.com",
+  email_password: "MAIL_PASSWORD",
+  urls: "https://bc.game/sports",
+  use_chrome: true,
+  profile: "bcgame_profile_1",
+  restart: true,
+  second_name: "Familiya",
+  experimental: false
+};
+
+let base64 = Buffer.from(JSON.stringify(payload), "utf8").toString("base64");
+let base64url = base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+
+const url = "https://bcpbet.com/botmanager/api/get-extension"
+  + "?params=" + base64url
+  + "&testing=false"
+  + "&id=0"
+  + "&obf=0";
+
+console.log(url);
+
+
+7. Пример на Python (формирование params и скачивание extension.zip)
+--------------------------------------------------------------------
+
+import base64
+import json
+import requests
+
+payload = {
+    "bk": "BCGAME",
+    "login": "REAL_BCGAME_LOGIN",
+    "password": "REAL_BCGAME_PASSWORD",
+    "phone": "+79998887766",
+    "uid": "bot_bcgame_1",
+    "ws_url": "ws://ВАШ_WS_СЕРВЕР:ПОРТ",
+    "email": "user@example.com",
+    "email_password": "MAIL_PASSWORD",
+    "urls": "https://bc.game/sports",
+    "use_chrome": True,
+    "profile": "bcgame_profile_1",
+    "restart": True,
+    "second_name": "Familiya",
+    "experimental": False
+}
+
+json_str = json.dumps(payload, ensure_ascii=False)
+base64_bytes = base64.b64encode(json_str.encode("utf-8"))
+base64_str = base64_bytes.decode("ascii")
+base64url = base64_str.replace("+", "-").replace("/", "_").rstrip("=")
+
+url = (
+    "https://bcpbet.com/botmanager/api/get-extension"
+    + "?params=" + base64url
+    + "&testing=false"
+    + "&id=0"
+    + "&obf=0"
+)
+
+response = requests.get(url)
+if response.status_code == 200:
+    with open("extension_bcgame.zip", "wb") as f:
+        f.write(response.content)
+    print("Готовое расширение сохранено в extension_bcgame.zip")
+else:
+    print("Ошибка запроса:", response.status_code, response.text)
+
+
+8. Важные замечания
+-------------------
+
+- Передавайте реальные, а не тестовые логины/пароли и URL.
+- Для боевого режима ОБЯЗАТЕЛЬНО используйте testing=false и obf=0.
+- Обязательно используйте HTTPS‑URL (https://bcpbet.com/...), чтобы параметры не уходили по нешифрованному HTTP.
+- uid должен быть стабильным для конкретного бота – это помогает логированию и разбору проблем.
+

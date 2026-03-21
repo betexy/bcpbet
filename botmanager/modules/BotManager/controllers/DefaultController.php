@@ -49,7 +49,7 @@ class DefaultController extends BaseController
         }
         return $this->render('index', [
             'dataProvider' => new ActiveDataProvider([
-                'query' => Bots::find()->where(['and', 'last_request >= ' . (time() - 120)]),
+                'query' => Bots::find()->where(['>=', 'last_request', time() - 120]),
                 'pagination' => [
                     'pageSize' => 20,
                 ],

@@ -4,6 +4,7 @@ return [
         'extension' => 'Not BK',
         'onewin' => '1Win',
         'onexbet' => '1xBet',
+        'onexbetmobile' => '1xBet.Mobile',
         'onexbit' => '1xBit',
         'onexstavka' => '1xstavka',
         'sevenbet' => '7bet',
@@ -134,6 +135,7 @@ return [
     'bkMapping' => [
         'onewin' => '1WIN',
         'onexbet' => '1XBET',
+        'onexbetmobile' => '1XBET.MOBILE',
         'onexbit' => '1XBIT',
         'onexstavka' => '1XSTAVKA',
         'sevenbet' => '7BET',
@@ -373,7 +375,7 @@ return [
             '"*://*.fortunejack.com/*"',
         ],
         'gamdom' => [
-            '"*://*.gamdom.vip/*"',
+            '"*://*.gamdom.com/*"',
             '"*://*.sb.gamdom.onebittech.com/*"',
             '"*://*.recaptcha.net/*"',
         ],
@@ -517,6 +519,9 @@ return [
         ],
         'onexbet' => [
             '1xbet.js',
+        ],
+        'onexbetmobile' => [
+            '1xbet.mobile.js',
         ],
         'onexbit' => [
             '1xothers.js',
@@ -974,8 +979,9 @@ return [
         'wsmcasino' => true,
     ],
     'bkStartUrls' => [
-        'onewin' => 'https://f1w-50.com/betting/live?p=c0hn',
-        'onexbet' => 'https://1xlite-1099350.bar/ru/live',
+        'onewin' => 'https://f1w-24.com/betting/',
+        'onexbet' => 'https://1xlite-8701041.bar/',
+        'onexbetmobile' => 'https://1xlite-8701041.bar/',
         'onexbit' => 'https://1xbit.com',
         'onexstavka' => 'https://1xstavka.ru/live/',
         'sevenbet' => 'https://7bet.lt/en/live-betting',
@@ -1037,7 +1043,7 @@ return [
         'fonbetgr' => 'https://www.batery-bet.in/live',
         'fonbetkz' => 'https://www.fonbet.kz/live',
         'fortunejack' => 'https://fortunejack.com/crypto-sportsbook',
-        'gamdom' => 'https://gamdom.vip/sports',
+        'gamdom' => 'https://gamdom.com/sports',
         'jetbull' => 'https://gamdom.io/esports',
         'gamebookers' => 'https://sports.gamebookers.com/en/sports/live/betting',
         'grosvenor' => 'https://www.grosvenorcasinos.com/sport/',
@@ -1139,7 +1145,7 @@ return [
         'fairspin' => 'fairspin.io',
         'favbet' => 'favbet.com',
         'fortunejack' => 'fortunejack.com',
-        'gamdom' => 'gamdom.vip',
+        'gamdom' => 'gamdom.com',
         'jetbull' => 'gamdom.io',
         'grosvenor' => 'grosvenorcasinos.com',
         'ivibet' => 'ivibet.com',
@@ -1186,6 +1192,7 @@ return [
     'bkLiveUrl' => [
         'onewin' => '/betting/live',
         'onexbet' => '/live/',
+        'onexbetmobile' => '/live',
         'onexstavka' => '/live/',
         'sport888' => '/live-betting',
         'batery' => '/sports',
@@ -1238,6 +1245,7 @@ return [
     'bkAutoload' => [
         'onewin' => true,
         'onexbet' => true,
+        'onexbetmobile' => true,
         'onexstavka' => true,
         'sport888' => true,
         'batery' => true,
@@ -1288,8 +1296,9 @@ return [
         'zulabet' => true,
     ],
     'bkAutoCheck' => [
-        'onewin' => '{"condition":"AND","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"f1w-50.com/betting/"}],"valid":true}',
-        'onexbet' => '{"condition":"OR","rules":[{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xBET"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xBET"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1XBET"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xbet.com"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xBet"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1хбет"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xbet.kz"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"ua1xbet.com"},{"condition":"AND","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"user/accountverify/"},{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"1x"}]},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"br.1xbet.com"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xlite-93399.world"}],"valid":true}',
+        'onewin' => '{"condition":"AND","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"f1w-24.com/betting/"}],"valid":true}',
+        'onexbet' => '{"condition":"OR","rules":[{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xBET"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xBET"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1XBET"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xbet.com"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xBet"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1хбет"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xbet.kz"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"ua1xbet.com"},{"condition":"AND","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"user/accountverify/"},{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"1x"}]},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"br.1xbet.com"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xlite-8701041.bar"}],"valid":true}',
+        'onexbetmobile' => '{"condition":"AND","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"1xbet-ge.com"}],"valid":true}',
         'onexstavka' => '{"condition":"OR","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"pay.1cupis.ru/refill"},{"condition":"OR","rules":[{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xСтавка"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1хСтавка"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xstavka.ru"},{"id":"title","field":"title","type":"string","input":"text","operator":"contains","value":"1xStavka"}]},{"condition":"AND","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"user/accountverify"},{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"1x"}]}],"valid":true}',
         'sport888' => '{"condition":"AND","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"888sport.ro"}],"valid":true}',
         'batery' => '{"condition":"AND","rules":[{"id":"href","field":"href","type":"string","input":"text","operator":"contains","value":"batery-bets.in"}],"valid":true}',

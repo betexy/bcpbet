@@ -29,7 +29,12 @@ services:
     restart: unless-stopped
     tty: true
     working_dir: /var/www2
-    command: php /var/www2/new/parserProxy.php
+    command: /bin/bash /var/www2/new/start.sh
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    extra_hosts:
+      - "cloud.betexy.com:84.247.138.181"
     volumes:
       - ./parser/:/var/www2
       - ./dc-configs/php/local.ini:/usr/local/etc/php/conf.d/local.ini

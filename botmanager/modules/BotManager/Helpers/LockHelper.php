@@ -73,18 +73,40 @@ class LockHelper
 
     public function getStats(): array
     {
-        $loadFile = function ($filename) {
-            if (file_exists($filename)) {
-                return file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            } else {
+        $loadLastLines = function ($filename, $count = 2) {
+            if (!file_exists($filename) || filesize($filename) === 0) {
                 return false;
             }
+            $fp = fopen($filename, 'r');
+            if (!$fp) {
+                return false;
+            }
+            $lines = [];
+            $pos = -1;
+            $buf = '';
+            fseek($fp, 0, SEEK_END);
+            $size = ftell($fp);
+            while (count($lines) < $count && abs($pos) <= $size) {
+                fseek($fp, $pos, SEEK_END);
+                $ch = fgetc($fp);
+                if ($ch === "\n" && $buf !== '') {
+                    array_unshift($lines, trim($buf));
+                    $buf = '';
+                } else {
+                    $buf = $ch . $buf;
+                }
+                $pos--;
+            }
+            if ($buf !== '' && count($lines) < $count) {
+                array_unshift($lines, trim($buf));
+            }
+            fclose($fp);
+            return array_values(array_filter($lines, fn($l) => $l !== ''));
         };
-        // read last two lines from the file
         $linesAll = [
-            'stake' => $loadFile(\Yii::getAlias('@runtime/logs/StakeController.log')),
-            'balance' => $loadFile(\Yii::getAlias('@runtime/logs/proceedCheckBalance.log')),
-            'payments' => $loadFile(\Yii::getAlias('@runtime/logs/proceedBinanceQueue.log')),
+            'stake' => $loadLastLines(\Yii::getAlias('@runtime/logs/StakeController.log')),
+            'balance' => $loadLastLines(\Yii::getAlias('@runtime/logs/proceedCheckBalance.log')),
+            'payments' => $loadLastLines(\Yii::getAlias('@runtime/logs/proceedBinanceQueue.log')),
         ];
         $res = [];
         foreach ($linesAll as $key => $lines) {
@@ -113,11 +135,23 @@ class LockHelper
         if (count($lines) > 1) {
             $last = $lines[count($lines) - 1];
             $prev = $lines[count($lines) - 2];
-            $res = 'last request was ' . $formatter->asRelativeTime($getDateTime($last));
-            $res .= ', interval was <strong>' . $formatter->asDuration($getDateTime($prev)->diff($getDateTime($last))) . '</strong>';
+            $dtLast = $getDateTime($last);
+            $dtPrev = $getDateTime($prev);
+            if ($dtLast !== null) {
+                $res = 'last request was ' . $formatter->asRelativeTime($dtLast);
+                if ($dtPrev !== null) {
+                    $res .= ', interval was <strong>' . $formatter->asDuration($dtPrev->diff($dtLast)) . '</strong>';
+                } else {
+                    $res .= ', interval unknown!';
+                }
+            } else {
+                $res = 'last line has no date';
+            }
         } elseif (count($lines) === 1) {
-            $res = 'last request was ' . $formatter->asRelativeTime($getDateTime($lines[0]));
-            $res .= ', interval unknown!';
+            $dt = $getDateTime($lines[0]);
+            $res = $dt !== null
+                ? 'last request was ' . $formatter->asRelativeTime($dt) . ', interval unknown!'
+                : 'last line has no date';
         }
         return $res;
     }

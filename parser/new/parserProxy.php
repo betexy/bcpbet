@@ -8,13 +8,7 @@ $bookies = [
     'bet365' => ['BET365'],
     'abb_pairs' => ['abb_pairs'],
     'bb_pairs_bet365' => ['source', 'bb_pairs', 'bet365', ],
-    'posbet_pairs2' => ['posbet_pairs2'],
     'bb_pairs_totogaming' => ['source', 'bb_pairs', 'totogaming', ],
-    'posbet_pairs2_gamdom' => ['source', 'bb_pairs', 'gamdom', ],
-    'posbet_pairs2_bb' => ['source', 'bb_pairs', 'totogaming', ],
-    'alp1' => ['alp1'],
-    'alpin1' => ['alpin1'],
-    'premalp1' => ['premalp1'],
     '123456789' => ['123456789'],
     'surebet' => ['surebet'],
     'surebet_wild' => ['source', 'surebet', 'wild', ],
@@ -30,12 +24,6 @@ $bookies = [
     'surebet_marathon' => ['source', 'surebet', 'marathon', ],
     'surebet_paribet' => ['source', 'surebet', 'paribet', ],
     'surebet_shuffle' => ['source', 'surebet', 'shuffle', ],
-    'posbet_pairs' => ['posbet_pairs'],
-    'valuebets_bet365' => ['bet365', 'valuebets', ],
-    'posbet_pairs2_olimp' => ['source', 'bb_pairs', 'olimp', ],
-    'posbet_pairs2_leon' => ['source', 'bb_pairs', 'leon', ],
-    'posbet_pairs2_winline' => ['source', 'bb_pairs', 'winlinebet', ],
-    'posbet_pairs2_ligastavok' => ['source', 'bb_pairs', 'ligastavok', ],
     'abb_values' => ['abb_values'],
     'bb_values_pre' => ['bb_values_pre'],
     'bb_values_pre_fortune' => ['source', 'bb_values_pre', 'fortune', ],
@@ -67,13 +55,13 @@ $bookies = [
     'bb_pairs_marathon' => ['source', 'bb_pairs', 'marathon', ],
     'bb_pairs_wild' => ['source', 'bb_pairs', 'wild', ],
     'bb_pairs_1x' => ['source', 'bb_pairs', '1xbet', ],
+    'bb_pairs_1win' => ['source', 'bb_pairs', '1win', ],
     'bb_pairs_stake' => ['source', 'bb_pairs', 'stake', ],
     'bb_pairs_fonbet3' => ['source', 'bb_pairs', 'fonbet', ],
     'bb_pairs_paribet' => ['source', 'bb_pairs', 'paribet', ],
     'bb_pairs_fortune' => ['source', 'bb_pairs', 'fortune', ],
     'bb_pairs_favbet' => ['source', 'bb_pairs', 'favbet', ],
     'bb_pairs_vbet' => ['source', 'bb_pairs', 'vbet', ],
-    'bb_pairs_1win' => ['source', 'bb_pairs', '1win', ],
     'abb_pairs_pre_1x' => ['source', 'abb_pairs_pre', '1xbet', ],
     'abb_pairs_pre_fonbet' => ['source', 'abb_pairs_pre', 'fonbet', ],
     'abb_pairs_pre_bet365' => ['source', 'abb_pairs_pre', 'bet365', ],
@@ -95,15 +83,24 @@ $bookies = [
     'abb_pairs_pre_betcity' => ['source', 'abb_pairs_pre', 'betcity', ],
     'abb_pairs_pre_leon' => ['source', 'abb_pairs_pre', 'leon', ],
     'abb_pairs_pre_xyz' => ['source', 'abb_pairs_pre', 'bookmakerxyz', ],
-
-
+    'abb_pairs_pre_poly' => ['source', 'abb_pairs_pre', 'polymarket', ],
+    'abb_pairs_pre_bcgame' => ['source', 'abb_pairs_pre', 'fortune', ],
+    'abb_pairs_pre_csgo' => ['source', 'abb_pairs_pre', 'fortune', ],
+    'abb_pairs_pre_duel' => ['source', 'abb_pairs_pre', 'fortune', ],
+    'abb_pairs_pre_duel1' => ['source', 'abb_pairs_pre_duel1', 'fortune', ],
+    'abb_pairs_pre_betplay' => ['source', 'abb_pairs_pre', 'fortune', ],
+    'abb_pairs_pre_rainbet' => ['source', 'abb_pairs_pre', 'fortune', ],
+    'abb_pairs_pre_jb' => ['source', 'abb_pairs_pre', 'fortune', ],
+    'abb_pairs_pre_roobet' => ['source', 'abb_pairs_pre', 'fortune', ],
+    'abb_pairs_pre_rollbit' => ['source', 'abb_pairs_pre', 'fortune', ],
+    'abb_pairs_pre_gamdom' => ['source', 'abb_pairs_pre', 'fortune', ],
 
 ];
 
-$doNotEncrypt = ['123456789', 'premalp1', 'alp1', 'alpin1',];
+$doNotEncrypt = ['123456789', 'abb_pairs_pre_1x', 'abb_pairs_pre_vave', 'abb_pairs_pre_stake', 'abb_pairs_pre_gamdom', 'abb_pairs_pre_poly', 'abb_pairs_pre_csgo', 'abb_pairs_pre_bcgame', 'abb_pairs_pre_duel', 'abb_pairs_pre_betplay', 'abb_pairs_pre_rainbet', 'abb_pairs_pre_jb', 'abb_pairs_pre_roobet', 'abb_pairs_pre_rollbit', 'abb_pairs_pre_xyz',];
 
 // Bookies and sources to get from betexy
-$betexySources = ['abb_pairs', 'bb_pairs', 'posbet_pairs2', '123456789', 'surebet', 'abb_values', 'abb_pairs_pre', 'bb_values_pre', 'surebet_values_pre', 'alp1', 'alpin1', 'premalp1' ];
+$betexySources = ['abb_pairs', 'bb_pairs', '123456789', 'surebet', 'abb_values', 'abb_pairs_pre', 'bb_values_pre', 'surebet_values_pre'];
 $betexyBookies = ["FORTUNE", "BETCITY.BY", "1XBET", "FONBET", "GAMDOM"];
 
 $urls = [
@@ -120,7 +117,13 @@ function getContentByUrl($url)
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_ENCODING, 'gzip');
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     $content = curl_exec($ch);
+    if ($content === false) {
+        error_log('getContentByUrl curl error: ' . curl_error($ch));
+        $content = '';
+    }
     curl_close($ch);
     return $content;
 }
@@ -132,8 +135,9 @@ function getSpecials($json)
         CURLOPT_URL => 'https://cloud.betexy.com/dark',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS	 => 10,
-        CURLOPT_TIMEOUT => 0,
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_CONNECTTIMEOUT => 5,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
@@ -144,6 +148,10 @@ function getSpecials($json)
         ),
     ));
     $response = curl_exec($curl);
+    if ($response === false) {
+        error_log('getSpecials curl error: ' . curl_error($curl));
+        $response = '';
+    }
     curl_close($curl);
     return $response;
 }
@@ -263,8 +271,10 @@ class Worker
     private function separate($parsed): array
     {
         $result = [];
+        $betKeys = []; // Для отслеживания уникальных ставок в каждом bookie
         foreach ($this->bookies as $bookie => $d) {
             $result[$bookie] = [];
+            $betKeys[$bookie] = [];
         }
         foreach($parsed as $f) {
             foreach (['bookmaker', 'source', 'BK1_name', 'BK2_name',] as $key) {
@@ -272,17 +282,32 @@ class Worker
                     $f[$key] = mb_strtolower($f[$key]);
                 }
             }
+            
+            // Создаем уникальный ключ для ставки (на основе стабильных полей, исключая btsid)
+            $betForKey = $f;
+            unset($betForKey['btsid']); // btsid добавляется позже в save()
+            ksort($betForKey);
+            $betKey = md5(json_encode($betForKey, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+            
             foreach ($this->bookies as $bookie => $d) {
+                // Проверяем, нет ли уже такой ставки в этом bookie
+                if (isset($betKeys[$bookie][$betKey])) {
+                    continue; // Пропускаем дубликат
+                }
+                
                 if (count($d) === 1 && !empty($f['bookmaker']) && $f['bookmaker'] === mb_strtolower($d[0])) {
                     // By Bookie
                     $result[$bookie][] = $f;
+                    $betKeys[$bookie][$betKey] = true;
                 } elseif (count($d) === 1 && !empty($f['source']) && $f['source'] === mb_strtolower($d[0])) {
                     // By Source
                     $result[$bookie][] = $f;
+                    $betKeys[$bookie][$betKey] = true;
                 } elseif (count($d) === 3 && !empty($f['source']) && $f['source'] === mb_strtolower($d[1])
                   && !empty($f['bookmaker']) && $f['bookmaker'] === mb_strtolower($d[2])) {
                     // By Source and Bookie
                     $result[$bookie][] = $f;
+                    $betKeys[$bookie][$betKey] = true;
                 } elseif (count($d) === 2 &&
                     ((!empty($f['BK1_name']) && $f['BK1_name'] === mb_strtolower($d[0])
                             && !empty($f['BK2_name']) && $f['BK2_name'] === mb_strtolower($d[1]))
@@ -292,6 +317,7 @@ class Worker
                 ) {
                     // By Teams
                     $result[$bookie][] = $f;
+                    $betKeys[$bookie][$betKey] = true;
                 } else {
                     //$this->echo('Nothing in $f: ' . var_export($f, true) . PHP_EOL);
                 }
