@@ -356,50 +356,132 @@
             } else {
                 return {
                     'F_BET': async (message, bk) => {
-                        // Check if this is from new parser and send report
-                        const isNewParser = message.data && message.data[0] && 
-                            (message.data[0]._parser_bet_id || message.data[0].betFromParser === true);
+                        // DEBUG: Log F_BET message
+                        console.log('%c[PARSER DEBUG] F_BET received', 'background: cyan; color: black; font-weight: bold; padding: 5px;', {
+                            message: message,
+                            hasData: !!message.data,
+                            isArray: Array.isArray(message.data),
+                            dataLength: Array.isArray(message.data) ? message.data.length : 'N/A (object)',
+                            betDataItem: Array.isArray(message.data) ? message.data[0] : message.data
+                        });
                         
-                        if (isNewParser && message.data && message.data[0]) {
-                            const betData = message.data[0];
-                            // Check if parser URL contains /new/
-                            const parserUrl = betData._parser_url || '';
-                            if (parserUrl && parserUrl.indexOf('/new/') > -1) {
-                                const reportData = {
-                                    action: 'BET_RESULT',
-                                    result: message.data[0].status === 'ACCEPTED' ? 'SUCCESS' : 'FAILED',
-                                    message: message.data[0].status === 'ACCEPTED' ? 'Bet placed successfully' : `Bet not placed: ${message.data[0].status}`,
-                                    room: {
-                                        bk: this.common.intBkToExternal(bk),
-                                        uid: this.common.s.websocket_uid,
-                                        state: message.data[0].status === 'ACCEPTED' ? 'ACCEPTED' : 'FAILED',
-                                        balance: message?.data?.balance || this.common.bkBalances[bk] || '0'
-                                    },
-                                    data: {
-                                        status: message.data[0].status || 'FAILED',
-                                        bet_id: betData._parser_bet_id || '',
-                                        parser_url: parserUrl,
-                                        external_id: message.data[0].external_id || '',
-                                        market: message.data[0].market || '',
-                                        target: message.data[0].target || '',
-                                        pivot: message.data[0].pivot || '',
-                                        coef: message.data[0].coef || '',
-                                        stake: message.data[0].stake || '',
-                                        maximum: message.data[0].maximum || '0'
-                                    },
-                                    original_command: 'BET',
-                                    betFromParser: true,
-                                    parser_bet_id: betData._parser_bet_id || '',
-                                    parser_url: parserUrl,
-                                    client_id: betData._parser_client_id || this.common.s.websocket_uid,
-                                    timestamp: Date.now()
-                                };
-                                
-                                // Send report to Reports API
-                                await this.common._sendParserReport(reportData);
+                        // Check if this is from new parser (only for new parser with /new/ URL)
+                        // For old parsers, message.data is always an array, so we check for _parser_bet_id first
+                        let isNewParser = false;
+                        let betDataItem = null;
+                        
+                        // First, check if message.data is an object (new parser with betFromParser)
+                        if (message.data && !Array.isArray(message.data)) {
+                            // This is an object (fBetResult from new parser)
+                            betDataItem = message.data;
+                            isNewParser = !!(betDataItem._parser_bet_id || betDataItem.betFromParser === true);
+                        } else if (message.data && Array.isArray(message.data) && message.data[0]) {
+                            // This is an array - check if it's from new parser
+                            betDataItem = message.data[0];
+                            isNewParser = !!(betDataItem._parser_bet_id || betDataItem.betFromParser === true);
+                        }
+                        
+                        // If parser info is missing from message but exists in currentCommand, restore it
+                        if (!isNewParser && this.common.command.currentCommand && this.common.command.currentCommand.data && 
+                            Array.isArray(this.common.command.currentCommand.data) && this.common.command.currentCommand.data[0]) {
+                            const currentCommandData = this.common.command.currentCommand.data[0];
+                            if (currentCommandData._parser_bet_id || currentCommandData._parser_url) {
+                                // Restore parser info from currentCommand
+                                if (betDataItem) {
+                                    betDataItem._parser_bet_id = betDataItem._parser_bet_id || currentCommandData._parser_bet_id;
+                                    betDataItem._parser_url = betDataItem._parser_url || currentCommandData._parser_url;
+                                    betDataItem._parser_client_id = betDataItem._parser_client_id || currentCommandData._parser_client_id;
+                                    betDataItem.betFromParser = betDataItem.betFromParser || currentCommandData.betFromParser || true;
+                                    isNewParser = !!(betDataItem._parser_bet_id || betDataItem.betFromParser === true);
+                                    
+                                    console.log('%c[PARSER DEBUG] Restored parser info from currentCommand', 'background: green; color: white; font-weight: bold; padding: 5px;', {
+                                        parserBetId: betDataItem._parser_bet_id,
+                                        parserUrl: betDataItem._parser_url,
+                                        isNewParser: isNewParser
+                                    });
+                                }
                             }
                         }
                         
+                        console.log('%c[PARSER DEBUG] isNewParser check', 'background: yellow; color: black; font-weight: bold; padding: 5px;', {
+                            isNewParser: isNewParser,
+                            hasData: !!message.data,
+                            hasBetDataItem: !!betDataItem,
+                            hasParserBetId: !!(betDataItem && betDataItem._parser_bet_id),
+                            hasBetFromParser: !!(betDataItem && betDataItem.betFromParser),
+                            parserBetId: betDataItem ? betDataItem._parser_bet_id : 'N/A',
+                            parserUrl: betDataItem ? betDataItem._parser_url : 'N/A',
+                            status: betDataItem ? betDataItem.status : 'N/A'
+                        });
+                        
+                        // Only process new parser reports if it's actually from new parser with /new/ URL
+                        if (isNewParser && betDataItem) {
+                            const parserUrl = betDataItem._parser_url || '';
+                            
+                            console.log('%c[PARSER DEBUG] Checking parser URL', 'background: orange; color: black; font-weight: bold; padding: 5px;', {
+                                parserUrl: parserUrl,
+                                containsNew: parserUrl && parserUrl.indexOf('/new/') > -1
+                            });
+                            
+                            // Only send report if URL contains /new/ (new parser)
+                            if (parserUrl && parserUrl.indexOf('/new/') > -1) {
+                                const reportData = {
+                                    action: 'BET_RESULT',
+                                    result: betDataItem.status === 'ACCEPTED' ? 'SUCCESS' : 'FAILED',
+                                    message: betDataItem.status === 'ACCEPTED' ? 'Bet placed successfully' : `Bet not placed: ${betDataItem.status}`,
+                                    room: {
+                                        bk: this.common.intBkToExternal(bk),
+                                        uid: this.common.s.websocket_uid,
+                                        state: betDataItem.status === 'ACCEPTED' ? 'ACCEPTED' : 'FAILED',
+                                        balance: message?.data?.balance || this.common.bkBalances[bk] || '0'
+                                    },
+                                    data: {
+                                        status: betDataItem.status || 'FAILED',
+                                        bet_id: betDataItem._parser_bet_id || '',
+                                        parser_url: parserUrl,
+                                        external_id: betDataItem.external_id || betDataItem.externalId || '',
+                                        market: betDataItem.market || '',
+                                        target: betDataItem.target || '',
+                                        pivot: betDataItem.pivot || '',
+                                        coef: betDataItem.coef || '',
+                                        stake: betDataItem.stake || '',
+                                        maximum: betDataItem.maximum || '0'
+                                    },
+                                    original_command: 'BET',
+                                    betFromParser: true,
+                                    parser_bet_id: betDataItem._parser_bet_id || '',
+                                    parser_url: parserUrl,
+                                    client_id: betDataItem._parser_client_id || this.common.s.websocket_uid,
+                                    timestamp: Date.now()
+                                };
+                                
+                                console.log('%c[PARSER DEBUG] Sending parser report', 'background: green; color: white; font-weight: bold; padding: 5px;', {
+                                    reportData: reportData,
+                                    parser_bet_id: reportData.parser_bet_id,
+                                    parser_url: reportData.parser_url,
+                                    status: reportData.data.status,
+                                    external_id: reportData.data.external_id
+                                });
+                                
+                                // Send report to Reports API (only for new parser)
+                                const reportResult = await this.common._sendParserReport(reportData);
+                                console.log('%c[PARSER DEBUG] Parser report sent', 'background: green; color: white; font-weight: bold; padding: 5px;', {
+                                    result: reportResult
+                                });
+                            } else {
+                                console.log('%c[PARSER DEBUG] Parser URL does not contain /new/, skipping report', 'background: red; color: white; font-weight: bold; padding: 5px;', {
+                                    parserUrl: parserUrl
+                                });
+                            }
+                        } else {
+                            console.log('%c[PARSER DEBUG] Not a new parser bet, skipping report', 'background: gray; color: white; font-weight: bold; padding: 5px;', {
+                                isNewParser: isNewParser,
+                                hasData: !!message.data,
+                                hasBetDataItem: !!betDataItem
+                            });
+                        }
+                        
+                        // Always call sendAnswer with original message.data (unchanged for old parsers)
                         this.common.sendAnswer(bk, {
                             action: 'F_BET',
                             data: message.data,

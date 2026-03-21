@@ -794,6 +794,18 @@
                 fBetResult.awayTeam = currentBetData.data[0].team2;
                 fBetResult.score = currentBetData.data[0].score;
                 fBetResult.pivot = resultData.pivot || null;
+                // Copy parser information for new parser reporting (only if present)
+                if (currentBetData.data[0]._parser_bet_id) {
+                    fBetResult._parser_bet_id = currentBetData.data[0]._parser_bet_id;
+                }
+                if (currentBetData.data[0]._parser_url) {
+                    fBetResult._parser_url = currentBetData.data[0]._parser_url;
+                }
+                if (currentBetData.data[0]._parser_client_id) {
+                    fBetResult._parser_client_id = currentBetData.data[0]._parser_client_id;
+                }
+                // betFromParser is already set in fBetResult creation above, but ensure it's true
+                fBetResult.betFromParser = true;
             }
             if (success && currentBetData.data[0].collectAfterAll) {
                 resultData['bkPivot'] = message.bkPivot;
