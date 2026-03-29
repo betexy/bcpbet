@@ -278,6 +278,7 @@ class BotsHelper
                 $res[$excl] = empty($exclude) ? '[]' : '["' . implode('", "', $exclude) . '"]';
             }
         }
+        $res['skipPinnacleBetfairForks'] = !empty($params['skipPinnacleBetfairForks']) ? 'true' : 'false';
         return $res;
     }
 
@@ -936,6 +937,7 @@ class BotsHelper
             "express" => !empty($config->express) ? 1 : 0,
             "new_expresses" => !empty($config->new_expresses) ? 1 : 0,
             "onlySecondBookie" => !empty($config->onlySecondBookie) ? $config->onlySecondBookie : [],
+            "skipPinnacleBetfairForks" => !empty($config->skipPinnacleBetfairForks) ? 1 : 0,
         ];
     }
 
@@ -1260,7 +1262,8 @@ class BotsHelper
                     excludeBets: {$stake['excludeBets']},
                     excludeLeagues: {$stake['excludeLeagues']},
                     onlySecondBookie: " . json_encode($stake['onlySecondBookie']) . ",
-                    excludeSportMarketTarget: {$stake['excludeSportMarketTarget']},{$express}{$new_expresses}
+                    excludeSportMarketTarget: {$stake['excludeSportMarketTarget']},
+                    skipPinnacleBetfairForks: {$stake['skipPinnacleBetfairForks']},{$express}{$new_expresses}
                 }";
         };
         if (!$one) {

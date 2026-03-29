@@ -40,6 +40,7 @@ use yii\helpers\ArrayHelper;
  * @property string $onlyLeagues
  * @property string $onlySecondBookie
  * @property string $is_fork
+ * @property int $skipPinnacleBetfairForks
  */
 class Configs extends \yii\db\ActiveRecord
 {
@@ -68,7 +69,7 @@ class Configs extends \yii\db\ActiveRecord
     {
         return [
             [['created_at', 'updated_at'], 'integer'],
-            [['eventTimeLimit', 'eventMaxBets', 'successBetInterval', 'express', 'new_expresses', 'is_fork'], 'integer'],
+            [['eventTimeLimit', 'eventMaxBets', 'successBetInterval', 'express', 'new_expresses', 'is_fork', 'skipPinnacleBetfairForks'], 'integer'],
             [['stake', 'coefFrom', 'coefTo', 'incomeFrom', 'incomeTo'], 'number'],
             [['excludeBets', 'excludeLeagues', 'excludeSportMarketTarget', 'onlyLeagues'], 'string'],
             [['name', 'bookie', 'second_bookie', 'source', 'currency', 'url', 'lastScoreTennis', 'lastScoreBasketball',
@@ -114,6 +115,7 @@ class Configs extends \yii\db\ActiveRecord
             'onlyLeagues' => Yii::t('configs', 'Only Leagues'),
             'onlySecondBookie' => Yii::t('configs', 'Only if second bookie one of the following:'),
             'is_fork' => Yii::t('configs', 'Config for fork, not value bets'),
+            'skipPinnacleBetfairForks' => Yii::t('configs', 'Skip if Pinnacle/Betfair fork exists on same match+market'),
         ];
     }
 
@@ -267,12 +269,12 @@ class Configs extends \yii\db\ActiveRecord
             'BET365' => 'BET365',
             'BETFAIR' => 'BETFAIR',
             'FONBET' => 'FONBET',
-            'MARATHON' => 'MARATHON',
+            'MATCHBOOK' => 'MATCHBOOK',
             'OLIMP' => 'OLIMP',
             'PARIMATCH' => 'PARIMATCH',
             'PINNACLE' => 'PINNACLE',
             'PINUP' => 'PINUP',
-            'SBOBET' => 'SBOBET',
+            'SMARKETS' => 'SMARKETS',
             'WINLINEBET' => 'WINLINEBET',
             'ZENIT' => 'ZENIT',
         ];

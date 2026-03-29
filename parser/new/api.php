@@ -379,6 +379,17 @@ $redis->setex($betInfoKey, 3600, json_encode([
     'timestamp' => $currentTime
 ]));
 
+// Check for Pinnacle/Betfair fork overlap on same match+market
+$sharpHome = mb_strtolower(trim($availableBet['homeTeam'] ?? ''));
+$sharpAway = mb_strtolower(trim($availableBet['awayTeam'] ?? ''));
+$sharpMarket = mb_strtolower(trim($availableBet['market'] ?? ''));
+if ($sharpHome !== '' && $sharpAway !== '') {
+    $sharpKey = 'sharp_fork:' . md5($sharpHome . ':' . $sharpAway . ':' . $sharpMarket);
+    if ($redis->exists($sharpKey)) {
+        $availableBet['_pinnacle_betfair_overlap'] = true;
+    }
+}
+
 // Return the bet (encrypted if needed)
 // Add bet_id and parser_url to bet data for tracking
 $availableBet['_parser_bet_id'] = $betId;

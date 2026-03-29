@@ -92,6 +92,7 @@ $this->registerJs("let bm_linked_delete = function(id) {
                         ? implode(', ', $model->onlySecondBookie) : '-';
                 },
             ],
+            'skipPinnacleBetfairForks:boolean',
             'created_at:datetime',
             'updated_at:datetime',
         ],

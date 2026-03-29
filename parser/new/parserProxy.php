@@ -108,8 +108,8 @@ $urls = [
 //    'http://91.240.86.72/valuebets?token=8c9ee96579f2a580f4d31b58a4842d9d',
 ];
 
-$origins = ['url0', 'url1',];
-$differentUrl = 'url1';
+$origins = [];
+$differentUrl = '';
 
 function getContentByUrl($url)
 {
@@ -178,6 +178,10 @@ class Worker
     private $usleep;
     private $debug = false;
 
+    /** @var Redis|null */
+    private $redis = null;
+    private static $sharpBookies = ['pinnacle', 'pinnaclesports', 'betfair', 'betfairexchange'];
+    private const SHARP_FORK_TTL = 30;
 
     private $current = -1;
     private $previous = [];
@@ -224,6 +228,7 @@ class Worker
         $this->checkInterval = $this->intervalBase / count($this->origins);
         $this->usleep = (int)(1000000 * $this->checkInterval);
         $this->debug = (bool)getenv('DEBUG_MODE', false);
+        $this->connectRedis();
         echo "Parsing started from: " . implode(', ', $this->origins) . PHP_EOL;
     }
 
@@ -261,6 +266,7 @@ class Worker
             return;
         }
 
+        $this->trackSharpForks($parsed);
         $this->save($this->separate($parsed));
     }
 
@@ -385,6 +391,104 @@ class Worker
             file_put_contents(__DIR__.'/'.$this->current.'-'.date('Y-m-d H:i:s').'.json', $content);
         }
         return $content;
+    }
+
+    private function connectRedis(): void
+    {
+        try {
+            $this->redis = new Redis();
+            $this->redis->connect('redis', 6379, 2.0);
+        } catch (Exception $e) {
+            error_log('parserProxy Redis connect error: ' . $e->getMessage());
+            $this->redis = null;
+        }
+    }
+
+    private function getRedis(): ?Redis
+    {
+        if ($this->redis === null) {
+            $this->connectRedis();
+        }
+        try {
+            $this->redis->ping();
+        } catch (Exception $e) {
+            $this->connectRedis();
+        }
+        return $this->redis;
+    }
+
+    /**
+     * Build a normalized match+market key identical to the one used in api.php.
+     */
+    public static function sharpForkKey(string $homeTeam, string $awayTeam, string $market): string
+    {
+        return 'sharp_fork:' . md5(
+            mb_strtolower(trim($homeTeam)) . ':' .
+            mb_strtolower(trim($awayTeam)) . ':' .
+            mb_strtolower(trim($market))
+        );
+    }
+
+    /**
+     * Scan raw pool data for forks involving sharp bookmakers (Pinnacle, Betfair)
+     * and store match+market keys in Redis with a short TTL.
+     */
+    private function trackSharpForks(array $parsed): void
+    {
+        $redis = $this->getRedis();
+        if ($redis === null) {
+            return;
+        }
+
+        $tracked = 0;
+        foreach ($parsed as $f) {
+            $bk1 = mb_strtolower($f['BK1_name'] ?? '');
+            $bk2 = mb_strtolower($f['BK2_name'] ?? '');
+
+            $isSharp = false;
+            foreach (self::$sharpBookies as $sb) {
+                if ($bk1 === $sb || $bk2 === $sb) {
+                    $isSharp = true;
+                    break;
+                }
+            }
+            if (!$isSharp) {
+                continue;
+            }
+
+            $homeTeam = '';
+            $awayTeam = '';
+            $market = '';
+
+            if (!empty($f['homeTeam']) && !empty($f['awayTeam'])) {
+                $homeTeam = $f['homeTeam'];
+                $awayTeam = $f['awayTeam'];
+                $market = $f['market'] ?? '';
+            } else {
+                $game = $f['BK1_game'] ?? $f['BK2_game'] ?? '';
+                if (strpos($game, ' vs ') !== false) {
+                    [$homeTeam, $awayTeam] = explode(' vs ', $game, 2);
+                }
+                $market = $f['BK1_bet_type'] ?? $f['BK2_bet_type'] ?? '';
+            }
+
+            if (empty($homeTeam) || empty($awayTeam)) {
+                continue;
+            }
+
+            $key = self::sharpForkKey($homeTeam, $awayTeam, $market);
+            try {
+                $redis->setex($key, self::SHARP_FORK_TTL, '1');
+                $tracked++;
+            } catch (Exception $e) {
+                error_log('trackSharpForks Redis error: ' . $e->getMessage());
+                break;
+            }
+        }
+
+        if ($tracked > 0) {
+            $this->echo("Sharp forks tracked: {$tracked}" . PHP_EOL);
+        }
     }
 
     /**

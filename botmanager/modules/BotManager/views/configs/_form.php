@@ -73,6 +73,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'onlySecondBookie')->listBox(Configs::getSecondBookies(), ['multiple' => true]) ?>
 
+    <?= $form->field($model, 'skipPinnacleBetfairForks')->dropDownList([0 => 'No', 1 => 'Yes']) ?>
+
     <div class="form-group">
         <?= Html::submitButton(Yii::t('configs', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>

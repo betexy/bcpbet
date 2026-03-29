@@ -987,6 +987,7 @@ class StakeFork {
         this.onlyLeagues = params?.onlyLeagues || [];
         this.onlySecondBookie = params?.onlySecondBookie || [];
         this.excludeSportMarketTarget = params?.excludeSportMarketTarget || [];
+        this.skipPinnacleBetfairForks = !!params?.skipPinnacleBetfairForks;
         if (bookie === 'TRUSTDICE') {
             this.overrideBookie = 'stake';
         } else if (bookie === 'TOPSPORT') {
@@ -4598,6 +4599,13 @@ class Common {
                         if (success) {
                             const {ok, errors} = stakeFork.check(result, current);
                             if (ok) {
+                                if (stakeFork.skipPinnacleBetfairForks
+                                    && current._pinnacle_betfair_overlap) {
+                                    fluentLog('red', 'COMMON',
+                                        `Skipped (${stakeFork.number}): Pinnacle/Betfair fork overlap on same match+market`);
+                                    continue;
+                                }
+
                                 // If this is a new parser, add parser information to bet data
                                 if (isNewParser && current._parser_bet_id) {
                                     if (result.data && Array.isArray(result.data) && result.data.length > 0) {
